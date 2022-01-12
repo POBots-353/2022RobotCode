@@ -22,18 +22,10 @@ public final class Constants {
 	public static int leftRearMotorDeviceID = 2;
 	public static int rightFrontMotorDeviceID = 1;
 	public static int rightRearMotorDeviceID = 3;
-	public static int intakeMotorDeviceID = 6;
-	public static int conveyorMotorDeviceID = 7; 
-	public static int shooterMotorDeviceID = 8;
-	public static int climberMotorDeviceID = 5;
-	public static int hoodMotorDeviceID = 10; 
 
 	//Driver button constants
 	public static int turboButtonNumber = 2;
 	public static int slowButtonNumber = 3;
-	public static int AutoAlignButtonNumber = 1;
-	public static int magicTurnButtonNumber = 4; //not used anywhere
-	public static int autoNavButton = 10;
 
 	//Constants for driving modes within arcadeDrive()
 	public static double turboScale = 1.00; //faster speed for the robot's drivetrain
