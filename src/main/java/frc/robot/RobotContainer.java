@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -21,11 +22,13 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  public final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public final static DriveSubsystem m_drivesubsystem = new DriveSubsystem();
+
+  public final static AutoAlignCommand m_aligncommand = new AutoAlignCommand(m_drivesubsystem);
 
   public final static Joystick driverController = new Joystick(Constants.driverStickPort);
 
