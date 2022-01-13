@@ -4,13 +4,9 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.SPI;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -31,8 +27,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    AHRS gyro = new AHRS(SPI.Port.kMXP);
-    Shuffleboard.getTab("View Angle").add(gyro);
     m_robotContainer = new RobotContainer();
   }
 
@@ -87,11 +81,8 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    
-    
-  }
-    
+  public void teleopPeriodic() {}
+
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
