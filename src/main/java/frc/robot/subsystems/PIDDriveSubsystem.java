@@ -42,11 +42,12 @@ public class PIDDriveSubsystem extends SubsystemBase {
   double maxRPM = 5700;
   double maxVel = 2000;
   double maxAcc = 1500;
-
+  double setPointDrive = 0;
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
 
   public PIDDriveSubsystem() {
+    m_gyro.reset();
     leftFrontMotor.restoreFactoryDefaults();
     leftBackMotor.restoreFactoryDefaults();
     rightFrontMotor.restoreFactoryDefaults();
@@ -56,41 +57,76 @@ public class PIDDriveSubsystem extends SubsystemBase {
     initializePID(rightFrontPIDCon);
     initializePID(rightBackPIDCon);
   }
-  public void manualDrive(double y, double x, double setPoint){
-    double scale1 = 0, scale2 = 0;
-    leftFrontPIDCon.setReference(setPointLeft(y, x, scale1, scale2, setPoint), CANSparkMax.ControlType.kSmartVelocity);
-    leftBackPIDCon.setReference(setPointLeft(y, x, scale1, scale2, setPoint), CANSparkMax.ControlType.kSmartVelocity);
-    rightFrontPIDCon.setReference(setPointRight(y, x, scale1, scale2, setPoint), CANSparkMax.ControlType.kSmartVelocity);
-    rightBackPIDCon.setReference(setPointRight(y, x, scale1, scale2, setPoint), CANSparkMax.ControlType.kSmartVelocity);
+
+  public void manualDrive(double y, double x, double scaleX, double scaleY){
+    leftFrontPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+    leftBackPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+    rightFrontPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+    rightBackPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
   }
-  public double setPointLeft(double Jy, double Jx, double scale1, double scale2, double setPoint){
+
+  public double setPointLeft(double Jy, double Jx, double scale1, double scale2){
     double yScale = ((1 + Jy) * (1 + Math.abs(Jy) * scale2)); //abs(Jy) bc square Jy values without getting rid of the negative
     double xScale = (/*angleError(Jy, Jx)*/ scale1 * Jx);
-    return xScale + yScale + setPoint;
+    setPointDrive += xScale + yScale + setPointDrive;
+    resetSetPoint(Jy, Jx);
+    return setPointDrive;
   }
-  public double setPointRight(double Jy, double Jx, double scale1, double scale2, double setPoint){
+
+  public double setPointRight(double Jy, double Jx, double scale1, double scale2){
     double xScale = (-1 /** angleError(Jy, Jx)*/ * scale1 * Jx);
     double yScale = ((1 + Jy) * (1 + Math.abs(Jy)) * scale2);
-    return xScale + yScale + setPoint;
+    setPointDrive += xScale + yScale + setPointDrive;
+    resetSetPoint(Jy, Jx);
+    return setPointDrive = 0;
   }
-  /**
-   * Can add PID to this if the curve seems wonky
-   * Doesn't need to be negated bc the Jx will be muiltplied by angleError and it will make things more complicated
-   * @param Jy Joystick y value
-   * @param Jx Joystick x value
-   * @return The amount of degrees the robot needs to turn
-  */
-  public double angleError(double Jy, double Jx){
-    double jAngle = Math.atan(Jy/Jx);
-    /*Needs to have 2 of these bc */ 
-    if (Jy > 0 & Jy != 0){
-      return Math.abs(Math.IEEEremainder(m_gyro.getAngle(), 360) - Math.IEEEremainder(jAngle, 360));
-    }else if (Jy < 0 & Jy != 0){
-      return Math.abs(Math.IEEEremainder(m_gyro.getAngle() + 180, 360) - Math.IEEEremainder(jAngle, 360));
-    }else{
-      return 0.0;
+
+  public void resetSetPoint(double y, double x){
+    if (y == 0 & x ==0){
+      setPointDrive = 0;
     }
   }
+
+  public void autoDrive(double setPoint, double angle, double scaleLeft, double scaleRight){
+    leftFrontPIDCon.setReference(autoSetPointLeft(setPoint, angle, scaleLeft), CANSparkMax.ControlType.kSmartMotion);
+    leftBackPIDCon.setReference(autoSetPointLeft(setPoint, angle, scaleLeft), CANSparkMax.ControlType.kSmartMotion);
+    rightFrontPIDCon.setReference(autoSetPointRight(setPoint, angle, scaleRight), CANSparkMax.ControlType.kSmartMotion);
+    rightBackPIDCon.setReference(autoSetPointRight(setPoint, angle, scaleRight), CANSparkMax.ControlType.kSmartMotion);
+  }
+
+  /**
+   * Sets how far encoders need to move
+   * @param setPoint The displacement of the robot to the ball
+   * @param angle The angle from the field (pointing torwards the rump starting at zero) to the ball
+   * @param scale The number you want to muilply the angleError with to increase or decrease setPoint
+   * @return if angleError is greater then zero then add to the sestpoint by angleError times scale else setpoint
+   */
+  public double autoSetPointLeft(double setPoint, double angle, double scale){
+    if (angleError(angle) > 0){
+      return (angleError(angle) * scale) + setPoint;
+    }
+    return setPoint;
+  }
+  /**
+   * Sets how far encoders need to move
+   * @param setPoint The displacement of the robot to the ball
+   * @param angle The angle from the field (pointing torwards the rump starting at zero) to the ball
+   * @param scale The number you want to muilply the angleError with to increase or decrease setPoint
+   * @return if angleError is less then zero then add to the sestpoint by angleError times scale else setpoint
+   */
+  public double autoSetPointRight(double setPoint, double angle, double scale){
+    if (angleError(angle) < 0){
+      return (angleError(angle) * scale) + setPoint;
+    }
+    return setPoint;
+  }
+
+  public double angleError(double expectedAngle){
+    double jAngle = Math.atan(1);
+    /*Needs to have 2 of these bc */ 
+    return Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
+  }
+
   public void initializePID(SparkMaxPIDController p){
     p.setP(kP);
     p.setI(kI);

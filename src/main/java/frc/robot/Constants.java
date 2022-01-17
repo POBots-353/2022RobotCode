@@ -19,5 +19,6 @@ public final class Constants {
     public static int rightBackMotorID = 0;
 
       /*PID Constants*/
-
+    public static double scaleY = 0;
+    public static double scaleX = 0;
 }

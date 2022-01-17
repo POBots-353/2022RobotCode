@@ -4,24 +4,16 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.PIDDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.PIDDriveSubsystem;
 
-
-/** An example command that uses an example subsystem. */
-public class ManualDriveCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final PIDDriveSubsystem m_subsystem;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ManualDriveCommand(PIDDriveSubsystem subsystem) {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
+public class AutoNav extends CommandBase {
+  /** Creates a new AutoNav. */
+  private final PIDDriveSubsystem driveSubsystem;
+  public AutoNav(PIDDriveSubsystem subsystem) {
+    driveSubsystem = subsystem;
     addRequirements(subsystem);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
