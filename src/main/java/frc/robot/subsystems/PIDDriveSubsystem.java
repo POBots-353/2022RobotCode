@@ -56,15 +56,21 @@ public class PIDDriveSubsystem extends SubsystemBase {
     initializePID(rightFrontPIDCon);
     initializePID(rightBackPIDCon);
   }
-
+  public void manualDrive(double y, double x, double setPoint){
+    double scale1 = 0, scale2 = 0;
+    leftFrontPIDCon.setReference(setPointLeft(y, x, scale1, scale2, setPoint), CANSparkMax.ControlType.kSmartVelocity);
+    leftBackPIDCon.setReference(setPointLeft(y, x, scale1, scale2, setPoint), CANSparkMax.ControlType.kSmartVelocity);
+    rightFrontPIDCon.setReference(setPointRight(y, x, scale1, scale2, setPoint), CANSparkMax.ControlType.kSmartVelocity);
+    rightBackPIDCon.setReference(setPointRight(y, x, scale1, scale2, setPoint), CANSparkMax.ControlType.kSmartVelocity);
+  }
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2, double setPoint){
-    double yScale = ((1+Jy)* (1 + Math.abs(Jy) * scale2)); //abs(Jy) bc square Jy values without getting rid of the negative
-    double xScale = (angleError(Jy, Jx) * scale1 *Jx);
+    double yScale = ((1 + Jy) * (1 + Math.abs(Jy) * scale2)); //abs(Jy) bc square Jy values without getting rid of the negative
+    double xScale = (angleError(Jy, Jx) * scale1 * Jx);
     return xScale + yScale + setPoint;
   }
   public double setPointRight(double Jy, double Jx, double scale1, double scale2, double setPoint){
-    double xScale = (-1*angleError(Jy, Jx)*scale1*Jx);
-    double yScale = ((1+Jy)*(1+Math.abs(Jy))*scale2);
+    double xScale = (-1 * angleError(Jy, Jx) * scale1 * Jx);
+    double yScale = ((1 + Jy) * (1 + Math.abs(Jy)) * scale2);
     return xScale + yScale + setPoint;
   }
   /**
