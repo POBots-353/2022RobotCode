@@ -101,11 +101,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @param scale The number you want to muilply the angleError with to increase or decrease setPoint
    * @return if angleError is greater then zero then add to the sestpoint by angleError times scale else setpoint
    */
-  public double autoSetPointLeft(double setPoint, double angle, double scale){
+  public double autoSetPointLeft(double setPointMotor, double angle, double scale){
     if (angleError(angle) > 0){
-      return (angleError(angle) * scale) + setPoint;
+      return (angleError(angle) * scale) + setPointMotor;
     }
-    return setPoint;
+    return setPointMotor;
   }
   /**
    * Sets how far encoders need to move
@@ -114,16 +114,14 @@ public class DriveSubsystem extends SubsystemBase {
    * @param scale The number you want to muilply the angleError with to increase or decrease setPoint
    * @return if angleError is less then zero then add to the sestpoint by angleError times scale else setpoint
    */
-  public double autoSetPointRight(double setPoint, double angle, double scale){
+  public double autoSetPointRight(double setPointMotor, double angle, double scale){
     if (angleError(angle) < 0){
-      return (angleError(angle) * scale) + setPoint;
+      return (angleError(angle) * scale) + setPointMotor;
     }
-    return setPoint;
+    return setPointMotor;
   }
 
   public double angleError(double expectedAngle){
-    double jAngle = Math.atan(1);
-    /*Needs to have 2 of these bc */ 
     return Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
   }
 
