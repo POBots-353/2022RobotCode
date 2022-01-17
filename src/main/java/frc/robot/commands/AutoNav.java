@@ -5,12 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PIDDriveSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoNav extends CommandBase {
   /** Creates a new AutoNav. */
-  private final PIDDriveSubsystem driveSubsystem;
-  public AutoNav(PIDDriveSubsystem subsystem) {
+  private final DriveSubsystem driveSubsystem;
+  public AutoNav(DriveSubsystem subsystem) {
     driveSubsystem = subsystem;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.

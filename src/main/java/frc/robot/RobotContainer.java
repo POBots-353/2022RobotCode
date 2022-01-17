@@ -11,7 +11,7 @@ import frc.robot.commands.AutoNav;
 import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.commands.SetDistanceCommand;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.PIDDriveSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final PIDDriveSubsystem driveSubsystem = new PIDDriveSubsystem();
+  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final SetDistanceCommand setDistance = new SetDistanceCommand();
   private final AutoNav m_autoCommand = new AutoNav(driveSubsystem);
   private final TurnToAngleCommand turnAngleCommand = new TurnToAngleCommand(driveSubsystem);

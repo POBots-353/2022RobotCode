@@ -6,21 +6,21 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.PIDDriveSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 /** An example command that uses an example subsystem. */
 public class TurnToAngleCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final PIDDriveSubsystem driveSubsystem;
+  private final DriveSubsystem driveSubsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TurnToAngleCommand(PIDDriveSubsystem subsystem) {
+  public TurnToAngleCommand(DriveSubsystem subsystem) {
     driveSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

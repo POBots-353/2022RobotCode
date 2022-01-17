@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class PIDDriveSubsystem extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase {
   public final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.leftFrontMotorID, MotorType.kBrushless);
   public final CANSparkMax leftBackMotor = new CANSparkMax(Constants.leftBackMotorID, MotorType.kBrushless);
   public final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.rightFrontMotorID, MotorType.kBrushless);
@@ -46,7 +46,7 @@ public class PIDDriveSubsystem extends SubsystemBase {
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
 
-  public PIDDriveSubsystem() {
+  public DriveSubsystem() {
     m_gyro.reset();
     leftFrontMotor.restoreFactoryDefaults();
     leftBackMotor.restoreFactoryDefaults();
@@ -66,10 +66,10 @@ public class PIDDriveSubsystem extends SubsystemBase {
   }
 
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2){
-    setPointDrive = 1;
+    setPointDrive = 1; //Sets mininum speed of the motors
     double yScale = ((1 + Jy) * (1 + Math.abs(Jy) * scale2)); //abs(Jy) bc square Jy values without getting rid of the negative
     double xScale = (/*angleError(Jy, Jx)*/ scale1 * Jx);
-    resetSetPoint(Jy, Jx);
+    resetSetPoint(Jy, Jx); //Sets the mininum speed of the motors to zero
     return xScale + yScale + setPointDrive;
   }
 
