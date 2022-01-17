@@ -80,9 +80,9 @@ public class PIDDriveSubsystem extends SubsystemBase {
    * @param Jx Joystick x value
    * @return The amount of degrees the robot needs to turn
   */
-  /*public double angleError(double Jy, double Jx){
+  public double angleError(double Jy, double Jx){
     double jAngle = Math.atan(Jy/Jx);
-    /*Needs to have 2 of these bc  
+    /*Needs to have 2 of these bc */ 
     if (Jy > 0 & Jy != 0){
       return Math.abs(Math.IEEEremainder(m_gyro.getAngle(), 360) - Math.IEEEremainder(jAngle, 360));
     }else if (Jy < 0 & Jy != 0){
@@ -90,7 +90,7 @@ public class PIDDriveSubsystem extends SubsystemBase {
     }else{
       return 0.0;
     }
-  }*/
+  }
   public void initializePID(SparkMaxPIDController p){
     p.setP(kP);
     p.setI(kI);
