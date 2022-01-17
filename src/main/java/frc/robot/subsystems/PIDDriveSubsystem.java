@@ -65,23 +65,24 @@ public class PIDDriveSubsystem extends SubsystemBase {
   }
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2, double setPoint){
     double yScale = ((1 + Jy) * (1 + Math.abs(Jy) * scale2)); //abs(Jy) bc square Jy values without getting rid of the negative
-    double xScale = (angleError(Jy, Jx) * scale1 * Jx);
+    double xScale = (/*angleError(Jy, Jx)*/ scale1 * Jx);
     return xScale + yScale + setPoint;
   }
   public double setPointRight(double Jy, double Jx, double scale1, double scale2, double setPoint){
-    double xScale = (-1 * angleError(Jy, Jx) * scale1 * Jx);
+    double xScale = (-1 /** angleError(Jy, Jx)*/ * scale1 * Jx);
     double yScale = ((1 + Jy) * (1 + Math.abs(Jy)) * scale2);
     return xScale + yScale + setPoint;
   }
   /**
    * Can add PID to this if the curve seems wonky
-   * Doesn't need to be negated bc the Jx will be muiltplied by angleError
+   * Doesn't need to be negated bc the Jx will be muiltplied by angleError and it will make things more complicated
    * @param Jy Joystick y value
    * @param Jx Joystick x value
    * @return The amount of degrees the robot needs to turn
   */
-  public double angleError(double Jy, double Jx){
+  /*public double angleError(double Jy, double Jx){
     double jAngle = Math.atan(Jy/Jx);
+    /*Needs to have 2 of these bc  
     if (Jy > 0 & Jy != 0){
       return Math.abs(Math.IEEEremainder(m_gyro.getAngle(), 360) - Math.IEEEremainder(jAngle, 360));
     }else if (Jy < 0 & Jy != 0){
@@ -89,7 +90,7 @@ public class PIDDriveSubsystem extends SubsystemBase {
     }else{
       return 0.0;
     }
-  }
+  }*/
   public void initializePID(SparkMaxPIDController p){
     p.setP(kP);
     p.setI(kI);
