@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -52,10 +53,10 @@ public class DriveSubsystem extends SubsystemBase {
     leftBackMotor.restoreFactoryDefaults();
     rightFrontMotor.restoreFactoryDefaults();
     rightBackMotor.restoreFactoryDefaults();
-    initializePID(leftFrontPIDCon);
-    initializePID(leftBackPIDCon);
-    initializePID(rightFrontPIDCon);
-    initializePID(rightBackPIDCon);
+    initializePID(leftFrontPIDCon, m_leftFrontEncoder);
+    initializePID(leftBackPIDCon, leftBackEncoder);
+    initializePID(rightFrontPIDCon, m_rightFrontEncoder);
+    initializePID(rightBackPIDCon, rightBackEncoder);
   }
 
   public void manualDrive(double y, double x, double scaleX, double scaleY){
@@ -125,7 +126,7 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
   }
 
-  public void initializePID(SparkMaxPIDController p){
+  public void initializePID(SparkMaxPIDController p, RelativeEncoder h){
     p.setP(kP);
     p.setI(kI);
     p.setD(kD);
@@ -136,10 +137,14 @@ public class DriveSubsystem extends SubsystemBase {
     p.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
     p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
+    h.setPositionConversionFactor(1);
+    h.setVelocityConversionFactor(1);
   }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
+    SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
   }
 
   @Override
