@@ -68,17 +68,13 @@ public class PIDDriveSubsystem extends SubsystemBase {
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2){
     double yScale = ((1 + Jy) * (1 + Math.abs(Jy) * scale2)); //abs(Jy) bc square Jy values without getting rid of the negative
     double xScale = (/*angleError(Jy, Jx)*/ scale1 * Jx);
-    setPointDrive += xScale + yScale + setPointDrive;
-    resetSetPoint(Jy, Jx);
-    return setPointDrive;
+    return xScale + yScale + setPointDrive;
   }
 
   public double setPointRight(double Jy, double Jx, double scale1, double scale2){
     double xScale = (-1 /** angleError(Jy, Jx)*/ * scale1 * Jx);
     double yScale = ((1 + Jy) * (1 + Math.abs(Jy)) * scale2);
-    setPointDrive += xScale + yScale + setPointDrive;
-    resetSetPoint(Jy, Jx);
-    return setPointDrive = 0;
+    return  xScale + yScale + setPointDrive;
   }
 
   public void resetSetPoint(double y, double x){
