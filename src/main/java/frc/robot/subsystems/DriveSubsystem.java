@@ -4,15 +4,21 @@
 
 package frc.robot.subsystems;
 
+import javax.imageio.ImageTypeSpecifier;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class DriveSubsystem extends SubsystemBase {
   public final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.leftFrontMotorID, MotorType.kBrushless);
@@ -33,7 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
   int smartMotionSlot = 0;
   int allowedErr;
   int minVel;
-  double kP = 0;
+  double kP = 1e-3;
   double kI = 0;
   double kD = 0;
   double kIz = 0;
@@ -41,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
   double kMaxOutput = 1;
   double kMinOutput = -1;
   double maxRPM = 5700;
-  double maxVel = 2000;
+  double maxVel = 4000;
   double maxAcc = 1500;
   double setPointDrive = 0;
   // The gyro sensor
@@ -57,56 +63,61 @@ public class DriveSubsystem extends SubsystemBase {
     initializePID(leftBackPIDCon, leftBackEncoder);
     initializePID(rightFrontPIDCon, m_rightFrontEncoder);
     initializePID(rightBackPIDCon, rightBackEncoder);
+
+    
   }
+  /**
+   * Specifically meant to turn robot a certain number of degrees
+   * @param y Veritical motion
+   * @param rot turn motion
+   */
 
   public void manualDrive(double y, double x, double scaleX, double scaleY){
-    leftFrontPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-    leftBackPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+    leftFrontPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY) , CANSparkMax.ControlType.kSmartVelocity);
+    leftBackPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY) , CANSparkMax.ControlType.kSmartVelocity);
     rightFrontPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     rightBackPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
   }
 
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2){
-    setPointDrive = 1; //Sets mininum speed of the motors
-    double yScale = ((1 + Jy) * (1 + Math.abs(Jy) * scale2)); //abs(Jy) bc square Jy values without getting rid of the negative
-    double xScale = (/*angleError(Jy, Jx)*/ scale1 * Jx);
-    resetSetPoint(Jy, Jx); //Sets the mininum speed of the motors to zero
-    return xScale + yScale + setPointDrive;
+    setPointDrive = 1000; //Sets mininum speed of the motors
+    double yScale = ((Jy) * scale2); //abs(Jy) bc square Jy values without getting rid of the negative
+    double xScale = (Jx) * scale1;
+    if (Jy == 0 & Jx ==0){
+      return 0;
+    }
+    return xScale + yScale  /* + setPointDrive*/;
   }
 
   public double setPointRight(double Jy, double Jx, double scale1, double scale2){
-    setPointDrive = 1;
-    double xScale = (-1 /** angleError(Jy, Jx)*/ * scale1 * Jx);
-    double yScale = ((1 + Jy) * (1 + Math.abs(Jy)) * scale2);
-    resetSetPoint(Jy, Jx);
-    return  xScale + yScale + setPointDrive;
-  }
-
-  public void resetSetPoint(double y, double x){
-    if (y == 0 & x ==0){
-      setPointDrive = 0;
+    setPointDrive = 1000;
+    double xScale = (-(Jx) * scale1);
+    double yScale = ((Jy) * scale2);
+    if (Jy == 0 & Jx ==0){
+      return 0;
     }
+    return  -1*(xScale + yScale /*+ setPointDrive*/);
   }
 
-  public void autoDrive(double setPoint, double angle, double scaleLeft, double scaleRight){
-    leftFrontPIDCon.setReference(autoSetPointLeft(setPoint, angle, scaleLeft), CANSparkMax.ControlType.kSmartMotion);
-    leftBackPIDCon.setReference(autoSetPointLeft(setPoint, angle, scaleLeft), CANSparkMax.ControlType.kSmartMotion);
-    rightFrontPIDCon.setReference(autoSetPointRight(setPoint, angle, scaleRight), CANSparkMax.ControlType.kSmartMotion);
-    rightBackPIDCon.setReference(autoSetPointRight(setPoint, angle, scaleRight), CANSparkMax.ControlType.kSmartMotion);
+  public void autoDrive(double displacement, double angle, double scaleLeft, double scaleRight){
+    leftFrontPIDCon.setReference(autoSetPointLeft(displacement, angle, scaleLeft), CANSparkMax.ControlType.kSmartMotion);
+    leftBackPIDCon.setReference(autoSetPointLeft(displacement, angle, scaleLeft), CANSparkMax.ControlType.kSmartMotion);
+    rightFrontPIDCon.setReference(autoSetPointRight(displacement, angle, scaleRight), CANSparkMax.ControlType.kSmartMotion);
+    rightBackPIDCon.setReference(autoSetPointRight(displacement, angle, scaleRight), CANSparkMax.ControlType.kSmartMotion);
   }
 
   /**
    * Sets how far encoders need to move
-   * @param setPoint The displacement of the robot to the ball
+   * @param setPointMotor The displacement of the robot to the ball
    * @param angle The angle from the field (pointing torwards the rump starting at zero) to the ball
    * @param scale The number you want to muilply the angleError with to increase or decrease setPoint
    * @return if angleError is greater then zero then add to the sestpoint by angleError times scale else setpoint
    */
-  public double autoSetPointLeft(double setPointMotor, double angle, double scale){
-    if (angleError(angle) > 0){
-      return (angleError(angle) * scale) + setPointMotor;
-    }
-    return setPointMotor;
+  public double autoSetPointLeft(double displacement, double angle, double scale){
+   /* if (angleError(angle) > 0){
+      return (angleError(angle) * scale) + displacement;
+    }*/
+    return displacement;
   }
   /**
    * Sets how far encoders need to move
@@ -115,11 +126,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @param scale The number you want to muilply the angleError with to increase or decrease setPoint
    * @return if angleError is less then zero then add to the sestpoint by angleError times scale else setpoint
    */
-  public double autoSetPointRight(double setPointMotor, double angle, double scale){
-    if (angleError(angle) < 0){
-      return (angleError(angle) * scale) + setPointMotor;
-    }
-    return setPointMotor;
+  public double autoSetPointRight(double displacement, double angle, double scale){
+    /*if (angleError(angle) < 0){
+      return (angleError(angle) * scale) + displacement;
+    }*/
+    return displacement;
   }
 
   public double angleError(double expectedAngle){
@@ -137,14 +148,19 @@ public class DriveSubsystem extends SubsystemBase {
     p.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
     p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
-    h.setPositionConversionFactor(1);
-    h.setVelocityConversionFactor(1);
+    h.setPositionConversionFactor(Constants.conversionPosition);
+    h.setVelocityConversionFactor(Constants.conversionVelocity);
   }
   @Override
   public void periodic() {
+    double processVariable = leftBackEncoder.getVelocity();
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
+    SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());
+    SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
+    SmartDashboard.putNumber("Process Variable", processVariable);
+    SmartDashboard.putNumber("Output", leftBackMotor.getAppliedOutput());
   }
 
   @Override

@@ -36,7 +36,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     driveSubsystem.setDefaultCommand(new RunCommand(()-> 
-      driveSubsystem.manualDrive(driverStick.getY(),driverStick.getX(), 
+      driveSubsystem.manualDrive(-1*(driverStick.getY()),driverStick.getX(), 
       Constants.scaleX, Constants.scaleY), 
         driveSubsystem));
 

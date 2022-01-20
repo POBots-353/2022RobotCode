@@ -13,12 +13,14 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static int leftFrontMotorID = 0;
-    public static int leftBackMotorID = 0;
-    public static int rightFrontMotorID = 0;
-    public static int rightBackMotorID = 0;
+    public static int leftFrontMotorID = 4;
+    public static int leftBackMotorID = 2;
+    public static int rightFrontMotorID = 1;
+    public static int rightBackMotorID = 3;
 
       /*PID Constants*/
-    public static double scaleY = 0;
-    public static double scaleX = 0;
+    public static double scaleY = 4000;
+    public static double scaleX = 4000;
+    public static double conversionPosition = 1;
+    public static double conversionVelocity = 1;
 }
