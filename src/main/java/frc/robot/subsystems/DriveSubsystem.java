@@ -39,11 +39,11 @@ public class DriveSubsystem extends SubsystemBase {
   int smartMotionSlot = 0;
   int allowedErr;
   int minVel;
-  double kP = 1e-3;
+  double kP = 4e-4;
   double kI = 0;
   double kD = 0;
   double kIz = 0;
-  double kFF = 0.000156;
+  double kFF = 0.000456;
   double kMaxOutput = 1;
   double kMinOutput = -1;
   double maxRPM = 5700;
@@ -64,7 +64,6 @@ public class DriveSubsystem extends SubsystemBase {
     initializePID(rightFrontPIDCon, m_rightFrontEncoder);
     initializePID(rightBackPIDCon, rightBackEncoder);
 
-    
   }
   /**
    * Specifically meant to turn robot a certain number of degrees
@@ -132,7 +131,7 @@ public class DriveSubsystem extends SubsystemBase {
     }*/
     return displacement;
   }
-
+  //Neeed to get rid of this soon
   public double angleError(double expectedAngle){
     return Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
   }
