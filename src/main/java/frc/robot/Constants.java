@@ -31,4 +31,7 @@ public final class Constants {
     public static double scaleX = 4000;
     public static double conversionPosition = 1;
     public static double conversionVelocity = 1;
+
+    /*Turn To Angle*/
+    public static double neededAngle = 0;
 }
