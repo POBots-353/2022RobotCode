@@ -13,10 +13,17 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    //Motor IDs
     public static int leftFrontMotorID = 4;
     public static int leftBackMotorID = 2;
     public static int rightFrontMotorID = 1;
     public static int rightBackMotorID = 3;
+
+    //driveConstants
+    public static double scaleY = 4000;
+    public static double scaleTurn = 4000;
+    public static double conversionPosition = 1;
+    public static double conversionVelocity = 1;
 
     /*Climber Subsystem Constants*/
     public static double climbingArmLength = 1.0;
@@ -26,9 +33,8 @@ public final class Constants {
     public static double verticleSetPoint = 1.0;
     public static double firstExtendPoint = 1.0;
     public static double barAlignedExtendPoint = 1.0; // When the arm is aligned to the bar when it retracts
-
-    public static double scaleY = 4000;
-    public static double scaleX = 4000;
-    public static double conversionPosition = 1;
-    public static double conversionVelocity = 1;
+    
+    public static final class Buttons{
+        public static int inverseControl = 0;
+    }
 }

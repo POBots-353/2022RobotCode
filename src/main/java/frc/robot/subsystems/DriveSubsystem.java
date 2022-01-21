@@ -79,23 +79,23 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2){
-    setPointDrive = 1000; //Sets mininum speed of the motors
-    double yScale = ((Jy) * scale2); //abs(Jy) bc square Jy values without getting rid of the negative
+    double yScale = ((Jy) * scale2);
     double xScale = (Jx) * scale1;
+    //add if to curve backwards for left
     if (Jy == 0 & Jx ==0){
       return 0;
     }
-    return xScale + yScale  /* + setPointDrive*/;
+    return xScale + yScale;
   }
 
   public double setPointRight(double Jy, double Jx, double scale1, double scale2){
-    setPointDrive = 1000;
     double xScale = (-(Jx) * scale1);
     double yScale = ((Jy) * scale2);
+    //add if to curve backwards for right
     if (Jy == 0 & Jx ==0){
       return 0;
     }
-    return  -1*(xScale + yScale /*+ setPointDrive*/);
+    return  -1*(xScale + yScale);
   }
 
   public void autoDrive(double displacement, double angle, double scaleLeft, double scaleRight){
