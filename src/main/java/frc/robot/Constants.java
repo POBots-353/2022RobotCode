@@ -18,7 +18,15 @@ public final class Constants {
     public static int rightFrontMotorID = 1;
     public static int rightBackMotorID = 3;
 
-      /*PID Constants*/
+    /*Climber Subsystem Constants*/
+    public static double climbingArmLength = 1.0;
+    public static double distancePerMotorClick = 1.0;
+    public static double hookLengthToBase = 1.0;
+
+    public static double verticleSetPoint = 1.0;
+    public static double firstExtendPoint = 1.0;
+    public static double barAlignedExtendPoint = 1.0; // When the arm is aligned to the bar when it retracts
+
     public static double scaleY = 4000;
     public static double scaleX = 4000;
     public static double conversionPosition = 1;
