@@ -32,7 +32,9 @@ public class ClimberSubsystem extends SubsystemBase {
   double maxAcc = 1500;
   double setPointDrive = 0;
 
-  public DoubleSolenoid outerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 1); // PORT NUMBERS ARE UNKNOWN AT THIS TIME
+  public DoubleSolenoid outerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 1); // PORT NUMBERS ARE
+                                                                                                    // UNKNOWN AT THIS
+                                                                                                    // TIME
   public DoubleSolenoid innerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
   public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 7, 1);
   public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 1);
@@ -51,8 +53,8 @@ public class ClimberSubsystem extends SubsystemBase {
   public SparkMaxPIDController m_leftInnerController = leftInnerMotor.getPIDController();
   public SparkMaxPIDController m_rightOuterController = rightOuterMotor.getPIDController();
   public SparkMaxPIDController m_rightInnerController = rightInnerMotor.getPIDController();
-
-  boolean climberButtonPressed = true; // THIS IS TEMPORARY, THIS WILL CHECK IF THE BUTTON IS PRESSED SOON
+  
+  int timer = 0;
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
@@ -80,18 +82,18 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    timer += 0; //Update every 20ms
   }
 
   public void doClimbCycle() {
-    if (climberButtonPressed) {
-      double leftOuterPosition = m_leftOuterEncoder.getPosition();
-      double leftInnerPosition = m_leftInnerEncoder.getPosition();
-      double rightOuterPosition = m_rightOuterEncoder.getPosition();
-      double rightInnerPosition = m_rightInnerEncoder.getPosition();
-    }
+    double leftOuterPosition = m_leftOuterEncoder.getPosition();
+    double leftInnerPosition = m_leftInnerEncoder.getPosition();
+    double rightOuterPosition = m_rightOuterEncoder.getPosition();
+    double rightInnerPosition = m_rightInnerEncoder.getPosition();
+
   }
 
-  public void toggleOuterArms() { //Reverses the toggle state of the outer solenoids
+  public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
     if (outerArmPneumatic.get() == Value.kForward) {
       outerArmPneumatic.set(Value.kReverse);
       rightOuterPneumatic.set(Value.kReverse);
@@ -101,7 +103,7 @@ public class ClimberSubsystem extends SubsystemBase {
     }
   }
 
-  public void toggleInnerArms() { //Reverses the toggle state of the inner solenoids
+  public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
     if (innerArmPneumatic.get() == Value.kForward) {
       innerArmPneumatic.set(Value.kReverse);
       rightInnerPneumatic.set(Value.kReverse);
