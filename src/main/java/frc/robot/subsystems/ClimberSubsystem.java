@@ -32,13 +32,15 @@ public class ClimberSubsystem extends SubsystemBase {
   double maxAcc = 1500;
   double setPointDrive = 0;
 
-  public DoubleSolenoid outerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1); // PORT NUMBERS ARE UNKNOWN AT THIS TIME
-  public DoubleSolenoid innerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  public DoubleSolenoid outerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 1); // PORT NUMBERS ARE UNKNOWN AT THIS TIME
+  public DoubleSolenoid innerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
+  public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 7, 1);
+  public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 1);
 
-  public CANSparkMax leftOuterMotor = new CANSparkMax(5, MotorType.kBrushless);
-  public CANSparkMax leftInnerMotor = new CANSparkMax(6, MotorType.kBrushless);
-  public CANSparkMax rightOuterMotor = new CANSparkMax(7, MotorType.kBrushless);
-  public CANSparkMax rightInnerMotor = new CANSparkMax(8, MotorType.kBrushless);
+  public CANSparkMax leftOuterMotor = new CANSparkMax(9, MotorType.kBrushless);
+  public CANSparkMax leftInnerMotor = new CANSparkMax(10, MotorType.kBrushless);
+  public CANSparkMax rightOuterMotor = new CANSparkMax(11, MotorType.kBrushless);
+  public CANSparkMax rightInnerMotor = new CANSparkMax(12, MotorType.kBrushless);
 
   public RelativeEncoder m_leftOuterEncoder = leftOuterMotor.getEncoder();
   public RelativeEncoder m_leftInnerEncoder = leftInnerMotor.getEncoder();
@@ -92,16 +94,20 @@ public class ClimberSubsystem extends SubsystemBase {
   public void toggleOuterArms() { //Reverses the toggle state of the outer solenoids
     if (outerArmPneumatic.get() == Value.kForward) {
       outerArmPneumatic.set(Value.kReverse);
+      rightOuterPneumatic.set(Value.kReverse);
     } else if (outerArmPneumatic.get() == Value.kReverse) {
       outerArmPneumatic.set(Value.kForward);
+      rightOuterPneumatic.set(Value.kForward);
     }
   }
 
   public void toggleInnerArms() { //Reverses the toggle state of the inner solenoids
     if (innerArmPneumatic.get() == Value.kForward) {
       innerArmPneumatic.set(Value.kReverse);
+      rightInnerPneumatic.set(Value.kReverse);
     } else if (innerArmPneumatic.get() == Value.kReverse) {
       innerArmPneumatic.set(Value.kForward);
+      rightInnerPneumatic.set(Value.kForward);
     }
   }
 
