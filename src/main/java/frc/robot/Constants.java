@@ -33,9 +33,19 @@ public final class Constants {
     public static double verticleSetPoint = 1.0;
     public static double firstExtendPoint = 1.0;
     public static double barAlignedExtendPoint = 1.0; // When the arm is aligned to the bar when it retracts
-    public static double neededAngle = 0;
-
+<<<<<<< HEAD
+    
     public static final class Buttons{
         public static int inverseControl = 0;
     }
+=======
+
+    public static double scaleY = 4000;
+    public static double scaleX = 4000;
+    public static double conversionPosition = 1;
+    public static double conversionVelocity = 1;
+
+    /*Turn To Angle*/
+    public static double neededAngle = 0;
+>>>>>>> ef9378f6cf0ca6219d38c9660d1913491de90d2a
 }

@@ -15,7 +15,6 @@ import frc.robot.commands.ManualDriveCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -36,10 +35,8 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
-    driveSubsystem.setDefaultCommand(new RunCommand(()-> 
-      driveSubsystem.manualDrive(-1*(driverStick.getY()),driverStick.getX(), 
-      Constants.scaleTurn, Constants.scaleY), 
-        driveSubsystem));
+    driveSubsystem.setDefaultCommand(new ManualDriveCommand(driveSubsystem));
+    configureButtonBindings();
   }
 
   /**

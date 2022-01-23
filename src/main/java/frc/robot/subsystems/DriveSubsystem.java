@@ -82,9 +82,6 @@ public class DriveSubsystem extends SubsystemBase {
     double yScale = ((Jy) * scale2);
     double xScale = (Jx) * scale1;
     //add if to curve backwards for left
-    if (yScale < 0){
-      
-    }
     if (Jy == 0 & Jx ==0){
       return 0;
     }
