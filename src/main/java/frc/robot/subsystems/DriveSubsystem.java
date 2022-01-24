@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   public final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.leftFrontMotorID, MotorType.kBrushless);
@@ -150,8 +151,8 @@ public class DriveSubsystem extends SubsystemBase {
     p.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
     p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
-    h.setPositionConversionFactor(Constants.conversionPosition);
-    h.setVelocityConversionFactor(Constants.conversionVelocity);
+    h.setPositionConversionFactor(DriveConstants.conversionPosition);
+    h.setVelocityConversionFactor(DriveConstants.conversionVelocity);
   }
   @Override
   public void periodic() {

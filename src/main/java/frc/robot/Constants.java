@@ -5,27 +5,25 @@
 package frc.robot;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //Motor IDs
+    // Motor IDs
     public static int leftFrontMotorID = 4;
     public static int leftBackMotorID = 2;
     public static int rightFrontMotorID = 1;
     public static int rightBackMotorID = 3;
 
-    //driveConstants
-    public static double scaleY = 4000;
-    public static double scaleTurn = 4000;
-    public static double conversionPosition = 1;
-    public static double conversionVelocity = 1;
-
-    /*Climber Subsystem Constants*/
+    /* Climber Subsystem Constants */
     public static double climbingArmLength = 1.0;
     public static double distancePerMotorClick = 1.0;
     public static double hookLengthToBase = 1.0;
@@ -33,9 +31,34 @@ public final class Constants {
     public static double verticleSetPoint = 1.0;
     public static double firstExtendPoint = 1.0;
     public static double barAlignedExtendPoint = 1.0; // When the arm is aligned to the bar when it retracts
-    public static double neededAngle = 0;
 
-    public static final class Buttons{
+    public static final class Buttons {
+        //DriverStick
         public static int inverseControl = 0;
+        public static int driveBoostToggle = 0;
+        public static int driveSlowToggle = 0;
+        public static int turn45Toggle = 0;
+        public static int turn90Toggle = 0;
+        public static int turn180Toggle = 0;
+        public static int turnWithJoyStick = 0;
+        //OperatorStick
+        public static int climberButton = 0;
+        public static int stopClimb = 0;
+        public static int dumpBallToggle = 0;
+    }
+
+    public static final class DriveConstants {
+        //Standard Drive
+        public static double scaleY = 4000;
+        public static double scaleTurn = 4000;
+        //Slow Drive
+        public static double scaleYSlow = 4000;
+        public static double scaleTurnSlow = 4000;
+        //Fast Drive
+        public static double scaleYBoost = 4000;
+        public static double scaleTurnBoost = 4000;
+
+        public static double conversionPosition = 1;
+        public static double conversionVelocity = 1;
     }
 }
