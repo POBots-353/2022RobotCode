@@ -87,10 +87,11 @@ public class RobotContainer {
     new JoystickButton(driverStick, Buttons.turn180Toggle).whileHeld(new TurnToAngleCommand(driveSubsystem, 180));
     new JoystickButton(driverStick, Buttons.turnWithJoyStick)
         .whileHeld(new TurnToAngleCommand(driveSubsystem, driverStick.getDirectionDegrees()));
-
+    /*
     new JoystickButton(operatorStick, Buttons.climberButton)
         .whileHeld(new ClimberCommand(climberSubsystem));
     new JoystickButton(operatorStick, Buttons.dumpBallToggle).whenPressed(new DumpBallCommand(ballTransitSubsystem));
+    */
   }
 
   /**
