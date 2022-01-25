@@ -32,10 +32,10 @@ public class ClimberSubsystem extends SubsystemBase {
   double maxAcc = 1500;
   double setPointDrive = 0;
 
-  public DoubleSolenoid outerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 1); // PORT NUMBERS ARE
+  //public DoubleSolenoid outerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 1); // PORT NUMBERS ARE
                                                                                                     // UNKNOWN AT THIS
                                                                                                     // TIME
-  public DoubleSolenoid innerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
+  /*public DoubleSolenoid innerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
   public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 7, 1);
   public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 1);
 
@@ -55,17 +55,18 @@ public class ClimberSubsystem extends SubsystemBase {
   public SparkMaxPIDController m_rightInnerController = rightInnerMotor.getPIDController();
   
   int timer = 0;
-
+*/
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
-    initializePID(m_leftOuterController, m_leftOuterEncoder);
+   /* initializePID(m_leftOuterController, m_leftOuterEncoder);
     initializePID(m_leftInnerController, m_leftInnerEncoder);
     initializePID(m_rightOuterController, m_rightOuterEncoder);
     initializePID(m_rightInnerController, m_rightInnerEncoder);
+    */
   }
 
   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
-    p.setP(kP);
+   /* p.setP(kP);
     p.setI(kI);
     p.setD(kD);
     p.setIZone(kIz);
@@ -77,50 +78,51 @@ public class ClimberSubsystem extends SubsystemBase {
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
     h.setPositionConversionFactor(1);
     h.setVelocityConversionFactor(1);
+    */
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    timer += 0; //Update every 20ms
+    //timer += 0; //Update every 20ms
   }
 
   public void doClimbCycle() {
-    double leftOuterPosition = m_leftOuterEncoder.getPosition();
+    /*double leftOuterPosition = m_leftOuterEncoder.getPosition();
     double leftInnerPosition = m_leftInnerEncoder.getPosition();
     double rightOuterPosition = m_rightOuterEncoder.getPosition();
-    double rightInnerPosition = m_rightInnerEncoder.getPosition();
+    double rightInnerPosition = m_rightInnerEncoder.getPosition();*/
 
   }
 
   public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
-    if (outerArmPneumatic.get() == Value.kForward) {
+    /*if (outerArmPneumatic.get() == Value.kForward) {
       outerArmPneumatic.set(Value.kReverse);
       rightOuterPneumatic.set(Value.kReverse);
     } else if (outerArmPneumatic.get() == Value.kReverse) {
       outerArmPneumatic.set(Value.kForward);
       rightOuterPneumatic.set(Value.kForward);
-    }
+    }*/
   }
 
   public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-    if (innerArmPneumatic.get() == Value.kForward) {
+    /*if (innerArmPneumatic.get() == Value.kForward) {
       innerArmPneumatic.set(Value.kReverse);
       rightInnerPneumatic.set(Value.kReverse);
     } else if (innerArmPneumatic.get() == Value.kReverse) {
       innerArmPneumatic.set(Value.kForward);
       rightInnerPneumatic.set(Value.kForward);
-    }
+    }*/
   }
 
-  public double getArcLength() {
-    double arcLength = (Constants.hookLengthToBase / Constants.climbingArmLength) * Constants.climbingArmLength;
+  /*public double getArcLength() {
+    /*double arcLength = (Constants.hookLengthToBase / Constants.climbingArmLength) * Constants.climbingArmLength;
     return arcLength;
-  }
+  }*/
 
-  public double getNumberOfClicks() {
+  /*public double getNumberOfClicks() {
     double numberOfClicks = getArcLength() / Constants.distancePerMotorClick;
     return numberOfClicks;
-  }
+  }*/
 
 }

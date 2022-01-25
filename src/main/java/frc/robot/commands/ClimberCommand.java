@@ -10,6 +10,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 public class ClimberCommand extends CommandBase {
   /** Creates a new ClimberCommand. */
   private final ClimberSubsystem climberSubsystem;
+  
   public ClimberCommand(ClimberSubsystem climber) {
     climberSubsystem = climber;
     addRequirements(climberSubsystem);
@@ -21,9 +22,9 @@ public class ClimberCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute(){}
 
-  // Called once the command ends or is interrupted.
+  // Called once{} the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
