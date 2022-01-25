@@ -48,9 +48,13 @@ public final class Constants {
     }
 
     public static final class DriveConstants {
-        //Standard Drive
-        public static double scaleY = 4000;
-        public static double scaleTurn = 4000;
+        //Gear Ratio 8.41 to 1
+        //Joystick Scale
+        public static double scaleY = 0;
+        public static double scaleX = 0;
+        //Set speed scale
+        public static double scaleYfowd = 3000;
+        public static double scaleTurn = 1000;
         //Slow Drive
         public static double scaleYSlow = 4000;
         public static double scaleTurnSlow = 4000;

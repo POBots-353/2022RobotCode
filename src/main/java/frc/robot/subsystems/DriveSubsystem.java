@@ -44,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
   double kI = 0;
   double kD = 0;
   double kIz = 0;
-  double kFF = 0.000456;
+  double kFF = 0.000156;
   double kMaxOutput = 1;
   double kMinOutput = -1;
   double maxRPM = 5700;
@@ -64,6 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
     initializePID(leftBackPIDCon, leftBackEncoder);
     initializePID(rightFrontPIDCon, m_rightFrontEncoder);
     initializePID(rightBackPIDCon, rightBackEncoder);
+    leftBackEncoder.setPosition(0);
 
   }
   /**
