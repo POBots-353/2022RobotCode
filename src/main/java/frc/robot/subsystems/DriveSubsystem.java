@@ -11,6 +11,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -38,6 +40,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SparkMaxPIDController rightFrontPIDCon = rightFrontMotor.getPIDController();
   private SparkMaxPIDController rightBackPIDCon = rightBackMotor.getPIDController();
 
+  public final AnalogInput input = new AnalogInput(0);
   int smartMotionSlot = 0;
   int allowedErr;
   int minVel;
@@ -168,9 +171,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Neeed to get rid of this soon
   public double angleError(double expectedAngle) {
-    if (Math.IEEEremainder(m_gyro.getAngle(), 360) < 0){
-      return Math.IEEEremainder(expectedAngle, 360) + Math.IEEEremainder(m_gyro.getAngle(), 360);
-    }
     return Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
   }
 
@@ -191,6 +191,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     double processVariable = leftBackEncoder.getVelocity();
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("UltraSonic", (input.getValue() * 0.034) / 2 * 2.54);
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
     SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());
