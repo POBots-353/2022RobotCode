@@ -18,44 +18,32 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 /** An example command that uses an example subsystem. */
-public class TurnToAngleCommand extends CommandBase {
+public class AlignCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveSubsystem driveSubsystem;
   
   // Use gyro declaration from above here
 
-// The gain for a simple P loop
-double kP = 1;
+  // The gain for a simple P loop
+  double kP = .4;
+  
 
-// Initialize motor controllers and drive
-public final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.leftFrontMotorID, MotorType.kBrushless);
-public final CANSparkMax leftBackMotor = new CANSparkMax(Constants.leftBackMotorID, MotorType.kBrushless);
-public final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.rightFrontMotorID, MotorType.kBrushless);
-public final CANSparkMax rightBackMotor = new CANSparkMax(Constants.rightBackMotorID, MotorType.kBrushless);
+  
+  // navX iniialization
 
-
-MotorControllerGroup leftMotors = new MotorControllerGroup(leftFrontMotor, leftBackMotor);
-MotorControllerGroup rightMotors = new MotorControllerGroup(rightFrontMotor, rightBackMotor);
-
-DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
-// navX iniialization
-AHRS gyro = new AHRS(SerialPort.Port.kUSB);
-
-
+  double neededAngle1 = 0;
   /**
-   * Creates a new ExampleCommand.
+  * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TurnToAngleCommand(DriveSubsystem subsystem, double neededAngle) {
-    Shuffleboard.getTab("Angle").add(gyro);
+  public AlignCommand(DriveSubsystem subsystem, double neededAngle) {
     driveSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    double error = neededAngle - gyro.getAngle();
-
+    neededAngle1 = neededAngle;
     // Turns the robot to face the desired direction
-    drive.tankDrive(kP * error, kP * error);
+    
   }
 
   // Called when the command is initially scheduled.
@@ -65,6 +53,7 @@ AHRS gyro = new AHRS(SerialPort.Port.kUSB);
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    driveSubsystem.manualDrive(0.0, driveSubsystem.angleError(neededAngle1) * kP, 50, 0.0);
   }
 
   // Called once the command ends or is interrupted.
