@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.Buttons;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.AutoNav;
+import frc.robot.commands.AutoNavCommand;
+import frc.robot.commands.AutoNavCommand;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.DumpBallCommand;
 import frc.robot.commands.AlignCommand;
@@ -34,9 +35,9 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
     // private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-    // private final BallTransitSubsystem ballTransitSubsystem = new
+    private final BallTransitSubsystem ballTransitSubsystem = new BallTransitSubsystem();
     // BallTransitSubsystem();
-    private final AutoNav m_autoCommand = new AutoNav(driveSubsystem);
+    private final AutoNavCommand m_autoCommand = new AutoNavCommand(driveSubsystem, ballTransitSubsystem);
 
     public static final Joystick driverStick = new Joystick(1);
     public static final Joystick operatorStick = new Joystick(0);

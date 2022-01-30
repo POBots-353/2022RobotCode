@@ -7,11 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallTransitSubsystem;
 
-
-public class DumpBallCommand extends CommandBase {
+public class IntakeBallCommand extends CommandBase {
   private final BallTransitSubsystem ballTransitSubsystem;
-  public DumpBallCommand(BallTransitSubsystem ballTransit) {
-    ballTransitSubsystem = ballTransit;
+  public IntakeBallCommand(BallTransitSubsystem subsystem) {
+    ballTransitSubsystem = subsystem;
     addRequirements(ballTransitSubsystem);
   }
 
@@ -22,21 +21,21 @@ public class DumpBallCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (ballTransitSubsystem.getlockDownPiston()){
-      ballTransitSubsystem.toggleDownLock();
+    if (ballTransitSubsystem.getlockUpPiston()){
+      ballTransitSubsystem.toggleUpLock();
     }
-    if(!ballTransitSubsystem.getlockUpPiston()){
-      ballTransitSubsystem.transitUp();//Should be locked after this method is complete
+    if(!ballTransitSubsystem.getlockDownPiston()){
+      ballTransitSubsystem.transitDown();//Should be locked after this method is complete
     }else{
-      ballTransitSubsystem.dropBall(true);
+      ballTransitSubsystem.intake(true);
     }
   }
 
-  // Called once the command ends or is interrupted.
+  //Turns off the motor after the command ends
   @Override
   public void end(boolean interrupted) {
     if(interrupted){
-      ballTransitSubsystem.dropBall(false);
+      ballTransitSubsystem.intake(false);
     }
   }
 

@@ -55,7 +55,7 @@ public class DriveSubsystem extends SubsystemBase {
   double maxVel = 4000;
   double maxAcc = 1500;
   double setPointDrive = 0;
-  int timer = 0;
+
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
 
@@ -74,99 +74,62 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  /**
-   * Specifically meant to turn robot a certain number of degrees
-   * 
-   * @param y   Veritical motion
-   * @param rot turn motion
-   */
-
   public void manualDrive(double y, double x, double scaleX, double scaleY) {
     leftFrontPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     leftBackPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     rightFrontPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     rightBackPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
   }
-  boolean test1 = false;
+
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2) {
     double yScale = ((Jy) * scale2);
     double xScale = (Jx) * scale1;
-    /*if (Jy < .1){
-      xScale = -xScale;
-    }*/
+    /*
+     * if (Jy < .1){
+     * xScale = -xScale;
+     * }
+     */
     return xScale + yScale;
   }
-  boolean test = false;
+
   public double setPointRight(double Jy, double Jx, double scale1, double scale2) {
     double xScale = (-(Jx) * scale1);
     double yScale = ((Jy) * scale2);
-    /*if (Jy < .1){
-      xScale = -xScale;
-    }*/
+    /*
+     * if (Jy < .1){
+     * xScale = -xScale;
+     * }
+     */
     return -1 * (xScale + yScale);
   }
 
-  public int startTimer() {
-    return timer++;
-  }
-  public int startTimer1() {
-    return timer++;
-  }
-  public void resetTimer1() {
-    timer = 0;
-  }
-  public void resetTimer() {
-    timer = 0;
-  }
-
-  public void autoDrive(double displacement, double angle, double scaleLeft, double scaleRight) {
-    leftFrontPIDCon.setReference(autoSetPointLeft(displacement, angle, scaleLeft),
+  public void autoDrive(double displacement) {
+    leftFrontPIDCon.setReference(displacement,
         CANSparkMax.ControlType.kSmartMotion);
-    leftBackPIDCon.setReference(autoSetPointLeft(displacement, angle, scaleLeft), CANSparkMax.ControlType.kSmartMotion);
-    rightFrontPIDCon.setReference(autoSetPointRight(displacement, angle, scaleRight),
+    leftBackPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
+    rightFrontPIDCon.setReference(displacement,
         CANSparkMax.ControlType.kSmartMotion);
-    rightBackPIDCon.setReference(autoSetPointRight(displacement, angle, scaleRight),
+    rightBackPIDCon.setReference(displacement,
         CANSparkMax.ControlType.kSmartMotion);
   }
 
-  /**
-   * Sets how far encoders need to move
-   * 
-   * @param setPointMotor The displacement of the robot to the ball
-   * @param angle         The angle from the field (pointing torwards the rump
-   *                      starting at zero) to the ball
-   * @param scale         The number you want to muilply the angleError with to
-   *                      increase or decrease setPoint
-   * @return if angleError is greater then zero then add to the sestpoint by
-   *         angleError times scale else setpoint
-   */
-  public double autoSetPointLeft(double displacement, double angle, double scale) {
-    /*
-     * if (angleError(angle) > 0){
-     * return (angleError(angle) * scale) + displacement;
-     * }
-     */
-    return displacement;
+  public boolean pointReached(double displacement) {
+    if (displacement < m_leftFrontEncoder.getPosition()) {
+      resetEncoders();
+      return true;
+    }
+    return false;
   }
 
-  /**
-   * Sets how far encoders need to move
-   * 
-   * @param setPoint The displacement of the robot to the ball
-   * @param angle    The angle from the field (pointing torwards the rump starting
-   *                 at zero) to the ball
-   * @param scale    The number you want to muilply the angleError with to
-   *                 increase or decrease setPoint
-   * @return if angleError is less then zero then add to the sestpoint by
-   *         angleError times scale else setpoint
-   */
-  public double autoSetPointRight(double displacement, double angle, double scale) {
-    /*
-     * if (angleError(angle) < 0){
-     * return (angleError(angle) * scale) + displacement;
-     * }
-     */
-    return displacement;
+  public void resetEncoders() {
+    m_leftFrontEncoder.setPosition(0);
+    leftBackEncoder.setPosition(0);
+    m_rightFrontEncoder.setPosition(0);
+    rightBackEncoder.setPosition(0);
+  }
+
+  public double getDistance() {
+    return m_leftFrontEncoder.getPosition();
   }
 
   // Neeed to get rid of this soon
