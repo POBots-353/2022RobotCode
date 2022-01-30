@@ -12,8 +12,6 @@ public class AlignCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveSubsystem driveSubsystem;
   
-  // Use gyro declaration from above here
-
   // The gain for a simple P loop
   double kP = .4;
   double neededAngle = 0;
@@ -39,7 +37,9 @@ public class AlignCommand extends CommandBase {
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    driveSubsystem.resetEncoders();
+  }
 
   // Returns true when the command should end.
   @Override

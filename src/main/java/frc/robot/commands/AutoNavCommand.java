@@ -10,24 +10,27 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoNavCommand extends SequentialCommandGroup {
-  /** Creates a new AutoNavCommand. */
+  /**
+   * This is where most of the auto code should go.
+   * It should be built by using commands that are running seqentially
+   * to prevent code from being repeated
+   * @param drive
+   * @param transitSubsystem
+   */
   public AutoNavCommand(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
     addCommands(
         //Test
-        new RunCommand(()->drive.autoDrive(50), drive)
+        new AutoDriveCommand(drive,50)
         // Turns to specified angle
         /*new AlignCommand(drive, 50), // Enter wanted angle
 
-        new ParallelCommandGroup(
-            new RunCommand(() -> drive.autoDrive(50), drive).withTimeout(2), // Drives the robot to specifed distance,
+        new ParallelRaceGroup(
+            new AutoDriveCommand(drive,50), // Drives the robot to specifed distance,
                                                                              // stops after two seconds
             new IntakeBallCommand(transitSubsystem).withTimeout(2)),
 
-        new RunCommand(() -> drive.autoDrive(50), drive).withTimeout(2),
+        new AutoDriveCommand(drive,50),
 
         new DumpBallCommand(transitSubsystem).withTimeout(1)*/);
         

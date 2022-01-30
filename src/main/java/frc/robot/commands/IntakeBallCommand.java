@@ -25,7 +25,7 @@ public class IntakeBallCommand extends CommandBase {
       ballTransitSubsystem.toggleUpLock();
     }
     if(!ballTransitSubsystem.getlockDownPiston()){
-      ballTransitSubsystem.transitDown();//Should be locked after this method is complete
+      ballTransitSubsystem.transitDown();//Piston should be locked after this method is complete
     }else{
       ballTransitSubsystem.intake(true);
     }
