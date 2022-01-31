@@ -25,9 +25,9 @@ public final class Constants {
     public static int motorArmID = 0;
 
     //AutoAlign Constants
-    public static double neededAngle90 = 90;
+    public static double neededAngle90 = -90;
     public static double neededAngle45 = 45;
-    public static double neededAngle180 = 180;
+    public static double neededAngle180 = -180;
 
     /* Climber Subsystem Constants */
     public static double climbingArmLength = 1.0;
@@ -67,10 +67,11 @@ public final class Constants {
         //Fast Drive
         public static double scaleYBoost = 4000;
         public static double scaleTurnBoost = 4000;
-        //Min Speed before Jerk
-        public static double minVelJerk = 1000;
         //Encoder Converstion
         public static double conversionPosition = 1/*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
         public static double conversionVelocity = 1 /*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
+        //Deacceleration Constants
+        public static double deAccel = 0.98;
+        public static double lowestVel = 1;
     }
 }

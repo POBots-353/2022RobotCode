@@ -11,6 +11,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.AutoNav;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.DumpBallCommand;
+import frc.robot.commands.SetDistanceCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -33,13 +34,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+ 
     // private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     // private final BallTransitSubsystem ballTransitSubsystem = new
     // BallTransitSubsystem();
     private final AutoNav m_autoCommand = new AutoNav(driveSubsystem);
 
-    public static final Joystick driverStick = new Joystick(1);
-    public static final Joystick operatorStick = new Joystick(0);
+    public static final Joystick driverStick = new Joystick(0);
+    public static final Joystick operatorStick = new Joystick(1);
 
     public RobotContainer() {
         // Configure the button bindings
@@ -75,6 +77,7 @@ public class RobotContainer {
                                 + (1 - DriveConstants.scaleY) * driverStick.getX()),
                         DriveConstants.scaleTurn, DriveConstants.scaleFowd),
                 driveSubsystem));
+        new JoystickButton(operatorStick, 1).whileHeld(new SetDistanceCommand(driveSubsystem));
         /*
          * JoystickButton driveBoostButton = new JoystickButton(driverStick,
          * Buttons.driveBoostToggle);

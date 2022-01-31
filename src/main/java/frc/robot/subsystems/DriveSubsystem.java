@@ -40,7 +40,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SparkMaxPIDController rightFrontPIDCon = rightFrontMotor.getPIDController();
   private SparkMaxPIDController rightBackPIDCon = rightBackMotor.getPIDController();
 
-  public final AnalogInput input = new AnalogInput(0);
+  public final AnalogInput ultrasonic = new AnalogInput(0);
   int smartMotionSlot = 0;
   int allowedErr;
   int minVel;
@@ -55,7 +55,6 @@ public class DriveSubsystem extends SubsystemBase {
   double maxVel = 4000;
   double maxAcc = 1500;
   double setPointDrive = 0;
-  int timer = 0;
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
 
@@ -82,91 +81,54 @@ public class DriveSubsystem extends SubsystemBase {
    */
 
   public void manualDrive(double y, double x, double scaleX, double scaleY) {
-    leftFrontPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-    leftBackPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-    rightFrontPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-    rightBackPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+    if (Math.abs(y) <= 0.1 && Math.abs(x) <= 0.05) {
+      leftFrontMotor.set(0);
+      rightFrontMotor.set(0);
+      leftBackMotor.set(0);
+      rightBackMotor.set(0);
+    } else {
+      leftFrontPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      leftBackPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      rightFrontPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      rightBackPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+    }
   }
+
   boolean test1 = false;
+
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2) {
     double yScale = ((Jy) * scale2);
     double xScale = (Jx) * scale1;
-    /*if (Jy < .1){
-      xScale = -xScale;
-    }*/
+    // Deacceleration
+    if (Jy == 0 && Jx == 0) {
+      // Returns 0 when velocity is small inorder to prevent movement of robot
+      return m_leftFrontEncoder.getVelocity() < DriveConstants.lowestVel ? 0
+          : m_leftFrontEncoder.getVelocity() * DriveConstants.deAccel;
+    }
     return xScale + yScale;
   }
+
   boolean test = false;
+
   public double setPointRight(double Jy, double Jx, double scale1, double scale2) {
     double xScale = (-(Jx) * scale1);
     double yScale = ((Jy) * scale2);
-    /*if (Jy < .1){
-      xScale = -xScale;
-    }*/
+    // Deacceleration
+    /*
+     * if (Jy == 0 && Jx == 0) {
+     * // Returns 0 when velocity is small inorder to prevent movement of robot
+     * return m_leftFrontEncoder.getVelocity() < DriveConstants.lowestVel ? 0
+     * : m_leftFrontEncoder.getVelocity() * DriveConstants.deAccel;
+     * }
+     */
     return -1 * (xScale + yScale);
   }
 
-  public int startTimer() {
-    return timer++;
-  }
-  public int startTimer1() {
-    return timer++;
-  }
-  public void resetTimer1() {
-    timer = 0;
-  }
-  public void resetTimer() {
-    timer = 0;
-  }
-
-  public void autoDrive(double displacement, double angle, double scaleLeft, double scaleRight) {
-    leftFrontPIDCon.setReference(autoSetPointLeft(displacement, angle, scaleLeft),
-        CANSparkMax.ControlType.kSmartMotion);
-    leftBackPIDCon.setReference(autoSetPointLeft(displacement, angle, scaleLeft), CANSparkMax.ControlType.kSmartMotion);
-    rightFrontPIDCon.setReference(autoSetPointRight(displacement, angle, scaleRight),
-        CANSparkMax.ControlType.kSmartMotion);
-    rightBackPIDCon.setReference(autoSetPointRight(displacement, angle, scaleRight),
-        CANSparkMax.ControlType.kSmartMotion);
-  }
-
-  /**
-   * Sets how far encoders need to move
-   * 
-   * @param setPointMotor The displacement of the robot to the ball
-   * @param angle         The angle from the field (pointing torwards the rump
-   *                      starting at zero) to the ball
-   * @param scale         The number you want to muilply the angleError with to
-   *                      increase or decrease setPoint
-   * @return if angleError is greater then zero then add to the sestpoint by
-   *         angleError times scale else setpoint
-   */
-  public double autoSetPointLeft(double displacement, double angle, double scale) {
-    /*
-     * if (angleError(angle) > 0){
-     * return (angleError(angle) * scale) + displacement;
-     * }
-     */
-    return displacement;
-  }
-
-  /**
-   * Sets how far encoders need to move
-   * 
-   * @param setPoint The displacement of the robot to the ball
-   * @param angle    The angle from the field (pointing torwards the rump starting
-   *                 at zero) to the ball
-   * @param scale    The number you want to muilply the angleError with to
-   *                 increase or decrease setPoint
-   * @return if angleError is less then zero then add to the sestpoint by
-   *         angleError times scale else setpoint
-   */
-  public double autoSetPointRight(double displacement, double angle, double scale) {
-    /*
-     * if (angleError(angle) < 0){
-     * return (angleError(angle) * scale) + displacement;
-     * }
-     */
-    return displacement;
+  public void autoDrive(double displacement) {
+    leftFrontPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
+    leftBackPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
+    rightFrontPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
+    rightBackPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
   }
 
   // Neeed to get rid of this soon
@@ -191,7 +153,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     double processVariable = leftBackEncoder.getVelocity();
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("UltraSonic", (input.getValue() * 0.034) / 2 * 2.54);
+    SmartDashboard.putNumber("UltraSonic", ((ultrasonic.getValue() / 29) / 2) * 2.54);
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
     SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());

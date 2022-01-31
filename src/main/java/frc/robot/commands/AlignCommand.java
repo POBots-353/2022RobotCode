@@ -7,15 +7,7 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
 
 /** An example command that uses an example subsystem. */
 public class AlignCommand extends CommandBase {
@@ -53,8 +45,11 @@ public class AlignCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.manualDrive(0.0, driveSubsystem.angleError(neededAngle1) * kP, 50, 0.0);
+    if (Math.abs(driveSubsystem.angleError(neededAngle1)) > 2){
+      driveSubsystem.manualDrive(0.0, driveSubsystem.angleError(neededAngle1) * kP, 35, 0.0);
+    }
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
