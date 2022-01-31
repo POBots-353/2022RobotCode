@@ -4,60 +4,49 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 
 /** An example command that uses an example subsystem. */
 public class AlignCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveSubsystem driveSubsystem;
   
-  // Use gyro declaration from above here
-
   // The gain for a simple P loop
   double kP = .4;
-  
+  double neededAngle = 0;
 
-  
-  // navX iniialization
-
-  double neededAngle1 = 0;
   /**
-  * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * Turns robot to angle
+   * @param subsystem
+   * @param neededAngle input wanted angle
    */
   public AlignCommand(DriveSubsystem subsystem, double neededAngle) {
     driveSubsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    neededAngle1 = neededAngle;
-    // Turns the robot to face the desired direction
-    
+    this.neededAngle = neededAngle;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
   
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(driveSubsystem.angleError(neededAngle1)) > 2){
-      driveSubsystem.manualDrive(0.0, driveSubsystem.angleError(neededAngle1) * kP, 35, 0.0);
-    }
+    driveSubsystem.manualDrive(0.0, driveSubsystem.angleError(neededAngle) * kP, 50, 0.0);
   }
 
-
-  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    driveSubsystem.resetEncoders();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (driveSubsystem.angleError(neededAngle) < 2){
+      return true;
+    }
     return false;
   }
 }

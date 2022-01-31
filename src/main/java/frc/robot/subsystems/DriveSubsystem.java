@@ -73,13 +73,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  /**
-   * Specifically meant to turn robot a certain number of degrees
-   * 
-   * @param y   Veritical motion
-   * @param rot turn motion
-   */
-
   public void manualDrive(double y, double x, double scaleX, double scaleY) {
     if (Math.abs(y) <= 0.1 && Math.abs(x) <= 0.05) {
       leftFrontMotor.set(0);
@@ -94,33 +87,15 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
-  boolean test1 = false;
-
   public double setPointLeft(double Jy, double Jx, double scale1, double scale2) {
     double yScale = ((Jy) * scale2);
     double xScale = (Jx) * scale1;
-    // Deacceleration
-    if (Jy == 0 && Jx == 0) {
-      // Returns 0 when velocity is small inorder to prevent movement of robot
-      return m_leftFrontEncoder.getVelocity() < DriveConstants.lowestVel ? 0
-          : m_leftFrontEncoder.getVelocity() * DriveConstants.deAccel;
-    }
     return xScale + yScale;
   }
-
-  boolean test = false;
 
   public double setPointRight(double Jy, double Jx, double scale1, double scale2) {
     double xScale = (-(Jx) * scale1);
     double yScale = ((Jy) * scale2);
-    // Deacceleration
-    /*
-     * if (Jy == 0 && Jx == 0) {
-     * // Returns 0 when velocity is small inorder to prevent movement of robot
-     * return m_leftFrontEncoder.getVelocity() < DriveConstants.lowestVel ? 0
-     * : m_leftFrontEncoder.getVelocity() * DriveConstants.deAccel;
-     * }
-     */
     return -1 * (xScale + yScale);
   }
 
@@ -148,6 +123,7 @@ public class DriveSubsystem extends SubsystemBase {
     p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
   }
+  
 
   @Override
   public void periodic() {
