@@ -53,10 +53,15 @@ public class ClimberSubsystem extends SubsystemBase {
   public SparkMaxPIDController m_leftInnerController = leftInnerMotor.getPIDController();
   public SparkMaxPIDController m_rightOuterController = rightOuterMotor.getPIDController();
   public SparkMaxPIDController m_rightInnerController = rightInnerMotor.getPIDController();
-  
-  int timer = 0;
-*/
-  /** Creates a new ClimberSubsystem. */
+
+  public double currentOuterReferencePoint = 0;
+  public double currentInnerReferencePoint = 0;
+
+  enum ArmExtendedStates {
+    UP, DOWN
+  }
+
+  /* Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
    /* initializePID(m_leftOuterController, m_leftOuterEncoder);
     initializePID(m_leftInnerController, m_leftInnerEncoder);
@@ -84,33 +89,47 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //timer += 0; //Update every 20ms
   }
 
-  public void doClimbCycle() {
-    /*double leftOuterPosition = m_leftOuterEncoder.getPosition();
-    double leftInnerPosition = m_leftInnerEncoder.getPosition();
-    double rightOuterPosition = m_rightOuterEncoder.getPosition();
-    double rightInnerPosition = m_rightInnerEncoder.getPosition();*/
-
+  public void setOuterArmsPosition(double position) {
+    m_leftOuterController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
+    m_rightOuterController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
+    currentOuterReferencePoint = position;
   }
 
-  public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
-    /*if (outerArmPneumatic.get() == Value.kForward) {
-      outerArmPneumatic.set(Value.kReverse);
+  public void setInnerArmsPosition(double position) {
+    m_leftInnerController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
+    m_rightInnerController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
+    currentInnerReferencePoint = position;
+  }
+
+  public void toggleOuterArms(ArmExtendedStates state) {
+    switch (state) {
+      case UP:
+        break;
+      case DOWN:
+        break;
+      default:
+        break;
+    }
+  }
+
+  public void oldToggleOuterArms() { // Reverses the toggle state of the outer solenoids
+    if (leftOuterArmPneumatic.get() == Value.kForward) {
+      leftOuterArmPneumatic.set(Value.kReverse);
       rightOuterPneumatic.set(Value.kReverse);
-    } else if (outerArmPneumatic.get() == Value.kReverse) {
-      outerArmPneumatic.set(Value.kForward);
+    } else if (leftOuterArmPneumatic.get() == Value.kReverse) {
+      leftOuterArmPneumatic.set(Value.kForward);
       rightOuterPneumatic.set(Value.kForward);
     }*/
   }
 
-  public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-    /*if (innerArmPneumatic.get() == Value.kForward) {
-      innerArmPneumatic.set(Value.kReverse);
+  public void oldToggleInnerArms() { // Reverses the toggle state of the inner solenoids
+    if (leftInnerArmPneumatic.get() == Value.kForward) {
+      leftInnerArmPneumatic.set(Value.kReverse);
       rightInnerPneumatic.set(Value.kReverse);
-    } else if (innerArmPneumatic.get() == Value.kReverse) {
-      innerArmPneumatic.set(Value.kForward);
+    } else if (leftInnerArmPneumatic.get() == Value.kReverse) {
+      leftInnerArmPneumatic.set(Value.kForward);
       rightInnerPneumatic.set(Value.kForward);
     }*/
   }
@@ -123,6 +142,5 @@ public class ClimberSubsystem extends SubsystemBase {
   /*public double getNumberOfClicks() {
     double numberOfClicks = getArcLength() / Constants.distancePerMotorClick;
     return numberOfClicks;
-  }*/
-
+  }
 }
