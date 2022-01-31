@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.Buttons;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.AutoNav;
+import frc.robot.commands.AutoNavCommand;
+import frc.robot.commands.AutoNavCommand;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.DumpBallCommand;
-import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.commands.SetDistanceCommand;
+import frc.robot.commands.AlignCommand;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -34,24 +35,23 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+ 
     // private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-    // private final BallTransitSubsystem ballTransitSubsystem = new
+    private final BallTransitSubsystem ballTransitSubsystem = new BallTransitSubsystem();
     // BallTransitSubsystem();
-    private final AutoNav m_autoCommand = new AutoNav(driveSubsystem);
+    private final AutoNavCommand m_autoCommand = new AutoNavCommand(driveSubsystem, ballTransitSubsystem);
 
-    public static final Joystick driverStick = new Joystick(1);
-    public static final Joystick operatorStick = new Joystick(0);
+    public static final Joystick driverStick = new Joystick(0);
+    public static final Joystick operatorStick = new Joystick(1);
 
     public RobotContainer() {
         // Configure the button bindings
-        double magicDriveEquationY = DriveConstants.scaleY * (Math.pow(driverStick.getY(), 3))
-                + (1 - DriveConstants.scaleY) * driverStick.getY();
-        double magicDriveEquationX = DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3))
-                + (1 - DriveConstants.scaleY) * driverStick.getX();
-
         driveSubsystem.setDefaultCommand(new RunCommand(
-                () -> driveSubsystem.manualDrive(-magicDriveEquationY,magicDriveEquationX,
-                        DriveConstants.scaleTurn, DriveConstants.scaleY),
+                () -> driveSubsystem.manualDrive(-(DriveConstants.scaleY * (Math.pow(driverStick.getY(), 3))
+                        + (1 - DriveConstants.scaleY) * driverStick.getY()),
+                        (DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3))
+                                + (1 - DriveConstants.scaleY) * driverStick.getX()),
+                        DriveConstants.scaleTurn, DriveConstants.scaleFowd),
                 driveSubsystem));
         configureButtonBindings();
     }
@@ -71,13 +71,15 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
+        new JoystickButton(driverStick, Buttons.inverseControl).whileHeld(new RunCommand(
+                () -> driveSubsystem.manualDrive(-(DriveConstants.scaleY * (Math.pow(driverStick.getY(), 3))
+                        + (1 - DriveConstants.scaleY) * driverStick.getY()),
+                        -(DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3))
+                                + (1 - DriveConstants.scaleY) * driverStick.getX()),
+                        DriveConstants.scaleTurn, DriveConstants.scaleFowd),
+                driveSubsystem));
+        new JoystickButton(operatorStick, 1).whileHeld(new SetDistanceCommand(driveSubsystem));
         /*
-         * new JoystickButton(driverStick, Buttons.inverseControl).whileHeld(new
-         * RunCommand(
-         * () -> driveSubsystem.manualDrive(driverStick.getY(), -driverStick.getX(),
-         * DriveConstants.scaleTurnSlow, DriveConstants.scaleYSlow),
-         * driveSubsystem));
-         * 
          * JoystickButton driveBoostButton = new JoystickButton(driverStick,
          * Buttons.driveBoostToggle);
          * driveBoostButton.whileHeld(new RunCommand(
@@ -92,23 +94,17 @@ public class RobotContainer {
          * driverStick.getX(),
          * DriveConstants.scaleTurnSlow, DriveConstants.scaleYSlow),
          * driveSubsystem));
-         * 
-         * // Turn to Angle Buttons
-         * new JoystickButton(driverStick, Buttons.turn45Toggle).whileHeld(new
-         * TurnToAngleCommand(driveSubsystem, 45));
-         * new JoystickButton(driverStick, Buttons.turn90Toggle).whileHeld(new
-         * TurnToAngleCommand(driveSubsystem, 90));
-         * new JoystickButton(driverStick, Buttons.turn180Toggle).whileHeld(new
-         * TurnToAngleCommand(driveSubsystem, 180));
-         * new JoystickButton(driverStick, Buttons.turnWithJoyStick)
-         * .whileHeld(new TurnToAngleCommand(driveSubsystem,
-         * driverStick.getDirectionDegrees()));
-         * /*
+         * */
+         // Turn to Angle Buttons
+         new JoystickButton(driverStick, Buttons.turn45Toggle).whileHeld(new AlignCommand(driveSubsystem, Constants.neededAngle45));
+         new JoystickButton(driverStick, Buttons.turn180Toggle).whileHeld(new AlignCommand(driveSubsystem, Constants.neededAngle180));
+         /*
          * new JoystickButton(operatorStick, Buttons.climberButton)
          * .whileHeld(new ClimberCommand(climberSubsystem));
          * new JoystickButton(operatorStick, Buttons.dumpBallToggle).whenPressed(new
          * DumpBallCommand(ballTransitSubsystem));
          */
+        new JoystickButton(driverStick, Buttons.turn90Toggle).whileHeld(new AlignCommand(driveSubsystem, Constants.neededAngle90));
     }
 
     /**
