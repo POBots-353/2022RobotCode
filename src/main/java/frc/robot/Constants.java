@@ -22,6 +22,12 @@ public final class Constants {
     public static int leftBackMotorID = 2;
     public static int rightFrontMotorID = 1;
     public static int rightBackMotorID = 3;
+    public static int motorArmID = 0;
+
+    //AutoAlign Constants
+    public static double neededAngle90 = -90;
+    public static double neededAngle45 = 45;
+    public static double neededAngle180 = -180;
 
     /* Climber Subsystem Constants */
     public static double climbingArmLength = 1.0;
@@ -43,12 +49,12 @@ public final class Constants {
 
     public static final class Buttons {
         //DriverStick
-        public static int inverseControl = 0;
+        public static int inverseControl = 1;
         public static int driveBoostToggle = 0;
         public static int driveSlowToggle = 0;
-        public static int turn45Toggle = 0;
-        public static int turn90Toggle = 0;
-        public static int turn180Toggle = 0;
+        public static int turn45Toggle = 2;
+        public static int turn90Toggle = 3;
+        public static int turn180Toggle = 4;
         public static int turnWithJoyStick = 0;
         //OperatorStick
         public static int climberButton = 0;
@@ -57,17 +63,24 @@ public final class Constants {
     }
 
     public static final class DriveConstants {
-        //Standard Drive
-        public static double scaleY = 4000;
-        public static double scaleTurn = 4000;
+        //Gear Ratio 8.41 to 1
+        //Joystick Scale
+        public static double scaleY = 0.5;
+        public static double scaleX = 0.3;
+        //Set speed scale
+        public static double scaleFowd = 4000;
+        public static double scaleTurn = 1000;
         //Slow Drive
         public static double scaleYSlow = 4000;
         public static double scaleTurnSlow = 4000;
         //Fast Drive
         public static double scaleYBoost = 4000;
         public static double scaleTurnBoost = 4000;
-
-        public static double conversionPosition = 1;
-        public static double conversionVelocity = 1;
+        //Encoder Converstion
+        public static double conversionPosition = 1/*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
+        public static double conversionVelocity = 1 /*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
+        //Deacceleration Constants
+        public static double deAccel = 0.98;
+        public static double lowestVel = 1;
     }
 }

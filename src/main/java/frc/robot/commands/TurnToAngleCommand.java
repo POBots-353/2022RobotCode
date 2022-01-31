@@ -47,13 +47,11 @@ AHRS gyro = new AHRS(SerialPort.Port.kUSB);
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TurnToAngleCommand(DriveSubsystem subsystem, double neededAngle) {
+  public TurnToAngleCommand(DriveSubsystem subsystem) {
     Shuffleboard.getTab("Angle").add(gyro);
     driveSubsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    double error = neededAngle - gyro.getAngle();
-
+    double error = Constants.neededAngle - gyro.getAngle(); 
     // Turns the robot to face the desired direction
     drive.tankDrive(kP * error, kP * error);
   }

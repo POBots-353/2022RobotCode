@@ -32,10 +32,12 @@ public class ClimberSubsystem extends SubsystemBase {
   double maxAcc = 1500;
   double setPointDrive = 0;
 
-  public DoubleSolenoid leftOuterArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 1);
-  public DoubleSolenoid leftInnerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
-  public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 9);
-  public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 10, 11);
+  //public DoubleSolenoid outerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 1); // PORT NUMBERS ARE
+                                                                                                    // UNKNOWN AT THIS
+                                                                                                    // TIME
+  /*public DoubleSolenoid innerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
+  public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 7, 1);
+  public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 1);
 
   public CANSparkMax leftOuterMotor = new CANSparkMax(9, MotorType.kBrushless);
   public CANSparkMax leftInnerMotor = new CANSparkMax(10, MotorType.kBrushless);
@@ -61,14 +63,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
   /* Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
-    initializePID(m_leftOuterController, m_leftOuterEncoder);
+   /* initializePID(m_leftOuterController, m_leftOuterEncoder);
     initializePID(m_leftInnerController, m_leftInnerEncoder);
     initializePID(m_rightOuterController, m_rightOuterEncoder);
     initializePID(m_rightInnerController, m_rightInnerEncoder);
+    */
   }
 
   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
-    p.setP(kP);
+   /* p.setP(kP);
     p.setI(kI);
     p.setD(kD);
     p.setIZone(kIz);
@@ -80,6 +83,7 @@ public class ClimberSubsystem extends SubsystemBase {
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
     h.setPositionConversionFactor(1);
     h.setVelocityConversionFactor(1);
+    */
   }
 
   @Override
@@ -117,7 +121,7 @@ public class ClimberSubsystem extends SubsystemBase {
     } else if (leftOuterArmPneumatic.get() == Value.kReverse) {
       leftOuterArmPneumatic.set(Value.kForward);
       rightOuterPneumatic.set(Value.kForward);
-    }
+    }*/
   }
 
   public void oldToggleInnerArms() { // Reverses the toggle state of the inner solenoids
@@ -127,15 +131,15 @@ public class ClimberSubsystem extends SubsystemBase {
     } else if (leftInnerArmPneumatic.get() == Value.kReverse) {
       leftInnerArmPneumatic.set(Value.kForward);
       rightInnerPneumatic.set(Value.kForward);
-    }
+    }*/
   }
 
-  public double getArcLength() {
-    double arcLength = (Constants.hookLengthToBase / Constants.climbingArmLength) * Constants.climbingArmLength;
+  /*public double getArcLength() {
+    /*double arcLength = (Constants.hookLengthToBase / Constants.climbingArmLength) * Constants.climbingArmLength;
     return arcLength;
-  }
+  }*/
 
-  public double getNumberOfClicks() {
+  /*public double getNumberOfClicks() {
     double numberOfClicks = getArcLength() / Constants.distancePerMotorClick;
     return numberOfClicks;
   }

@@ -176,7 +176,7 @@ public class ClimberCommand extends CommandBase {
     climberSubsystem.setInnerArmsPosition(climberSubsystem.currentInnerReferencePoint);
   }
 
-  // Called once the command ends or is interrupted.
+  // Called once{} the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     climberSubsystem.leftOuterMotor.set(0);
