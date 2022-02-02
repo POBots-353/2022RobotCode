@@ -37,7 +37,8 @@
 //   // UNKNOWN AT THIS
 //   // TIME
 
-//   public DoubleSolenoid innerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
+//   public DoubleSolenoid leftOuterArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 4);
+//   public DoubleSolenoid leftInnerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
 //   public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 7, 1);
 //   public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 1);
 

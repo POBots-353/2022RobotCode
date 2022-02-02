@@ -37,6 +37,9 @@
 //     double leftInnerPosition = climberSubsystem.m_leftInnerEncoder.getPosition();
 //     double rightOuterPosition = climberSubsystem.m_rightOuterEncoder.getPosition();
 //     double rightInnerPosition = climberSubsystem.m_rightInnerEncoder.getPosition();
+    
+//     climberSubsystem.setOuterArmsPosition(climberSubsystem.currentOuterReferencePoint);
+//     climberSubsystem.setInnerArmsPosition(climberSubsystem.currentInnerReferencePoint);
 
 //     switch (climbingStage) {
 //       case 0:
@@ -172,8 +175,6 @@
 //         /* If this function gets called then we're screwed */
 //         break;
 //     }
-//     climberSubsystem.setOuterArmsPosition(climberSubsystem.currentOuterReferencePoint);
-//     climberSubsystem.setInnerArmsPosition(climberSubsystem.currentInnerReferencePoint);
 //   }
 
 //   // Called once{} the command ends or is interrupted.
