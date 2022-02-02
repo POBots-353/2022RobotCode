@@ -8,7 +8,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class AlignCommand extends CommandBase {
+public class TurnToAngleCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveSubsystem driveSubsystem;
   
@@ -21,7 +21,7 @@ public class AlignCommand extends CommandBase {
    * @param subsystem
    * @param neededAngle input wanted angle
    */
-  public AlignCommand(DriveSubsystem subsystem, double neededAngle) {
+  public TurnToAngleCommand(DriveSubsystem subsystem, double neededAngle) {
     driveSubsystem = subsystem;
     addRequirements(subsystem);
     this.neededAngle = neededAngle;
@@ -33,8 +33,10 @@ public class AlignCommand extends CommandBase {
   
   @Override
   public void execute() {
-    driveSubsystem.manualDrive(0.0, driveSubsystem.angleError(neededAngle) * kP, 50, 0.0);
-  }
+    if (Math.abs(driveSubsystem.angleError(neededAngle)) > 1){
+     driveSubsystem.manualDrive(0.0, driveSubsystem.angleError(neededAngle) * kP, 50, 0.0);
+    }
+  } 
 
   @Override
   public void end(boolean interrupted) {
@@ -44,7 +46,7 @@ public class AlignCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (driveSubsystem.angleError(neededAngle) < 2){
+    if (Math.abs(driveSubsystem.angleError(neededAngle)) < 1){
       return true;
     }
     return false;

@@ -21,7 +21,25 @@ public class AutoNavCommand extends SequentialCommandGroup {
   public AutoNavCommand(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
     addCommands(
         //Test
-        new AutoDriveCommand(drive,50)
+        new SetDistanceCommand(drive, 80),
+
+        new TurnToAngleCommand(drive, -91),
+
+        new AutoDriveCommand(drive, 70),
+
+        new TurnToAngleCommand(drive, 91),
+
+        new AutoDriveCommand(drive, 70),
+
+        new TurnToAngleCommand(drive, 0),
+
+        new SetDistanceCommand(drive, 90),
+
+        new TurnToAngleCommand(drive, -91),
+
+        new AutoDriveCommand(drive, 150)
+        // new AutoDriveCommand(drive, -35)
+       // new AutoDriveCommand(drive, 50)*/
         // Turns to specified angle
         /*new AlignCommand(drive, 50), // Enter wanted angle
 

@@ -36,7 +36,7 @@ public class DumpBallCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if(interrupted){
-      ballTransitSubsystem.dropBall(false);
+      //ballTransitSubsystem.dropBall(false);
     }
   }
 

@@ -21,21 +21,21 @@ public class IntakeBallCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (ballTransitSubsystem.getlockUpPiston()){
+    /*if (ballTransitSubsystem.getlockUpPiston()){
       ballTransitSubsystem.toggleUpLock();
     }
     if(!ballTransitSubsystem.getlockDownPiston()){
       ballTransitSubsystem.transitDown();//Piston should be locked after this method is complete
     }else{
       ballTransitSubsystem.intake(true);
-    }
+    }*/
   }
 
   //Turns off the motor after the command ends
   @Override
   public void end(boolean interrupted) {
     if(interrupted){
-      ballTransitSubsystem.intake(false);
+      //ballTransitSubsystem.intake(false);
     }
   }
 

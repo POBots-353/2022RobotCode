@@ -102,14 +102,35 @@ public class DriveSubsystem extends SubsystemBase {
   public void autoDrive(double displacement) {
     leftFrontPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
     leftBackPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
-    rightFrontPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
-    rightBackPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
+    rightFrontPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
+    rightBackPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
   }
 
   // Neeed to get rid of this soon
   public double angleError(double expectedAngle) {
     return Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
+    //return 90 - m_gyro.getYaw();
   }
+
+  public double distanceError(double expectedDistance){
+    return  expectedDistance - (ultrasonic.getValue()*0.125);
+  }
+
+  public boolean pointReached(double displacement){
+    if (m_leftFrontEncoder.getPosition() >= Math.abs(displacement)-1){
+      resetEncoders();
+      return true;
+    }
+    return false;
+  }
+
+  public void resetEncoders(){
+    m_leftFrontEncoder.setPosition(0);
+    leftBackEncoder.setPosition(0);
+    m_rightFrontEncoder.setPosition(0);
+    rightBackEncoder.setPosition(0);
+  }
+
 
   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
     p.setP(kP);
@@ -129,7 +150,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     double processVariable = leftBackEncoder.getVelocity();
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("UltraSonic", ((ultrasonic.getValue() / 29) / 2) * 2.54);
+    SmartDashboard.putNumber("Gyro", m_gyro.getRoll());
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
     SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());

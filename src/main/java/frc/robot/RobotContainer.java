@@ -13,7 +13,7 @@ import frc.robot.commands.AutoNavCommand;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.DumpBallCommand;
 import frc.robot.commands.SetDistanceCommand;
-import frc.robot.commands.AlignCommand;
+import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -41,8 +41,8 @@ public class RobotContainer {
     // BallTransitSubsystem();
     private final AutoNavCommand m_autoCommand = new AutoNavCommand(driveSubsystem, ballTransitSubsystem);
 
-    public static final Joystick driverStick = new Joystick(0);
-    public static final Joystick operatorStick = new Joystick(1);
+    public static final Joystick driverStick = new Joystick(1);
+    public static final Joystick operatorStick = new Joystick(0);
 
     public RobotContainer() {
         // Configure the button bindings
@@ -78,7 +78,7 @@ public class RobotContainer {
                                 + (1 - DriveConstants.scaleY) * driverStick.getX()),
                         DriveConstants.scaleTurn, DriveConstants.scaleFowd),
                 driveSubsystem));
-        new JoystickButton(operatorStick, 1).whileHeld(new SetDistanceCommand(driveSubsystem));
+        new JoystickButton(operatorStick, 1).whileHeld(new SetDistanceCommand(driveSubsystem,196));
         /*
          * JoystickButton driveBoostButton = new JoystickButton(driverStick,
          * Buttons.driveBoostToggle);
@@ -96,15 +96,15 @@ public class RobotContainer {
          * driveSubsystem));
          * */
          // Turn to Angle Buttons
-         new JoystickButton(driverStick, Buttons.turn45Toggle).whileHeld(new AlignCommand(driveSubsystem, Constants.neededAngle45));
-         new JoystickButton(driverStick, Buttons.turn180Toggle).whileHeld(new AlignCommand(driveSubsystem, Constants.neededAngle180));
+         new JoystickButton(driverStick, Buttons.turn45Toggle).whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle45));
+         new JoystickButton(driverStick, Buttons.turn180Toggle).whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle180));
          /*
          * new JoystickButton(operatorStick, Buttons.climberButton)
          * .whileHeld(new ClimberCommand(climberSubsystem));
          * new JoystickButton(operatorStick, Buttons.dumpBallToggle).whenPressed(new
          * DumpBallCommand(ballTransitSubsystem));
          */
-        new JoystickButton(driverStick, Buttons.turn90Toggle).whileHeld(new AlignCommand(driveSubsystem, Constants.neededAngle90));
+        new JoystickButton(driverStick, Buttons.turn90Toggle).whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle90));
     }
 
     /**
