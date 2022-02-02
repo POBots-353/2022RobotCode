@@ -22,14 +22,14 @@ public class DumpBallCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (ballTransitSubsystem.getlockDownPiston()){
+    /*if (ballTransitSubsystem.getlockDownPiston()){
       ballTransitSubsystem.toggleDownLock();
     }
     if(!ballTransitSubsystem.getlockUpPiston()){
       ballTransitSubsystem.transitUp();//Should be locked after this method is complete
     }else{
       ballTransitSubsystem.dropBall(true);
-    }
+    }*/
   }
 
   // Called once the command ends or is interrupted.
