@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.BallTransitSubsystem;
@@ -20,24 +21,42 @@ public class AutoNavCommand extends SequentialCommandGroup {
    */
   public AutoNavCommand(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
     addCommands(
+      //new AutoDriveCommand(drive, -50)
+      /*new DumpBallCommand(transitSubsystem).withTimeout(1),
+      new AutoDriveCommand(drive, -20),
+      new TurnToAngleCommand(drive, 180),
+      new IntakeBallCommand(transitSubsystem).withInterrupt(transitSubsystem::getDownPiston),
+      new ParallelRaceGroup(
+        new AutoDriveCommand(drive, 10),
+        new IntakeBallCommand(transitSubsystem)
+        ),
+      new TurnToAngleCommand(drive, -90),
+      new ParallelRaceGroup(
+        new AutoDriveCommand(drive, 5),
+        new IntakeBallCommand(transitSubsystem)
+        ),
+      new TurnToAngleCommand(drive, 0),
+      //new IntakeBallCommand(transitSubsystem).withInterrupt(transitSubsystem::getUpPiston),
+      new AutoDriveCommand(drive, 10),
+      //new TurnToAngleCommand(drive, 0),
+      //new AutoDriveCommand(drive, 10),
+      new DumpBallCommand(transitSubsystem).withTimeout(4)
+*/
         //Test
-        new SetDistanceCommand(drive, 80),
+        /*new SetDistanceCommand(drive, 80),
 
         new TurnToAngleCommand(drive, -91),
 
-        new AutoDriveCommand(drive, 70),
+        new AutoDriveCommand(drive, 50),
 
-        new TurnToAngleCommand(drive, 91),
+        new TurnToAngleCommand(drive, 90),
 
-        new AutoDriveCommand(drive, 70),
+        new AutoDriveCommand(drive, 50),
 
         new TurnToAngleCommand(drive, 0),
 
-        new SetDistanceCommand(drive, 90),
-
-        new TurnToAngleCommand(drive, -91),
-
-        new AutoDriveCommand(drive, 150)
+        new AutoDriveCommand(drive, -25).withInterrupt(transitSubsystem::getDownPiston)*/
+        
         // new AutoDriveCommand(drive, -35)
        // new AutoDriveCommand(drive, 50)*/
         // Turns to specified angle
