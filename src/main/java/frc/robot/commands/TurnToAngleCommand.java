@@ -58,7 +58,7 @@ public class TurnToAngleCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(driveSubsystem.angleError(neededAngle)) < 1){
+    if (Math.abs(driveSubsystem.angleError(neededAngle)) < 1.5){
       return true;
     }
     return false;
