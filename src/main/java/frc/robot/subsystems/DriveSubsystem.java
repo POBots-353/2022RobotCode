@@ -117,7 +117,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public boolean pointReached(double displacement){
-    if (m_leftFrontEncoder.getPosition() >= Math.abs(displacement)-1){
+    if (Math.abs(m_leftFrontEncoder.getPosition()) >= Math.abs(displacement)-1){
       resetEncoders();
       return true;
     }
