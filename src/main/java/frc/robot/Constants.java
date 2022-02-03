@@ -66,7 +66,7 @@ public final class Constants {
         //Gear Ratio 8.41 to 1
         //Joystick Scale
         public static double scaleY = 0.5;
-        public static double scaleX = 0.4;
+        public static double scaleX = 0.3;
         //Set speed scale
         public static double scaleFowd = 4000;
         public static double scaleTurn = 1000;

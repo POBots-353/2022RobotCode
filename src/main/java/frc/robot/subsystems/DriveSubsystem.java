@@ -74,7 +74,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void manualDrive(double x, double y, double scaleX, double scaleY) {
-    if (Math.abs(x) <= 0.1 && Math.abs(y) <= 0.05) {
+    if (Math.abs(x) <= 0.5 && Math.abs(y) <= 0.01) {
       leftFrontMotor.set(0);
       rightFrontMotor.set(0);
       leftBackMotor.set(0);
@@ -110,6 +110,11 @@ public class DriveSubsystem extends SubsystemBase {
   public double angleError(double expectedAngle) {
     return Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
     //return 90 - m_gyro.getYaw();
+  }
+
+  public void resetGyro(){
+    m_gyro.calibrate();
+    m_gyro.reset();
   }
 
   public double distanceError(double expectedDistance){
