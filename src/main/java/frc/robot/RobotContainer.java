@@ -47,15 +47,15 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         driveSubsystem.setDefaultCommand(new RunCommand(
-                () -> driveSubsystem.manualDrive(-(DriveConstants.scaleY * (Math.pow(driverStick.getY(), 3))
+                () -> driveSubsystem.manualDrive((DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3))
+                        + (1 - DriveConstants.scaleY) * driverStick.getX()),
+                -(DriveConstants.scaleY * (Math.pow(driverStick.getY(), 3))
                         + (1 - DriveConstants.scaleY) * driverStick.getY()),
-                        (DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3))
-                                + (1 - DriveConstants.scaleY) * driverStick.getX()),
-                        DriveConstants.scaleTurn, DriveConstants.scaleFowd),
+                DriveConstants.scaleTurn, DriveConstants.scaleFowd),
                 driveSubsystem));
         configureButtonBindings();
     }
-
+    
     /*
      * The buttons will be shecduled before the default Command and
      * if the buttons that are activated have the same subsystem requirements as the
