@@ -73,29 +73,29 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  public void manualDrive(double y, double x, double scaleX, double scaleY) {
-    if (Math.abs(y) <= 0.1 && Math.abs(x) <= 0.05) {
+  public void manualDrive(double x, double y, double scaleX, double scaleY) {
+    if (Math.abs(x) <= 0.1 && Math.abs(y) <= 0.05) {
       leftFrontMotor.set(0);
       rightFrontMotor.set(0);
       leftBackMotor.set(0);
       rightBackMotor.set(0);
     } else {
-      leftFrontPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-      leftBackPIDCon.setReference(setPointLeft(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-      rightFrontPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-      rightBackPIDCon.setReference(setPointRight(y, x, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      leftFrontPIDCon.setReference(setPointLeft(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      leftBackPIDCon.setReference(setPointLeft(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      rightFrontPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      rightBackPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     }
   }
 
-  public double setPointLeft(double Jy, double Jx, double scale1, double scale2) {
-    double yScale = ((Jy) * scale2);
-    double xScale = (Jx) * scale1;
+  public double setPointLeft(double Jx, double Jy, double scaleX, double scaleY) {
+    double yScale = ((Jy) * scaleY);
+    double xScale = (Jx) * scaleX;
     return xScale + yScale;
   }
 
-  public double setPointRight(double Jy, double Jx, double scale1, double scale2) {
-    double xScale = (-(Jx) * scale1);
-    double yScale = ((Jy) * scale2);
+  public double setPointRight(double Jx, double Jy, double scaleX, double scaleY) {
+    double xScale = (-(Jx) * scaleX);
+    double yScale = ((Jy) * scaleY);
     return -1 * (xScale + yScale);
   }
 
