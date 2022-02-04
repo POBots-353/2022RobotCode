@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class AutoNavCommand extends SequentialCommandGroup {
+public class AutoPositionOneCommand extends SequentialCommandGroup {
   /**
    * This is where most of the auto code should go.
    * It should be built by using commands that are running seqentially
@@ -19,7 +19,7 @@ public class AutoNavCommand extends SequentialCommandGroup {
    * @param drive
    * @param transitSubsystem
    */
-  public AutoNavCommand(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
+  public AutoPositionOneCommand(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
     addCommands(
       //new AutoDriveCommand(drive, -50),
       //new RunCommand(()-> drive.resetGyro(), drive).withTimeout(2)

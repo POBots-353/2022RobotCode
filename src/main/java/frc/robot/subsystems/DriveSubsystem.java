@@ -105,9 +105,8 @@ public class DriveSubsystem extends SubsystemBase {
     rightFrontPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
     rightBackPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
   }
-
   // Neeed to get rid of this soon
-  public double angleError(double expectedAngle) {
+  public double angleError(double expectedAngle){
     double angleSubtract = Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
     if (angleSubtract > 180) {
       return angleSubtract - 360;

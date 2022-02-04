@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.Buttons;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.AutoNavCommand;
-import frc.robot.commands.AutoNavCommand;
+import frc.robot.commands.AutoPositionOneCommand;
 //import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.DumpBallCommand;
 import frc.robot.commands.SetDistanceCommand;
@@ -39,7 +38,7 @@ public class RobotContainer {
     // private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     private final BallTransitSubsystem ballTransitSubsystem = new BallTransitSubsystem();
     // BallTransitSubsystem();
-    private final AutoNavCommand m_autoCommand = new AutoNavCommand(driveSubsystem, ballTransitSubsystem);
+    private final AutoPositionOneCommand autoPostion1 = new AutoPositionOneCommand(driveSubsystem, ballTransitSubsystem);
 
     public static final Joystick driverStick = new Joystick(1);
     public static final Joystick operatorStick = new Joystick(0);
@@ -114,6 +113,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return m_autoCommand;
+        return autoPostion1;
     }
+    
 }
