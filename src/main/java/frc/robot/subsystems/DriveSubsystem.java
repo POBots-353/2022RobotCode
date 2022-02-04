@@ -105,51 +105,41 @@ public class DriveSubsystem extends SubsystemBase {
     rightFrontPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
     rightBackPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
   }
-
-  /* TEMPORARY */
-
   // Neeed to get rid of this soon
   public double angleError(double expectedAngle){
     double angleSubtract = Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
-    if(angleSubtract > 180){
+    if (angleSubtract > 180) {
       return angleSubtract - 360;
-    }
-    else if(angleSubtract < -180) {
+    } else if (angleSubtract < -180) {
       return angleSubtract + 360;
-    }
-    else{
+    } else {
       return angleSubtract;
     }
-    
   }
 
-
-  
-
-  public void resetGyro(){
+  public void resetGyro() {
     m_gyro.calibrate();
     m_gyro.reset();
   }
 
-  public double distanceError(double expectedDistance){
-    return  expectedDistance - (ultrasonic.getValue() * 0.125);
+  public double distanceError(double expectedDistance) {
+    return expectedDistance - (ultrasonic.getValue() * 0.125);
   }
 
-  public boolean pointReached(double displacement){
-    if (Math.abs(m_leftFrontEncoder.getPosition()) >= Math.abs(displacement)-1){
+  public boolean pointReached(double displacement) {
+    if (Math.abs(m_leftFrontEncoder.getPosition()) >= Math.abs(displacement) - 1) {
       resetEncoders();
       return true;
     }
     return false;
   }
 
-  public void resetEncoders(){
+  public void resetEncoders() {
     m_leftFrontEncoder.setPosition(0);
     leftBackEncoder.setPosition(0);
     m_rightFrontEncoder.setPosition(0);
     rightBackEncoder.setPosition(0);
   }
-
 
   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
     p.setP(kP);
@@ -163,7 +153,6 @@ public class DriveSubsystem extends SubsystemBase {
     p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
   }
-  
 
   @Override
   public void periodic() {
@@ -176,7 +165,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putNumber("Output", leftBackMotor.getAppliedOutput());
-    
   }
 
   @Override
