@@ -106,11 +106,26 @@ public class DriveSubsystem extends SubsystemBase {
     rightBackPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
   }
 
+  /* TEMPORARY */
+  double angleSubtract, angleAdd;
+
   // Neeed to get rid of this soon
   public double angleError(double expectedAngle) {
-    return Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
-    //return 90 - m_gyro.getYaw();
+    double angleSubtract = Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
+    if(angleSubtract > 180){
+      return angleSubtract - 360;
+    }
+    else if(angleSubtract < -180) {
+      return angleSubtract + 360;
+    }
+    else{
+      return angleSubtract;
+    }
+    
   }
+
+
+  
 
   public void resetGyro(){
     m_gyro.calibrate();
@@ -118,7 +133,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double distanceError(double expectedDistance){
-    return  expectedDistance - (ultrasonic.getValue()*0.125);
+    return  expectedDistance - (ultrasonic.getValue() * 0.125);
   }
 
   public boolean pointReached(double displacement){
@@ -162,6 +177,9 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putNumber("Output", leftBackMotor.getAppliedOutput());
+    SmartDashboard.putNumber("Subtract", angleSubtract);
+    SmartDashboard.putNumber("Add", angleAdd);
+    
   }
 
   @Override

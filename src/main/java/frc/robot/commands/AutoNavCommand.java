@@ -21,8 +21,10 @@ public class AutoNavCommand extends SequentialCommandGroup {
    */
   public AutoNavCommand(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
     addCommands(
+      //new AutoDriveCommand(drive, -50),
+      //new RunCommand(()-> drive.resetGyro(), drive).withTimeout(2)
       //new AutoDriveCommand(drive, -50)
-      /*new DumpBallCommand(transitSubsystem).withTimeout(1),
+      new DumpBallCommand(transitSubsystem).withTimeout(1),
       new AutoDriveCommand(drive, -20),
       new TurnToAngleCommand(drive, 180),
       new IntakeBallCommand(transitSubsystem).withInterrupt(transitSubsystem::getDownPiston),
@@ -41,7 +43,7 @@ public class AutoNavCommand extends SequentialCommandGroup {
       //new TurnToAngleCommand(drive, 0),
       //new AutoDriveCommand(drive, 10),
       new DumpBallCommand(transitSubsystem).withTimeout(4)
-*/
+
         //Test
         /*new SetDistanceCommand(drive, 80),
 
