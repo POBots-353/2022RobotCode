@@ -107,10 +107,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /* TEMPORARY */
-  double angleSubtract, angleAdd;
 
   // Neeed to get rid of this soon
-  public double angleError(double expectedAngle) {
+  public double angleError(double expectedAngle){
     double angleSubtract = Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
     if(angleSubtract > 180){
       return angleSubtract - 360;
@@ -177,8 +176,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putNumber("Output", leftBackMotor.getAppliedOutput());
-    SmartDashboard.putNumber("Subtract", angleSubtract);
-    SmartDashboard.putNumber("Add", angleAdd);
     
   }
 
