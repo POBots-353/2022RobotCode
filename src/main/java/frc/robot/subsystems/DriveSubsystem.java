@@ -157,7 +157,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     double processVariable = leftBackEncoder.getVelocity();
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("UltraSonic", ultrasonic.getValue() * 0.125);
     SmartDashboard.putNumber("Gyro", m_gyro.getRoll());
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());

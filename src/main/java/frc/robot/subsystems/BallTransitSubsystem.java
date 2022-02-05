@@ -28,8 +28,8 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
 public class BallTransitSubsystem extends SubsystemBase {
-    public final CANSparkMax intakeMotor = new CANSparkMax(6, MotorType.kBrushless);
-    public final CANSparkMax shooterMotor = new CANSparkMax(8, MotorType.kBrushless);
+    private final CANSparkMax intakeMotor = new CANSparkMax(6, MotorType.kBrushless);
+    private final CANSparkMax shooterMotor = new CANSparkMax(8, MotorType.kBrushless);
     // public final CANSparkMax armIntakeMotor = new
     // CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
     // private SparkMaxPIDController intakeMotorPIDCon =

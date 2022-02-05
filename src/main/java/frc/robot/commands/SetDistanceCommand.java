@@ -34,7 +34,6 @@ public class SetDistanceCommand extends CommandBase {
     if (Math.abs(driveSubsystem.distanceError(neededDistance)) > 3) {
       driveSubsystem.manualDrive(0.0, -driveSubsystem.distanceError(neededDistance) * 0.5, 0.0, 35);
     }
-    SmartDashboard.putNumber("UltraSonic", driveSubsystem.ultrasonic.getValue() * 0.125);
   }
 
   // Called once the command ends or is interrupted.
