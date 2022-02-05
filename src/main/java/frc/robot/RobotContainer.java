@@ -120,7 +120,7 @@ public class RobotContainer {
                  */
                 //Error of ending shooter motor
                 new JoystickButton(operatorStick, Buttons.dumpBallToggle)
-                                .whenPressed(new DumpBallCommand(ballTransitSubsystem));
+                                .whileHeld(new DumpBallCommand(ballTransitSubsystem));
 
                 new JoystickButton(driverStick, Buttons.turn90Toggle)
                                 .whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle90));
