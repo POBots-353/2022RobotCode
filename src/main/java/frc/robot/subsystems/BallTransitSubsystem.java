@@ -58,91 +58,93 @@ public class BallTransitSubsystem extends SubsystemBase {
     // double setPointDrive = 0;
     public boolean downPistonPosition = false;
     public boolean upPistonPosition = true;
+
     /** Creates a new BallTransitSubsystem. */
     public BallTransitSubsystem() {
-        //initializePID(intakeMotorPIDCon, intakeEncoder);
+        // initializePID(intakeMotorPIDCon, intakeEncoder);
     }
-    public void toggleShooter(boolean y){
-        if (y){
-            shooterMotor.set(-0.2);
-        }else{
+
+    public void toggleShooter(boolean y) {
+        if (y) {
+            shooterMotor.set(-0.3);
+        } else {
             shooterMotor.set(0);
         }
     }
-    public void toggleIntake(boolean y){
-        if(y){
+
+    public void toggleIntake(boolean y) {
+        if (y) {
             intakeMotor.set(0.2);
-        }else{
+        } else {
             intakeMotor.set(0);
         }
-        
+
     }
-    public void toggleDownLock(){
-        if (downPistonPosition){
+
+    public void toggleDownLock() {
+        if (downPistonPosition) {
             downPistonPosition = false;
-        }else if(downPistonPosition != true){
+        } else if (downPistonPosition != true) {
             downPistonPosition = true;
         }
     }
-    public void toggleUpLock(){
-        if (upPistonPosition){
+
+    public void toggleUpLock() {
+        if (upPistonPosition) {
             upPistonPosition = false;
-        }else if(upPistonPosition != true){
+        } else if (upPistonPosition != true) {
             upPistonPosition = true;
         }
     }
-    public boolean getDownPiston(){
+
+    public boolean getDownPiston() {
         return downPistonPosition;
     }
-    public boolean getUpPiston(){
+
+    public boolean getUpPiston() {
         return upPistonPosition;
     }
 
-    // /**
-    // * Sets how far encoders need to move
-    // * @param setPointMotor The displacement of the robot to the ball
-    // * @param angle The angle from the field (pointing torwards the rump starting
-    // at zero) to the ball
-    // * @param scale The number you want to muilply the angleError with to increase
-    // or decrease setPoint
-    // * @return if angleError is greater then zero then add to the sestpoint by
-    // angleError times scale else setpoint
-    // */
-
-    // public void lockUpPiston(){
-    // if (toplimitSwitch.get()) {
-    // upperPiston.set(Value.kForward);
-    // }
-    // // if top limit switch is hit, extends piston to lock
-    // }
-    // public void unlockUpPiston() {
-    // upperPiston.set(Value.kReverse);
-    // intakeMotorPIDCon.setReference(-1.0, CANSparkMax.ControlType.kSmartMotion);
-    // // retracts top piston and moves arm down
-    // }
-    // public void lockDownPiston(){
-    // if (lowlimitSwitch.get()) {
-    // lowerPiston.set(Value.kForward);
-    // // if bottom limit switch is hit, extends piston to lock
-    // }
-    // }
-    // public void unlockDownPiston() {
-    // lowerPiston.set(Value.kReverse);
-    // intakeMotorPIDCon.setReference(1.0, CANSparkMax.ControlType.kSmartMotion);
-    // // retracts bottom piston and moves arm up
-    // }
-    // public void transitUp() {
-    // intakeMotorPIDCon.setReference(1.0, CANSparkMax.ControlType.kSmartMotion);
-    // }
-    // public void transitDown() {
-    // intakeMotorPIDCon.setReference(-1.0, CANSparkMax.ControlType.kSmartMotion);
-    // }
-    // public void dropBall(){
-
-    // }
-    // public void intake(){
-
-    // }
+    /*
+     * public void toggleUpPiston() {
+     * if (toplimitSwitch.get()) {
+     * upperPiston.set(Value.kForward);
+     * }else{
+     * upperPiston.set(Value.kReverse);
+     * }
+     * // if top limit switch is hit, extends piston to lock
+     * }
+     * 
+     * public void toggleDownPiston() {
+     * if (lowlimitSwitch.get()) {
+     * lowerPiston.set(Value.kForward);
+     * // // if bottom limit switch is hit, extends piston to lock
+     * }else{
+     * lowerPiston.set(Value.kReverse);
+     * }
+     * }
+     * public boolean getDownPiston(){
+     * return lowerPiston.get();
+     * }
+     * public boolean getUpPiston(){
+     * return upperPiston.get();
+     * }
+     * public void transitUp() {
+     * intakeMotorPIDCon.setReference(1.0, CANSparkMax.ControlType.kSmartMotion);
+     * }
+     * 
+     * public void transitDown() {
+     * intakeMotorPIDCon.setReference(-1.0, CANSparkMax.ControlType.kSmartMotion);
+     * }
+     * 
+     * public void dropBall() {
+     * 
+     * }
+     * 
+     * public void intake() {
+     * 
+     * }
+     */
     // public void initializePID(SparkMaxPIDController p, RelativeEncoder h){
     // p.setP(kP);
     // p.setI(kI);

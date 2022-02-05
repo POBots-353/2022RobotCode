@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An example command that uses an example subsystem. */
 public class TurnToAngleCommand extends CommandBase {
@@ -45,6 +46,7 @@ public class TurnToAngleCommand extends CommandBase {
   
   @Override
   public void execute() {
+    neededAngle = SmartDashboard.getNumber("Angle Wanted", -90);
     if (Math.abs(driveSubsystem.angleError(neededAngle)) > 1){
      driveSubsystem.manualDrive(driveSubsystem.angleError(neededAngle) * kP, 0.0, 50, 0.0);
     }

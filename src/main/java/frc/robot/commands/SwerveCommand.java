@@ -27,7 +27,7 @@ public class SwerveCommand extends CommandBase {
   @Override
   public void execute() {
     if (Math.abs(driveSubsystem.distanceError(neededDistance)) > 3 && Math.abs(driveSubsystem.angleError(neededAngle)) > 1) {
-      driveSubsystem.manualDrive(driveSubsystem.angleError(neededAngle) * 0.4, -driveSubsystem.distanceError(neededDistance) * 0.5, 50, 35);
+      driveSubsystem.manualDrive(driveSubsystem.angleError(neededAngle) * 0.4, -driveSubsystem.distanceError(neededDistance) * 0.5, 15, 20);
     }
   }
 

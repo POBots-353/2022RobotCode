@@ -59,7 +59,7 @@ public final class Constants {
         //OperatorStick
         public static int climberButton = 0;
         public static int stopClimb = 0;
-        public static int dumpBallToggle = 0;
+        public static int dumpBallToggle = 1;
     }
 
     public static final class DriveConstants {

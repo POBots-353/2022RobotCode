@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class AutoPositionOneCommand extends SequentialCommandGroup {
+public class TwoBallAutoCommand extends SequentialCommandGroup {
   /**
    * This is where most of the auto code should go.
    * It should be built by using commands that are running seqentially
@@ -19,12 +19,12 @@ public class AutoPositionOneCommand extends SequentialCommandGroup {
    * @param drive
    * @param transitSubsystem
    */
-  public AutoPositionOneCommand(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
+  public TwoBallAutoCommand(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
     addCommands(
-      //new AutoDriveCommand(drive, -50),
-      //new RunCommand(()-> drive.resetGyro(), drive).withTimeout(2)
+      new IntakeBallCommand(transitSubsystem)
+      //new RunCommand(()-> drive.resetGyro(), drive)
       //new AutoDriveCommand(drive, -50)
-      new DumpBallCommand(transitSubsystem).withTimeout(1),
+      /*new DumpBallCommand(transitSubsystem).withTimeout(1),
       new AutoDriveCommand(drive, -20),
       new TurnToAngleCommand(drive, 180),
       new IntakeBallCommand(transitSubsystem).withInterrupt(transitSubsystem::getDownPiston),
@@ -42,7 +42,7 @@ public class AutoPositionOneCommand extends SequentialCommandGroup {
       new AutoDriveCommand(drive, 10),
       //new TurnToAngleCommand(drive, 0),
       //new AutoDriveCommand(drive, 10),
-      new DumpBallCommand(transitSubsystem).withTimeout(4)
+      new DumpBallCommand(transitSubsystem).withTimeout(4)*/
 
         //Test
         /*new SetDistanceCommand(drive, 80),

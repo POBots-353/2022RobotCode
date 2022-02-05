@@ -110,8 +110,10 @@ public class DriveSubsystem extends SubsystemBase {
     double angleSubtract = Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
     if (angleSubtract > 180) {
       return angleSubtract - 360;
+
     } else if (angleSubtract < -180) {
       return angleSubtract + 360;
+
     } else {
       return angleSubtract;
     }
@@ -157,8 +159,8 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     double processVariable = leftBackEncoder.getVelocity();
-    SmartDashboard.putNumber("UltraSonic", ultrasonic.getValue() * 0.125);
-    SmartDashboard.putNumber("Gyro", m_gyro.getRoll());
+    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Ultrasonic", ultrasonic.getValue() * 0.125);
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
     SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());
