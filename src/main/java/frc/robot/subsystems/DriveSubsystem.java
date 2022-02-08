@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import javax.imageio.ImageTypeSpecifier;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -14,15 +12,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.AutoDriveCommand;
 
 public class DriveSubsystem extends SubsystemBase {
   private final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.leftFrontMotorID, MotorType.kBrushless);
@@ -56,10 +51,10 @@ public class DriveSubsystem extends SubsystemBase {
   double maxAcc = 1500;
   double setPointDrive = 0;
   // The gyro sensor
-  private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
+  public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
 
   public DriveSubsystem() {
-    m_gyro.reset();
+    resetGyro();
     Shuffleboard.getTab("Example tab").add(m_gyro);
     leftFrontMotor.restoreFactoryDefaults();
     leftBackMotor.restoreFactoryDefaults();
@@ -69,8 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
     initializePID(leftBackPIDCon, leftBackEncoder);
     initializePID(rightFrontPIDCon, m_rightFrontEncoder);
     initializePID(rightBackPIDCon, rightBackEncoder);
-    leftBackEncoder.setPosition(0);
-
+    resetEncoders();
   }
 
   public void manualDrive(double x, double y, double scaleX, double scaleY) {
@@ -167,6 +161,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putNumber("Output", leftBackMotor.getAppliedOutput());
+    SmartDashboard.putBoolean("Collision Detected?", AutoDriveCommand.collisionDetected);
   }
 
   @Override

@@ -15,16 +15,15 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.TwoBallAutoCommand;
 //import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.DumpBallCommand;
+import frc.robot.commands.IntakeBallCommand;
 import frc.robot.commands.OneBallAutoCommand;
-import frc.robot.commands.OneBallAutoCommand;
-import frc.robot.commands.SetDistanceCommand;
 import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.subsystems.BallTransitSubsystem;
 //import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -92,7 +91,8 @@ public class RobotContainer {
                                                                 + (1 - DriveConstants.scaleY) * driverStick.getX()),
                                                 DriveConstants.scaleTurn, DriveConstants.scaleFowd),
                                 driveSubsystem));
-                //new JoystickButton(operatorStick, 1).whileHeld(new SetDistanceCommand(driveSubsystem, 196));
+                // new JoystickButton(operatorStick, 1).whileHeld(new
+                // SetDistanceCommand(driveSubsystem, 196));
                 /*
                  * JoystickButton driveBoostButton = new JoystickButton(driverStick,
                  * Buttons.driveBoostToggle);
@@ -118,9 +118,17 @@ public class RobotContainer {
                  * new JoystickButton(operatorStick, Buttons.climberButton)
                  * .whileHeld(new ClimberCommand(climberSubsystem));
                  */
-                //Error of ending shooter motor
                 new JoystickButton(operatorStick, Buttons.dumpBallToggle)
-                                .whileHeld(new DumpBallCommand(ballTransitSubsystem));
+                                .whileHeld(new SequentialCommandGroup(new DumpBallCommand(ballTransitSubsystem),
+                                                new StartEndCommand(() -> ballTransitSubsystem.toggleShooter(true),
+                                                                () -> ballTransitSubsystem.toggleShooter(false),
+                                                                ballTransitSubsystem)));
+
+                new JoystickButton(operatorStick, Buttons.intakeBallToggle)
+                                .whileHeld(new SequentialCommandGroup(new IntakeBallCommand(ballTransitSubsystem),
+                                                new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
+                                                                () -> ballTransitSubsystem.toggleIntake(false),
+                                                                ballTransitSubsystem)));
 
                 new JoystickButton(driverStick, Buttons.turn90Toggle)
                                 .whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle90));

@@ -13,7 +13,10 @@ public class AutoDriveCommand extends CommandBase {
    * it was built so that it can end after a condition is reached
    * and make it easier to code autoNav
    */
-
+  public static boolean collisionDetected = false;
+  double lastLinearAccelerationY;
+  final static double kCollisionThreshold_DeltaG = 0.5f;
+  
   private final DriveSubsystem driveSubsystem;
   private double displacement;
 
@@ -33,7 +36,18 @@ public class AutoDriveCommand extends CommandBase {
   //Moves Robot to set position
   @Override
   public void execute() {
+    //Moves Robo to specfic Distance
+    //(Rotations/8.41)*2*pi* (Radius of the wheel) (Inches or meters) = Displacement
+    //(Displacement/ (2*pi* radius of the wheel)) * 8.41 = Rotations
+    //ONLY INPUT ROTATIONS 
     driveSubsystem.autoDrive(displacement);
+    double currLinearAccelerationY = DriveSubsystem.m_gyro.getWorldLinearAccelY();
+    double jerkY = currLinearAccelerationY - lastLinearAccelerationY;
+    lastLinearAccelerationY = currLinearAccelerationY;
+
+    if(Math.abs(jerkY) > kCollisionThreshold_DeltaG){
+      collisionDetected = true;
+    }
   }
 
   @Override

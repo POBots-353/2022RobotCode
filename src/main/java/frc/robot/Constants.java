@@ -54,6 +54,7 @@ public final class Constants {
         public static int inverseControl = 1;
         public static int driveBoostToggle = 0;
         public static int driveSlowToggle = 0;
+
         public static int turn45Toggle = 2;
         public static int turn90Toggle = 3;
         public static int turn180Toggle = 4;
@@ -62,6 +63,7 @@ public final class Constants {
         public static int climberButton = 0;
         public static int stopClimb = 0;
         public static int dumpBallToggle = 1;
+        public static int intakeBallToggle = 2;
     }
 
     public static final class DriveConstants {
