@@ -37,8 +37,8 @@
 //   // UNKNOWN AT THIS
 //   // TIME
 
-//   public DoubleSolenoid leftOuterArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 4);
-//   public DoubleSolenoid leftInnerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
+//   public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 4);
+//   public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
 //   public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 7, 1);
 //   public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 1);
 
@@ -68,7 +68,6 @@
 //   }
 
 //   /* Creates a new ClimberSubsystem. */
-
 //   public ClimberSubsystem() {
 //     initializePID(m_leftOuterController, m_leftOuterEncoder);
 //     initializePID(m_leftInnerController, m_leftInnerEncoder);
@@ -97,14 +96,14 @@
 //   }
 
 //   public void setOuterArmsPosition(double position) {
-//     m_leftOuterController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
-//     m_rightOuterController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
+//     m_leftOuterController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
+//     m_rightOuterController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
 //     currentOuterReferencePoint = position;
 //   }
 
 //   public void setInnerArmsPosition(double position) {
-//     m_leftInnerController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
-//     m_rightInnerController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
+//     m_leftInnerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
+//     m_rightInnerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
 //     currentInnerReferencePoint = position;
 //   }
 
@@ -120,23 +119,13 @@
 //   }
 
 //   public void oldToggleOuterArms() { // Reverses the toggle state of the outer solenoids
-//     if (leftOuterArmPneumatic.get() == Value.kForward) {
-//       leftOuterArmPneumatic.set(Value.kReverse);
-//       rightOuterPneumatic.set(Value.kReverse);
-//     } else if (leftOuterArmPneumatic.get() == Value.kReverse) {
-//       leftOuterArmPneumatic.set(Value.kForward);
-//       rightOuterPneumatic.set(Value.kForward);
-//     }*/
+//     leftOuterPneumatic.toggle();
+//     rightOuterPneumatic.toggle();
 //   }
 
 //   public void oldToggleInnerArms() { // Reverses the toggle state of the inner solenoids
-//     if (leftInnerArmPneumatic.get() == Value.kForward) {
-//       leftInnerArmPneumatic.set(Value.kReverse);
-//       rightInnerPneumatic.set(Value.kReverse);
-//     } else if (leftInnerArmPneumatic.get() == Value.kReverse) {
-//       leftInnerArmPneumatic.set(Value.kForward);
-//       rightInnerPneumatic.set(Value.kForward);
-//     }*/
+//     leftInnerPneumatic.toggle();
+//     rightInnerPneumatic.toggle();
 //   }
 
 //   public double getArcLength() {

@@ -34,6 +34,8 @@ public final class Constants {
     public static double distancePerMotorClick = 1.0;
     public static double hookLengthToBase = 1.0;
 
+    public static double armReferenceScale = 1.0;
+
     public static int pneumaticTimerDelay = 150;
     public static int timerDelayBetweenSteps = 1;
 

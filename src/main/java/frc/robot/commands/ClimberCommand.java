@@ -57,6 +57,7 @@
 //         if (timerCompleted()) {
 //           resetTimer();
 //           // TODO - harass jason to add a drive thing
+//           /* DRIVE THING */
 //           startTimer(Constants.timerDelayBetweenSteps);
 //           climbingStage = 2;
 //         }
@@ -127,14 +128,14 @@
 //          * transversal bar
 //          */
 //         if (leftOuterPosition == Constants.firstExtendSetPoint
-//             && climberSubsystem.leftOuterArmPneumatic.get() == Value.kReverse
+//             && climberSubsystem.leftOuterPneumatic.get() == Value.kReverse
 //             && timerCompleted()) {
 //           resetTimer();
 //           climberSubsystem.oldToggleOuterArms();
 //           climberSubsystem.setOuterArmsPosition(Constants.barAlignedSetPoint);
 //           startTimer(Constants.timerDelayBetweenSteps);
 //           climbingStage = 8;
-//         } else if (climberSubsystem.leftOuterArmPneumatic.get() == Value.kForward) {
+//         } else if (climberSubsystem.leftOuterPneumatic.get() == Value.kForward) {
 //           climberSubsystem.oldToggleOuterArms();
 //         }
 //         break;
@@ -162,13 +163,13 @@
 //         break;
 //       case 10:
 //         if (leftInnerPosition == Constants.firstExtendSetPoint
-//             && climberSubsystem.leftInnerArmPneumatic.get() == Value.kReverse
+//             && climberSubsystem.leftInnerPneumatic.get() == Value.kReverse
 //             && timerCompleted()) {
 //           resetTimer();
 //           climberSubsystem.oldToggleInnerArms();
 //           climberSubsystem.setInnerArmsPosition(Constants.firstExtendSetPoint);
 //           climbingStage = 16;
-//         } else if (climberSubsystem.leftInnerArmPneumatic.get() == Value.kForward) {
+//         } else if (climberSubsystem.leftInnerPneumatic.get() == Value.kForward) {
 //           climberSubsystem.oldToggleInnerArms();
 //         }
 //       default:
