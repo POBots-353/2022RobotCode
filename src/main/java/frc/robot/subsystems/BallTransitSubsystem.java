@@ -58,12 +58,13 @@ public class BallTransitSubsystem extends SubsystemBase {
     // double setPointDrive = 0;
     public boolean downPistonPosition = false;
     public boolean upPistonPosition = true;
-
     /** Creates a new BallTransitSubsystem. */
     public BallTransitSubsystem() {
         // initializePID(intakeMotorPIDCon, intakeEncoder);
     }
-
+    public void turnOffArm(){
+        //armIntakeMotor.set(0);
+    }
     public void toggleShooter(boolean y) {
         if (y) {
             shooterMotor.set(-0.3);

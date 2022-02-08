@@ -4,9 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Ultrasonic;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -31,6 +28,7 @@ public class SetDistanceCommand extends CommandBase {
 
   @Override
   public void execute() {
+    //Moves the robot based on the error(expected distance - current distance)
     if (Math.abs(driveSubsystem.distanceError(neededDistance)) > 3) {
       driveSubsystem.manualDrive(0.0, -driveSubsystem.distanceError(neededDistance) * 0.5, 0.0, 35);
     }
@@ -45,6 +43,7 @@ public class SetDistanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //If the distance is with in 3cm of desired point, then end command
     if (Math.abs(driveSubsystem.distanceError(neededDistance)) < 3) {
       return true;
     }

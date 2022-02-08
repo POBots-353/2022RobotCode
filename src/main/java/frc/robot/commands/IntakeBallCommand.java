@@ -19,31 +19,33 @@
    public void initialize() {}
 
 //   // Called every time the scheduler runs while the command is scheduled.
-//   @Override
+   @Override
    public void execute() {
-
+    //If piston is locked then release piston
     if (ballTransitSubsystem.getUpPiston()){
       ballTransitSubsystem.toggleUpLock();
      }
+     //If the piston is locked then end command, if piston is unlocked then move arm down
+     //This is assuming when piston is released then arm is up
      if(!ballTransitSubsystem.getDownPiston()){
        //ballTransitSubsystem.transitDown();//Piston should be locked after this method is complete
         ballTransitSubsystem.downPistonPosition = true;
-     }else{
-       ballTransitSubsystem.toggleIntake(true);
      }
    }
 
 //   //Turns off the motor after the command ends
    @Override
    public void end(boolean interrupted) {
-     if(interrupted){
-       ballTransitSubsystem.toggleIntake(false);
-     }
+    ballTransitSubsystem.turnOffArm();
    }
 
    // Returns true when the command should end.
    @Override
    public boolean isFinished() {
+     //When the piston is locked, then arm is down
+    if(ballTransitSubsystem.getUpPiston()){
+      return true;
+    }
     return false;
    }
  }

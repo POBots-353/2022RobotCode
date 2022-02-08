@@ -22,29 +22,31 @@ public class DumpBallCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //If piston is locked then release piston
     if (ballTransitSubsystem.getDownPiston()){
       ballTransitSubsystem.toggleDownLock();
     }
+    //If the piston is locked then end command, if piston is unlocked then move arm dup
+     //This is assuming when piston is released then arm is up
     if(!ballTransitSubsystem.getUpPiston()){
       //ballTransitSubsystem.transitUp();//Should be locked after this method is complete
       ballTransitSubsystem.upPistonPosition = true;
-    }else{
-      //ballTransitSubsystem.dropBall(true);
-      ballTransitSubsystem.toggleShooter(true);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      //ballTransitSubsystem.dropBall(false);
-      ballTransitSubsystem.toggleShooter(false);
-    
+    ballTransitSubsystem.turnOffArm();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //When the piston is locked, then arm is down
+    if(ballTransitSubsystem.getUpPiston()){
+      return true;
+    }
     return false;
   }
 }
