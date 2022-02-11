@@ -43,7 +43,7 @@ public class DumpBallCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //When the piston is locked, then arm is down
+    //When the piston is locked, then arm is Up
     if(ballTransitSubsystem.getUpPiston()){
       return true;
     }
