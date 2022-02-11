@@ -34,7 +34,7 @@ public class BallTransitSubsystem extends SubsystemBase {
     // CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
     // private SparkMaxPIDController intakeMotorPIDCon =
     // intakeMotor.getPIDController();
-    // public RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
+    public RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
     // public DoubleSolenoid upperPiston = new
     // DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
     // public DoubleSolenoid lowerPiston = new
@@ -56,6 +56,11 @@ public class BallTransitSubsystem extends SubsystemBase {
     // double maxVel = 4000;
     // double maxAcc = 1500;
     // double setPointDrive = 0;
+
+    double goal = 1000;
+    double encoderError = goal - intakeEncoder.getPosition();
+    double kP = .4;
+    double neededAngle = 0;
     public boolean downPistonPosition = false;
     public boolean upPistonPosition = true;
     /** Creates a new BallTransitSubsystem. */
@@ -73,13 +78,16 @@ public class BallTransitSubsystem extends SubsystemBase {
         }
     }
 
-    public void toggleIntake(boolean y) {
-        if (y) {
-            intakeMotor.set(0.2);
-        } else {
+    public void toggleIntake() {
+        if (encoderError > 0) {
+            intakeMotor.set(.4 * encoderError);
+        }
+        else if (encoderError < 0) {
+            intakeMotor.set(.3 * encoderError);
+        }
+        else {
             intakeMotor.set(0);
         }
-
     }
 
     public void toggleDownLock() {
