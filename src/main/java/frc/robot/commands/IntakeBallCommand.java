@@ -43,7 +43,7 @@
    @Override
    public boolean isFinished() {
      //When the piston is locked, then arm is down
-    if(ballTransitSubsystem.getUpPiston()){
+    if(ballTransitSubsystem.getDownPiston()){
       return true;
     }
     return false;

@@ -11,11 +11,14 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoDriveCommand;
 
@@ -35,6 +38,8 @@ public class DriveSubsystem extends SubsystemBase {
   private SparkMaxPIDController rightFrontPIDCon = rightFrontMotor.getPIDController();
   private SparkMaxPIDController rightBackPIDCon = rightBackMotor.getPIDController();
 
+  
+
   public final AnalogInput ultrasonic = new AnalogInput(0);
   int smartMotionSlot = 0;
   int allowedErr;
@@ -52,6 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
   double setPointDrive = 0;
   // The gyro sensor
   public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
+  //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);
 
   public DriveSubsystem() {
     resetGyro();
@@ -153,7 +159,11 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     double processVariable = leftBackEncoder.getVelocity();
+    
+    //SmartDashboard.putNumber("PDP Thing", powerDistributionModule.getModule());
+
     // This method will be called once per scheduler run
+    
     SmartDashboard.putNumber("Ultrasonic", ultrasonic.getValue() * 0.125);
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
@@ -162,6 +172,20 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putNumber("Output", leftBackMotor.getAppliedOutput());
     SmartDashboard.putBoolean("Collision Detected?", AutoDriveCommand.collisionDetected);
+    /*SmartDashboard.putNumber("Total Current", powerDistributionModule.getTotalCurrent());
+    SmartDashboard.putNumber("Total Power", powerDistributionModule.getTotalPower());
+    SmartDashboard.putNumber("Total Energy", powerDistributionModule.getTotalEnergy());
+    SmartDashboard.putNumber("Voltage -_-", powerDistributionModule.getVoltage());*/
+
+   /* SmartDashboard.putNumber("Current of Motor 4", powerDistributionModule.getCurrent(14));
+    SmartDashboard.putNumber("Current of Motor 3", powerDistributionModule.getCurrent(13));
+    SmartDashboard.putNumber("Current of Motor 1", powerDistributionModule.getCurrent(12));
+    SmartDashboard.putNumber("Current of Motor 2", powerDistributionModule.getCurrent(15));*/
+    /*SmartDashboard.putNumber("Current of Motor 0", powerDistributionModule.getCurrent(0));
+    SmartDashboard.putNumber("Current of Motor 1", powerDistributionModule.getCurrent(1));
+    SmartDashboard.putNumber("Current of Motor 2", powerDistributionModule.getCurrent(2));
+    SmartDashboard.putNumber("Current of Motor 3", powerDistributionModule.getCurrent(3));*/
+    //BallTransitSubsystem.toggleIntake(Constants.Buttons.intakeBallToggle);
   }
 
   @Override

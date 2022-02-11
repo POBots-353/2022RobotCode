@@ -22,6 +22,7 @@ public final class Constants {
     public static int leftBackMotorID = 2;
     public static int rightFrontMotorID = 1;
     public static int rightBackMotorID = 3;
+    public static int intakeArmMotorID = 7;
     public static int motorArmID = 0;
 
     //AutoAlign Constants
@@ -51,6 +52,12 @@ public final class Constants {
     public static double outerArmRetractedSetPoint = 1.0;
     public static double outerArmExtendedSetPoint = 1.0;
 
+    //vision constants
+    public static double cameraHeight = 0;
+    public static double ballHeight = 0;
+    public static double cameraAngle = 0;
+    public static double distanceToBall = 0; 
+
     public static final class Buttons {
         //DriverStick
         public static int inverseControl = 1;
@@ -72,7 +79,7 @@ public final class Constants {
         //Gear Ratio 8.41 to 1
         //Joystick Scale
         public static double scaleY = 0.5;
-        public static double scaleX = 0.3;
+        public static double scaleX = 0.35;
         //Set speed scale
         public static double scaleFowd = 4000;
         public static double scaleTurn = 1000;

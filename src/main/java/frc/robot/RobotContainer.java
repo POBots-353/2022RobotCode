@@ -15,6 +15,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.TwoBallAutoCommand;
 //import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.DumpBallCommand;
+import frc.robot.commands.EyeBallCommand;
 import frc.robot.commands.IntakeBallCommand;
 import frc.robot.commands.OneBallAutoCommand;
 import frc.robot.commands.TurnToAngleCommand;
@@ -129,6 +130,12 @@ public class RobotContainer {
                                                 new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
                                                                 () -> ballTransitSubsystem.toggleIntake(false),
                                                                 ballTransitSubsystem)));
+                new JoystickButton(operatorStick, 3)
+                                .whileHeld(new EyeBallCommand(driveSubsystem));
+                /*ew JoystickButton(operatorStick, 1)
+                                .whileHeld(new StartEndCommand(() -> ballTransitSubsystem.armIntakeMotor.set(1),
+                                                                () -> ballTransitSubsystem.armIntakeMotor.set(0),
+                                                                ballTransitSubsystem));*/
 
                 new JoystickButton(driverStick, Buttons.turn90Toggle)
                                 .whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle90));
