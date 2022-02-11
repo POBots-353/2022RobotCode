@@ -57,6 +57,11 @@ public class BallTransitSubsystem extends SubsystemBase {
     // double maxVel = 4000;
     // double maxAcc = 1500;
     // double setPointDrive = 0;
+
+    double goal = 1000;
+    //double encoderError = goal - intakeEncoder.getPosition();
+    double kP = .4;
+    double neededAngle = 0;
     public boolean downPistonPosition = false;
     public boolean upPistonPosition = true;
     /** Creates a new BallTransitSubsystem. */
