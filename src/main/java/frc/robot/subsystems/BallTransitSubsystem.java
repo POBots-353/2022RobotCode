@@ -29,12 +29,11 @@ import frc.robot.Constants.DriveConstants;
 
 public class BallTransitSubsystem extends SubsystemBase {
     private final CANSparkMax intakeMotor = new CANSparkMax(6, MotorType.kBrushless);
-    //private final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeArmMotorID, MotorType.kBrushless);
     private final CANSparkMax shooterMotor = new CANSparkMax(8, MotorType.kBrushless);
-    public static final CANSparkMax armIntakeMotor = new CANSparkMax(Constants.intakeArmMotorID, MotorType.kBrushless);
-    public static final RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
+    // public final CANSparkMax armIntakeMotor = new
+    // CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
     // private SparkMaxPIDController intakeMotorPIDCon =
-    //intakeMotor.getPIDController();
+    // intakeMotor.getPIDController();
     // public RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
     // public DoubleSolenoid upperPiston = new
     // DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
@@ -69,11 +68,11 @@ public class BallTransitSubsystem extends SubsystemBase {
         // initializePID(intakeMotorPIDCon, intakeEncoder);
     }
     public void turnOffArm(){
-        armIntakeMotor.set(0);
+        //armIntakeMotor.set(0);
     }
     public void toggleShooter(boolean y) {
         if (y) {
-            shooterMotor.set(-0.7);
+            shooterMotor.set(-0.3);
         } else {
             shooterMotor.set(0);
         }
@@ -81,11 +80,10 @@ public class BallTransitSubsystem extends SubsystemBase {
 
     public void toggleIntake(boolean y) {
         if (y) {
-            intakeMotor.set(0.7);
+            intakeMotor.set(0.2);
         } else {
             intakeMotor.set(0);
         }
-
     }
 
     public void toggleDownLock() {
@@ -166,9 +164,8 @@ public class BallTransitSubsystem extends SubsystemBase {
     // h.setPositionConversionFactor(DriveConstants.conversionPosition);
     // h.setVelocityConversionFactor(DriveConstants.conversionVelocity);
     // }
-     @Override
-     public void periodic() {
-        
+    // @Override
+    // public void periodic() {
     // // This method will be called once per scheduler run
-     }
+    // }
 }
