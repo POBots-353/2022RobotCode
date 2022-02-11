@@ -59,7 +59,7 @@ public class BallTransitSubsystem extends SubsystemBase {
     // double setPointDrive = 0;
 
     double goal = 1000;
-    double encoderError = goal - intakeEncoder.getPosition();
+    //double encoderError = goal - intakeEncoder.getPosition();
     double kP = .4;
     double neededAngle = 0;
     public boolean downPistonPosition = false;
