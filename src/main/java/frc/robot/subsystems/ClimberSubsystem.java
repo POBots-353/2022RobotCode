@@ -32,48 +32,30 @@
 //   double maxAcc = 1500;
 //   double setPointDrive = 0;
 
-//   // public DoubleSolenoid outerArmPneumatic = new
-//   // DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 1); // PORT NUMBERS ARE
-//   // UNKNOWN AT THIS
-//   // TIME
-
-//   public DoubleSolenoid leftOuterArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 4);
-//   public DoubleSolenoid leftInnerArmPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
+//   public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 5, 4);
+//   public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 1);
 //   public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 7, 1);
 //   public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 1);
 
-//   public CANSparkMax leftOuterMotor = new CANSparkMax(9, MotorType.kBrushless);
-//   public CANSparkMax leftInnerMotor = new CANSparkMax(10,
-//       MotorType.kBrushless);
-//   public CANSparkMax rightOuterMotor = new CANSparkMax(11,
-//       MotorType.kBrushless);
-//   public CANSparkMax rightInnerMotor = new CANSparkMax(12,
-//       MotorType.kBrushless);
+//   public CANSparkMax outerMotor = new CANSparkMax(9, MotorType.kBrushless);
+//   public CANSparkMax leftInnerMotor = new CANSparkMax(10, MotorType.kBrushless);
 
-//   public RelativeEncoder m_leftOuterEncoder = leftOuterMotor.getEncoder();
-//   public RelativeEncoder m_leftInnerEncoder = leftInnerMotor.getEncoder();
-//   public RelativeEncoder m_rightOuterEncoder = rightOuterMotor.getEncoder();
-//   public RelativeEncoder m_rightInnerEncoder = rightInnerMotor.getEncoder();
+//   public RelativeEncoder outerEncoder = outerMotor.getEncoder();
+//   public RelativeEncoder innerEncoder = leftInnerMotor.getEncoder();
 
-//   public SparkMaxPIDController m_leftOuterController = leftOuterMotor.getPIDController();
-//   public SparkMaxPIDController m_leftInnerController = leftInnerMotor.getPIDController();
-//   public SparkMaxPIDController m_rightOuterController = rightOuterMotor.getPIDController();
-//   public SparkMaxPIDController m_rightInnerController = rightInnerMotor.getPIDController();
+//   public SparkMaxPIDController outerController = outerMotor.getPIDController();
+//   public SparkMaxPIDController innerController = leftInnerMotor.getPIDController();
 
 //   public double currentOuterReferencePoint = 0;
 //   public double currentInnerReferencePoint = 0;
 
-//   enum ArmExtendedStates {
-//     UP, DOWN
-//   }
+//   public boolean outerPIDEnabled = true;
+//   public boolean innerPIDEnabled = true;
 
 //   /* Creates a new ClimberSubsystem. */
-
 //   public ClimberSubsystem() {
-//     initializePID(m_leftOuterController, m_leftOuterEncoder);
-//     initializePID(m_leftInnerController, m_leftInnerEncoder);
-//     initializePID(m_rightOuterController, m_rightOuterEncoder);
-//     initializePID(m_rightInnerController, m_rightInnerEncoder);
+//     initializePID(outerController, outerEncoder);
+//     initializePID(innerController, innerEncoder);
 //   }
 
 //   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
@@ -97,46 +79,31 @@
 //   }
 
 //   public void setOuterArmsPosition(double position) {
-//     m_leftOuterController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
-//     m_rightOuterController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
-//     currentOuterReferencePoint = position;
-//   }
-
-//   public void setInnerArmsPosition(double position) {
-//     m_leftInnerController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
-//     m_rightInnerController.setReference(position * 1.0, CANSparkMax.ControlType.kSmartMotion);
-//     currentInnerReferencePoint = position;
-//   }
-
-//   public void toggleOuterArms(ArmExtendedStates state) {
-//     switch (state) {
-//       case UP:
-//         break;
-//       case DOWN:
-//         break;
-//       default:
-//         break;
+//     if (outerPIDEnabled) {
+//       outerController.setReference(position, CANSparkMax.ControlType.kSmartVelocity);
+//       currentOuterReferencePoint = position;
 //     }
 //   }
 
-//   public void oldToggleOuterArms() { // Reverses the toggle state of the outer solenoids
-//     if (leftOuterArmPneumatic.get() == Value.kForward) {
-//       leftOuterArmPneumatic.set(Value.kReverse);
-//       rightOuterPneumatic.set(Value.kReverse);
-//     } else if (leftOuterArmPneumatic.get() == Value.kReverse) {
-//       leftOuterArmPneumatic.set(Value.kForward);
-//       rightOuterPneumatic.set(Value.kForward);
-//     }*/
+//   public void setInnerArmsPosition(double position) {
+//     if (innerPIDEnabled) {
+//       innerController.setReference(position, CANSparkMax.ControlType.kSmartVelocity);
+//       currentInnerReferencePoint = position;
+//     }
 //   }
 
-//   public void oldToggleInnerArms() { // Reverses the toggle state of the inner solenoids
-//     if (leftInnerArmPneumatic.get() == Value.kForward) {
-//       leftInnerArmPneumatic.set(Value.kReverse);
-//       rightInnerPneumatic.set(Value.kReverse);
-//     } else if (leftInnerArmPneumatic.get() == Value.kReverse) {
-//       leftInnerArmPneumatic.set(Value.kForward);
-//       rightInnerPneumatic.set(Value.kForward);
-//     }*/
+//   public void setOuterPID(boolean val) {
+//     outerPIDEnabled = val;
+//   }
+
+//   public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+//     leftOuterPneumatic.toggle();
+//     rightOuterPneumatic.toggle();
+//   }
+
+//   public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
+//     leftInnerPneumatic.toggle();
+//     rightInnerPneumatic.toggle();
 //   }
 
 //   public double getArcLength() {

@@ -35,13 +35,17 @@ public final class Constants {
     public static double distancePerMotorClick = 1.0;
     public static double hookLengthToBase = 1.0;
 
+    public static double armReferenceScale = 1.0;
+
     public static int pneumaticTimerDelay = 150;
     public static int timerDelayBetweenSteps = 1;
+    public static int MLGWaterBucketClutchTime = 1; //The name is unfortunately kinda accurate
 
-    public static double verticleSetPoint = 1.0; //The set point for when the arms are verticle
-    public static double innerArmsOriginalSetPoint = 1.0; //The set point for the inner arms when the climing starts
+    public static double verticalSetPoint = 1.0; //The set point for when the arms are verticle
+    public static double behindBarSetPoint = 1.0; //The set point for the inner arms when the climing starts
     public static double firstExtendSetPoint = 1.0; //The set point for when the arms move behind the bar
     public static double barAlignedSetPoint = 1.0; // When the arm is aligned to the bar when it retracts
+    public static double innerArmsFinalSetPoint = 1.0; //The final place the inner arms will move to
 
     public static double innerArmRetractedSetPoint = 1.0;
     public static double innerArmExtendedSetPoint = 1.0;
