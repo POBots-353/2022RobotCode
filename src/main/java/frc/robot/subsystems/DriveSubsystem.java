@@ -51,10 +51,9 @@ public class DriveSubsystem extends SubsystemBase {
   double kFF = 0.000156;
   double kMaxOutput = 1;
   double kMinOutput = -1;
-  double maxRPM = 5700;
   double maxVel = 4000;
   double maxAcc = 1500;
-  double setPointDrive = 0;
+
   // The gyro sensor
   public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
   //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);

@@ -16,6 +16,7 @@ public class SwerveCommand extends CommandBase {
    * the right scales
   */
   public SwerveCommand(DriveSubsystem drive, double neededAngle, double neededDistance) {
+    //The constructor is not finished, I need to add scales
     driveSubsystem = drive;
     this.neededAngle = neededAngle;
     this.neededDistance = neededDistance;

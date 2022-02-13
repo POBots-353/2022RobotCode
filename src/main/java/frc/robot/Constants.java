@@ -23,7 +23,12 @@ public final class Constants {
     public static int rightFrontMotorID = 1;
     public static int rightBackMotorID = 3;
     public static int intakeArmMotorID = 7;
+    public static int intakeMotorID = 8;
     public static int motorArmID = 0;
+
+    //Intake Constants
+    public static double armDownPosition = 25;
+    public static double armUpPosition = 0;
 
     //AutoAlign Constants
     public static double neededAngle90 = -90;
@@ -70,9 +75,9 @@ public final class Constants {
         public static int turnWithJoyStick = 0;
         //OperatorStick
         public static int climberButton = 0;
-        public static int stopClimb = 0;
-        public static int dumpBallToggle = 1;
-        public static int intakeBallToggle = 2;
+        public static int toggleArm = 1;
+        public static int ballIntake = 2;
+        public static int eyeballButton = 3;
     }
 
     public static final class DriveConstants {
@@ -90,6 +95,7 @@ public final class Constants {
         public static double scaleYBoost = 4000;
         public static double scaleTurnBoost = 4000;
         //Encoder Converstion
+        //FYI This doesn't do anything
         public static double conversionPosition = 1/*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
         public static double conversionVelocity = 1 /*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
         //Deacceleration Constants
