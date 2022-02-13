@@ -9,7 +9,9 @@ import frc.robot.subsystems.BallTransitSubsystem;
 
 
 public class DumpBallCommand extends CommandBase {
+
   private final BallTransitSubsystem ballTransitSubsystem;
+  
   public DumpBallCommand(BallTransitSubsystem ballTransit) {
     ballTransitSubsystem = ballTransit;
     addRequirements(ballTransitSubsystem);

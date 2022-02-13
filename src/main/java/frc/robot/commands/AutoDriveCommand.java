@@ -44,7 +44,9 @@ public class AutoDriveCommand extends CommandBase {
     double currLinearAccelerationY = DriveSubsystem.m_gyro.getWorldLinearAccelY();
     double jerkY = currLinearAccelerationY - lastLinearAccelerationY;
     lastLinearAccelerationY = currLinearAccelerationY;
-
+    
+    //We don't need this
+    //Its just there as an option
     if(Math.abs(jerkY) > kCollisionThreshold_DeltaG){
       collisionDetected = true;
     }

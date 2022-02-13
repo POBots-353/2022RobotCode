@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class SetDistanceCommand extends CommandBase {
-  /** Creates a new SetDistanceCommand. */
-  // public final AnalogInput input = new AnalogInput(0);
   private final DriveSubsystem driveSubsystem;
   double neededDistance;
 
@@ -17,11 +15,8 @@ public class SetDistanceCommand extends CommandBase {
     driveSubsystem = drive;
     this.neededDistance = neededDistance;
     addRequirements(driveSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
-
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
@@ -34,13 +29,10 @@ public class SetDistanceCommand extends CommandBase {
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // driveSubsystem.resetEncoders();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     //If the distance is with in 3cm of desired point, then end command

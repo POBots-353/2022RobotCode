@@ -11,7 +11,10 @@ public class SwerveCommand extends CommandBase {
   private DriveSubsystem driveSubsystem;
   double neededDistance;
   double neededAngle;
-  /**This command uses the UltraSonic sensor and gryo to create a swerve */
+  /**This command uses the UltraSonic sensor and gyro to create a swerve 
+   * This command will not be used often because of the need of inputing
+   * the right scales
+  */
   public SwerveCommand(DriveSubsystem drive, double neededAngle, double neededDistance) {
     driveSubsystem = drive;
     this.neededAngle = neededAngle;
@@ -19,13 +22,15 @@ public class SwerveCommand extends CommandBase {
     addRequirements(driveSubsystem);
   }
 
-  // Called when the command is initially scheduled.
+
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
+
   @Override
   public void execute() {
+    //This just includes both the gyro and ultrasonic senor to create the swerve motion
+    //Increase or decrease the scale to have the right motion
     if (Math.abs(driveSubsystem.distanceError(neededDistance)) > 3 && Math.abs(driveSubsystem.angleError(neededAngle)) > 1) {
       driveSubsystem.manualDrive(driveSubsystem.angleError(neededAngle) * 0.4, -driveSubsystem.distanceError(neededDistance) * 0.5, 15, 20);
     }

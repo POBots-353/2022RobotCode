@@ -72,8 +72,15 @@ public class DriveSubsystem extends SubsystemBase {
     initializePID(rightBackPIDCon, rightBackEncoder);
     resetEncoders();
   }
-
+  /**
+   * Sets the speed of the motors
+   * @param x rotation
+   * @param y foward or backward
+   * @param scaleX
+   * @param scaleY
+   */
   public void manualDrive(double x, double y, double scaleX, double scaleY) {
+    //This is meant to prevent less stress on the gears of the drivetrain and prevent accidental touch
     if (Math.abs(x) <= 0.5 && Math.abs(y) <= 0.01) {
       leftFrontMotor.set(0);
       rightFrontMotor.set(0);
@@ -86,48 +93,75 @@ public class DriveSubsystem extends SubsystemBase {
       rightBackPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     }
   }
-
+  /*
+    Sets the velocity of the left motors in rotations per min
+    If wanting to turn right, then the output of setPointLeft will
+    be greater then setPointRight
+    else the oppsite will occur
+  */
   public double setPointLeft(double Jx, double Jy, double scaleX, double scaleY) {
     double yScale = ((Jy) * scaleY);
     double xScale = (Jx) * scaleX;
     return xScale + yScale;
   }
-
+  /*
+    Sets the velocity of the right motors in rotations per min
+    If wanting to turn left, then the output of setPointRight will be greater then
+    setPointLeft
+    else the oppsite will occur
+  */
   public double setPointRight(double Jx, double Jy, double scaleX, double scaleY) {
     double xScale = (-(Jx) * scaleX);
     double yScale = ((Jy) * scaleY);
     return -1 * (xScale + yScale);
   }
 
+  /**
+   * Move the robot a certain amount of rotations
+   * @param displacement number of rotations
+   */
   public void autoDrive(double displacement) {
     leftFrontPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
     leftBackPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
     rightFrontPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
     rightBackPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
   }
-  // Neeed to get rid of this soon
+  /**
+   * Expected Angle - Current Angle
+   * @param expectedAngle
+   * @return the angle Error
+   */
   public double angleError(double expectedAngle){
+    //The IEEEremainder is just to convert the angle of anything greater then 180 to the negative side
+    //Ex: 270 degrees -> -90 degrees
     double angleSubtract = Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
     if (angleSubtract > 180) {
       return angleSubtract - 360;
-
     } else if (angleSubtract < -180) {
       return angleSubtract + 360;
-
     } else {
       return angleSubtract;
     }
   }
-
+  
   public void resetGyro() {
     m_gyro.calibrate();
     m_gyro.reset();
   }
-
+  /**
+   * ExpectedDistance - Current Distance
+   * @param expectedDistance
+   * @return Distance left to go
+   */
   public double distanceError(double expectedDistance) {
     return expectedDistance - (ultrasonic.getValue() * 0.125);
   }
 
+  /**
+   * Checks if the point is Reached
+   * @param displacement
+   * @return whether the point is reached (true) or not (false)
+   */
   public boolean pointReached(double displacement) {
     if (Math.abs(m_leftFrontEncoder.getPosition()) >= Math.abs(displacement) - 1) {
       resetEncoders();
@@ -186,10 +220,5 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Current of Motor 2", powerDistributionModule.getCurrent(2));
     SmartDashboard.putNumber("Current of Motor 3", powerDistributionModule.getCurrent(3));*/
     //BallTransitSubsystem.toggleIntake(Constants.Buttons.intakeBallToggle);
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
   }
 }
