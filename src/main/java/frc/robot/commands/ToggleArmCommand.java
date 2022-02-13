@@ -12,15 +12,15 @@ import frc.robot.subsystems.BallTransitSubsystem;
 
 public class ToggleArmCommand extends CommandBase {
 	private BallTransitSubsystem ballTransitSubsystem;
-
+	
 	public enum PositionMode {
 		goUp,
 		goDown,
 		broken
 	}
 
-	private PositionMode mode = PositionMode.broken;
-	private Compressor compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+	//private PositionMode mode = PositionMode.broken;
+	//private Compressor compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
 	public ToggleArmCommand(BallTransitSubsystem subsystem) {
 		ballTransitSubsystem = subsystem;
@@ -29,56 +29,56 @@ public class ToggleArmCommand extends CommandBase {
 
 	@Override
 	public void initialize() {
-		// Disables the compressor to prevent brownout for the duration of this command
-		compressor.disable();
-		
-		SmartDashboard.putBoolean("Arm Transit Compelete", false);
+	//	// Disables the compressor to prevent brownout for the duration of this command
+	//	
+	//	compressor.disable();
+	//	SmartDashboard.putBoolean("Arm Transit Compelete", false);
 
-		if (ballTransitSubsystem.topLimitSwitch.get()) {
-			if (ballTransitSubsystem.lowLimitSwitch.get()) {
-				SmartDashboard.putString("Mulitiple Swtiches Pressed", "##ERROR##");
-				// Both switches are clicked
-			} else {
-				mode = PositionMode.goDown;
-				// When limit swtich on the bottom is not clicked then set mode to goDown
-			}
-		} else {
-			if (ballTransitSubsystem.lowLimitSwitch.get()) {
-				mode = PositionMode.goUp;
-				// When limit switch on the bottom is clicked then set mode to goUp
-			} else {
-				SmartDashboard.putString("Limit Switches", "BROKEN!!!!");
-				// not receiveing any data from switches
-			}
-		}
+	//	if (ballTransitSubsystem.topLimitSwitch.get()) {
+	//		if (ballTransitSubsystem.lowLimitSwitch.get()) {
+	//			SmartDashboard.putString("Mulitiple Swtiches Pressed", "##ERROR##");
+	//			// Both switches are clicked
+	//		} else {
+	//			mode = PositionMode.goDown;
+	//			// When limit swtich on the bottom is not clicked then set mode to goDown
+	//		}
+	//	} else {
+	//		if (ballTransitSubsystem.lowLimitSwitch.get()) {
+	//			mode = PositionMode.goUp;
+	//			// When limit switch on the bottom is clicked then set mode to goUp
+	//		} else {
+	//			SmartDashboard.putString("Limit Switches", "BROKEN!!!!");
+	//			// not receiveing any data from switches
+	//		}
+	//	}
 	}
 
 	@Override
 	public void execute() {
-		if (mode == PositionMode.goDown) {
-			if (ballTransitSubsystem.topPistonLimitSwitch.get()) {
-				ballTransitSubsystem.togglePiston();
-				// Takes out Piston
-			} else {
-				ballTransitSubsystem.setArmAngle(mode);
-				// Moves arm down
-			}
-		} else if (mode == PositionMode.goUp) {
-			if (ballTransitSubsystem.lowPistonLimitSwitch.get()) {
-				ballTransitSubsystem.togglePiston();
-				// Takes out Piston
-			} else {
-				ballTransitSubsystem.setArmAngle(mode);
-				// Moves arm down
-			}
-		}
+		//if (mode == PositionMode.goDown) {
+		//	if (ballTransitSubsystem.topPistonLimitSwitch.get()) {
+		//		ballTransitSubsystem.togglePiston();
+		//		// Takes out Piston
+		//	} else {
+		//		ballTransitSubsystem.setArmAngle(mode);
+		//		// Moves arm down
+		//	}
+		//} else if (mode == PositionMode.goUp) {
+		//	if (ballTransitSubsystem.lowPistonLimitSwitch.get()) {
+		//		ballTransitSubsystem.togglePiston();
+		//		// Takes out Piston
+		//	} else {
+		//		ballTransitSubsystem.setArmAngle(mode);
+		//		// Moves arm down
+		//	}
+		//}
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		compressor.enableDigital();
-		SmartDashboard.putBoolean("Arm Transit", true);
-		ballTransitSubsystem.turnOffArmMotor();
+		//compressor.enableDigital();
+		//SmartDashboard.putBoolean("Arm Transit", true);
+		//ballTransitSubsystem.turnOffArmMotor();
 	}
 
 	/**
@@ -90,34 +90,34 @@ public class ToggleArmCommand extends CommandBase {
 	 * @return true if piston is locking, false if not
 	 */
 	public boolean pistonCheck() {
-		if (ballTransitSubsystem.lowPistonLimitSwitch.get() || ballTransitSubsystem.topPistonLimitSwitch.get()) {
-			return true;
-		} else {
+		//if (ballTransitSubsystem.lowPistonLimitSwitch.get() || ballTransitSubsystem.topPistonLimitSwitch.get()) {
+		//	return true;
+		//} else {
 			return false;
-		}
+		//}
 	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		if (mode == PositionMode.goDown) {
-			if (ballTransitSubsystem.lowLimitSwitch.get()) {
-				// Checks if the lower limit is hit
-				ballTransitSubsystem.togglePiston();
-				return pistonCheck();
-			} else {
-				return false;
-			}
-
-		} else if (mode == PositionMode.goUp) {
-			if (ballTransitSubsystem.topLimitSwitch.get()) {
-				// Checks if the upper limit is hit
-				ballTransitSubsystem.togglePiston();
-				return pistonCheck();
-			} else {
-				return false;
-			}
-		}
+	//	if (mode == PositionMode.goDown) {
+	//		if (ballTransitSubsystem.lowLimitSwitch.get()) {
+	//			// Checks if the lower limit is hit
+	//			ballTransitSubsystem.togglePiston();
+	//			return pistonCheck();
+	//		} else {
+	//			return false;
+	//		}
+//
+	//	} else if (mode == PositionMode.goUp) {
+	//		if (ballTransitSubsystem.topLimitSwitch.get()) {
+	//			// Checks if the upper limit is hit
+	//			ballTransitSubsystem.togglePiston();
+	//			return pistonCheck();
+	//		} else {
+	//			return false;
+	//		}
+	//	}
 		return false;
 	}
 

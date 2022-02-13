@@ -114,9 +114,11 @@ public class RobotContainer {
 		 * new JoystickButton(operatorStick, Buttons.climberButton)
 		 * .whileHeld(new ClimberCommand(climberSubsystem));
 		 */
-		new JoystickButton(operatorStick, Buttons.toggleArm).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
-		new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
-				() -> ballTransitSubsystem.intake(), () -> ballTransitSubsystem.intakeMotor.set(0), ballTransitSubsystem));
+		// new JoystickButton(operatorStick, Buttons.toggleArm).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
+		// new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
+		//	 () -> ballTransitSubsystem.intake(), () -> ballTransitSubsystem.intakeMotor.set(0), ballTransitSubsystem));
+		// new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
+		//	 () -> ballTransitSubsystem.intake(), () -> ballTransitSubsystem.intakeMotor.set(0), ballTransitSubsystem));
 		new JoystickButton(operatorStick, Buttons.eyeballButton).whileHeld(new EyeBallCommand(driveSubsystem));
 	}
 

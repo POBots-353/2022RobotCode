@@ -17,14 +17,15 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // Motor IDs
+    //Drive Motor IDS
     public static int leftFrontMotorID = 4;
     public static int leftBackMotorID = 2;
     public static int rightFrontMotorID = 1;
     public static int rightBackMotorID = 3;
+    //Arm Motor IDS
     public static int intakeArmMotorID = 7;
     public static int intakeMotorID = 8;
-    public static int motorArmID = 0;
+
 
     //Intake Constants
     public static double armDownPosition = 25;
