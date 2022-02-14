@@ -28,6 +28,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.rightFrontMotorID, MotorType.kBrushless);
   private final CANSparkMax rightBackMotor = new CANSparkMax(Constants.rightBackMotorID, MotorType.kBrushless);
 
+// public final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
+
   private RelativeEncoder m_leftFrontEncoder = leftFrontMotor.getEncoder();
   private RelativeEncoder leftBackEncoder = leftBackMotor.getEncoder();
   private RelativeEncoder m_rightFrontEncoder = rightFrontMotor.getEncoder();
