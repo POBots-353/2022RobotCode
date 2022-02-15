@@ -32,7 +32,7 @@ public class ToggleArmCommand extends CommandBase {
 		// Disables the compressor to prevent brownout for the duration of this command
 		
 		//compressor.disable();
-		SmartDashboard.putBoolean("Arm Transit Compelete", false);
+		//SmartDashboard.putBoolean("Arm Transit Compelete", false);
  
 		/*if (ballTransitSubsystem.topLimitSwitch.get()) {
 			if (ballTransitSubsystem.lowLimitSwitch.get()) {
