@@ -21,7 +21,7 @@ import frc.robot.commands.ToggleArmCommand.PositionMode;
 
 
 public class BallTransitSubsystem extends SubsystemBase {
-  // private final CANSparkMax armIntakeMotor = new CANSparkMax(8, MotorType.kBrushless);
+   //private final CANSparkMax armIntakeMotor = new CANSparkMax(Constants.intakeArmMotorID, MotorType.kBrushless);
   // public final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
 
   //private SparkMaxPIDController armMotorPIDCon = armIntakeMotor.getPIDController();
@@ -33,8 +33,7 @@ public class BallTransitSubsystem extends SubsystemBase {
   // public DigitalInput topLimitSwitch = new DigitalInput(0);
   // public DigitalInput lowLimitSwitch = new DigitalInput(0);
 // 
-  // public DigitalInput lowPistonLimitSwitch = new DigitalInput(0);
-  // public DigitalInput topPistonLimitSwitch = new DigitalInput(0);
+  // public DigitalInput pistonLimitSwitch = new DigitalInput(0);
 
   int smartMotionSlot = 0;
   int allowedErr;
@@ -44,11 +43,10 @@ public class BallTransitSubsystem extends SubsystemBase {
   double kD = 0;
   double kIz = 0;
   double kFF = 0.000156;
-  double kMaxOutput = 1; // adjust the values to not fully drop the intake
-  double kMinOutput = 0; // adjust the values min around 0.2
-  double maxVel = 4000;
+  double kMaxOutput = 1; 
+  double kMinOutput = 0; 
+  double maxVel = 3000;
   double maxAcc = 1500;
-  double setPointDrive = 0;
 
    public BallTransitSubsystem() {
      //initializePID(armMotorPIDCon, armEncoder);

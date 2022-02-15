@@ -82,7 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param scaleY
    */
   public void manualDrive(double x, double y, double scaleX, double scaleY) {
-    //This is meant to prevent less stress on the gears of the drivetrain and prevent accidental touch
+    //This is meant to prevent less stress on the gears of the drivetrain and accidental touch
     if (Math.abs(x) <= 0.34 && Math.abs(y) <= 0.01) {
       leftFrontMotor.set(0);
       rightFrontMotor.set(0);
