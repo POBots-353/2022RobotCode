@@ -103,14 +103,12 @@ public class RobotContainer {
 		// new JoystickButton(operatorStick, Buttons.toggleArm).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
 		// new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
 		//	 () -> ballTransitSubsystem.intake(), () -> ballTransitSubsystem.intakeMotor.set(0), ballTransitSubsystem));
-		// new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
-		//	 () -> ballTransitSubsystem.intake(), () -> ballTransitSubsystem.intakeMotor.set(0), ballTransitSubsystem));
-		// new JoystickButton(operatorStick, 4).whileHeld(new RunCommand(()->ballTransitSubsystem.togglePiston()));
+		//new JoystickButton(operatorStick, 3).whileHeld(new SequentialCommandGroup (new RunCommand(()->ballTransitSubsystem.setArmAngle(PositionMode.goDown), ballTransitSubsystem).withInterrupt(ballTransitSubsystem.lowLimitSwitch::get()), new InstantCommand(balTramsitSubsystem::togglePiston,ballTransitSubsystem)));
 		new JoystickButton(operatorStick, Buttons.eyeballButton).whileHeld(new EyeBallCommand(driveSubsystem));
-
 		//TESTING CODE
 		new JoystickButton(operatorStick, 3).whileHeld(()->ballTransitSubsystem.setArmAngle(PositionMode.goUp), ballTransitSubsystem);
 		new JoystickButton(operatorStick, 4).whileHeld(()->ballTransitSubsystem.setArmAngle(PositionMode.goDown), ballTransitSubsystem);
+		// new JoystickButton(operatorStick, 4).whileHeld(new RunCommand(()->ballTransitSubsystem.togglePiston()));
 	}
 
 	/**

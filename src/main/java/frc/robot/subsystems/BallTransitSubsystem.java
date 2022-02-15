@@ -33,8 +33,7 @@ public class BallTransitSubsystem extends SubsystemBase {
   // public DigitalInput topLimitSwitch = new DigitalInput(0);
   // public DigitalInput lowLimitSwitch = new DigitalInput(0);
 // 
-  // public DigitalInput lowPistonLimitSwitch = new DigitalInput(0);
-  // public DigitalInput topPistonLimitSwitch = new DigitalInput(0);
+  // public DigitalInput pistonLimitSwitch = new DigitalInput(0);
 
   int smartMotionSlot = 0;
   int allowedErr;
@@ -48,7 +47,6 @@ public class BallTransitSubsystem extends SubsystemBase {
   double kMinOutput = 0; 
   double maxVel = 3000;
   double maxAcc = 1500;
-  double setPointDrive = 0;
 
    public BallTransitSubsystem() {
      initializePID(armMotorPIDCon, armEncoder);

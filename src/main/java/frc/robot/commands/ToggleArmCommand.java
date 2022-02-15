@@ -56,7 +56,7 @@ public class ToggleArmCommand extends CommandBase {
 	@Override
 	public void execute() {
 		//if (mode == PositionMode.goDown) {
-		//	if (ballTransitSubsystem.topPistonLimitSwitch.get()) {
+		//	if (ballTransitSubsystem.pistonLimitSwitch.get()) {
 		//		ballTransitSubsystem.togglePiston();
 		//		// Takes out Piston
 		//	} else {
@@ -64,7 +64,7 @@ public class ToggleArmCommand extends CommandBase {
 		//		// Moves arm down
 		//	}
 		//} else if (mode == PositionMode.goUp) {
-		//	if (ballTransitSubsystem.lowPistonLimitSwitch.get()) {
+		//	if (ballTransitSubsystem.pistonLimitSwitch.get()) {
 		//		ballTransitSubsystem.togglePiston();
 		//		// Takes out Piston
 		//	} else {
@@ -90,7 +90,7 @@ public class ToggleArmCommand extends CommandBase {
 	 * @return true if piston is locking, false if not
 	 */
 	public boolean pistonCheck() {
-		//if (ballTransitSubsystem.lowPistonLimitSwitch.get() || ballTransitSubsystem.topPistonLimitSwitch.get()) {
+		//if (ballTransitSubsystem.pistonLimitSwitch.get()) {
 		//	ballTransitSubsystem.turnOffMotor();
 		//	return true;
 		//} else {
