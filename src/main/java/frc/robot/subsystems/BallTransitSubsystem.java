@@ -21,12 +21,12 @@ import frc.robot.commands.ToggleArmCommand.PositionMode;
 
 
 public class BallTransitSubsystem extends SubsystemBase {
-   private final CANSparkMax armIntakeMotor = new CANSparkMax(8, MotorType.kBrushless);
+  // private final CANSparkMax armIntakeMotor = new CANSparkMax(8, MotorType.kBrushless);
   // public final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
 
-  private SparkMaxPIDController armMotorPIDCon = armIntakeMotor.getPIDController();
+  //private SparkMaxPIDController armMotorPIDCon = armIntakeMotor.getPIDController();
 
-  private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
+  //private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
 // 
   // private DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
 // 
@@ -51,14 +51,14 @@ public class BallTransitSubsystem extends SubsystemBase {
   double setPointDrive = 0;
 
    public BallTransitSubsystem() {
-     initializePID(armMotorPIDCon, armEncoder);
+     //initializePID(armMotorPIDCon, armEncoder);
    }
 // 
   // public void togglePiston() {
     // piston.toggle();
   //}
 
-  public void setArmAngle(PositionMode position) {
+  /*public void setArmAngle(PositionMode position) {
     if (position == PositionMode.goDown) {
       armMotorPIDCon.setReference(0, CANSparkMax.ControlType.kSmartMotion);
     } else if (position == PositionMode.goUp) {
@@ -68,7 +68,7 @@ public class BallTransitSubsystem extends SubsystemBase {
 
   public void turnOffArmMotor(){
     armIntakeMotor.set(0);
-  }
+  }*/
   //public void intake() {
     // if (topLimitSwitch.get()) {
       // intakeMotor.set(-0.4);
@@ -89,7 +89,7 @@ public class BallTransitSubsystem extends SubsystemBase {
     // }
   // }
 // 
-  public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
+  /*public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
     p.setP(kP);
     p.setI(kI);
     p.setD(kD);
@@ -100,7 +100,7 @@ public class BallTransitSubsystem extends SubsystemBase {
     p.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
     p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
-  }
+  }*/
 
   @Override
   public void periodic() {
