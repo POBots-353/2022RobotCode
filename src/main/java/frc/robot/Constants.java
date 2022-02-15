@@ -23,8 +23,8 @@ public final class Constants {
     public static int rightFrontMotorID = 4;
     public static int rightBackMotorID = 3;
     //Arm Motor IDS
-    public static int intakeArmMotorID = 7;
-    public static int intakeMotorID = 8;
+    public static int intakeArmMotorID = 8;
+    public static int intakeMotorID = 7;
 
 
     //Intake Constants
