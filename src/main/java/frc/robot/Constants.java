@@ -18,9 +18,9 @@ package frc.robot;
  */
 public final class Constants {
     //Drive Motor IDS
-    public static int leftFrontMotorID = 4;
-    public static int leftBackMotorID = 2;
-    public static int rightFrontMotorID = 1;
+    public static int leftFrontMotorID = 2;
+    public static int leftBackMotorID = 1;
+    public static int rightFrontMotorID = 4;
     public static int rightBackMotorID = 3;
     //Arm Motor IDS
     public static int intakeArmMotorID = 7;
@@ -78,7 +78,7 @@ public final class Constants {
         public static int climberButton = 0;
         public static int toggleArm = 1;
         public static int ballIntake = 2;
-        public static int eyeballButton = 3;
+        public static int eyeballButton = 5;
     }
 
     public static final class DriveConstants {

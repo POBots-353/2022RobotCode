@@ -19,7 +19,7 @@ public class ToggleArmCommand extends CommandBase {
 		broken
 	}
 
-	//private PositionMode mode = PositionMode.broken;
+	private PositionMode mode = PositionMode.broken;
 	//private Compressor compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
 	public ToggleArmCommand(BallTransitSubsystem subsystem) {
@@ -29,28 +29,28 @@ public class ToggleArmCommand extends CommandBase {
 
 	@Override
 	public void initialize() {
-	//	// Disables the compressor to prevent brownout for the duration of this command
-	//	
-	//	compressor.disable();
-	//	SmartDashboard.putBoolean("Arm Transit Compelete", false);
-
-	//	if (ballTransitSubsystem.topLimitSwitch.get()) {
-	//		if (ballTransitSubsystem.lowLimitSwitch.get()) {
-	//			SmartDashboard.putString("Mulitiple Swtiches Pressed", "##ERROR##");
-	//			// Both switches are clicked
-	//		} else {
-	//			mode = PositionMode.goDown;
-	//			// When limit swtich on the bottom is not clicked then set mode to goDown
-	//		}
-	//	} else {
-	//		if (ballTransitSubsystem.lowLimitSwitch.get()) {
-	//			mode = PositionMode.goUp;
-	//			// When limit switch on the bottom is clicked then set mode to goUp
-	//		} else {
-	//			SmartDashboard.putString("Limit Switches", "BROKEN!!!!");
-	//			// not receiveing any data from switches
-	//		}
-	//	}
+		// Disables the compressor to prevent brownout for the duration of this command
+		
+		//compressor.disable();
+		SmartDashboard.putBoolean("Arm Transit Compelete", false);
+ 
+		/*if (ballTransitSubsystem.topLimitSwitch.get()) {
+			if (ballTransitSubsystem.lowLimitSwitch.get()) {
+				SmartDashboard.putString("Mulitiple Swtiches Pressed", "##ERROR##");
+				// Both switches are clicked
+			} else {
+				mode = PositionMode.goDown;
+				// When limit swtich on the bottom is not clicked then set mode to goDown
+			}
+		} else {
+			if (ballTransitSubsystem.lowLimitSwitch.get()) {
+				mode = PositionMode.goUp;
+				// When limit switch on the bottom is clicked then set mode to goUp
+			} else {
+				SmartDashboard.putString("Limit Switches", "BROKEN!!!!");
+				// not receiveing any data from switches
+			}
+		}*/
 	}
 
 	@Override
@@ -91,6 +91,7 @@ public class ToggleArmCommand extends CommandBase {
 	 */
 	public boolean pistonCheck() {
 		//if (ballTransitSubsystem.lowPistonLimitSwitch.get() || ballTransitSubsystem.topPistonLimitSwitch.get()) {
+		//	ballTransitSubsystem.turnOffMotor();
 		//	return true;
 		//} else {
 			return false;

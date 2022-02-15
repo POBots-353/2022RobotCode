@@ -20,6 +20,7 @@ import frc.robot.commands.OneBallAutoCommand;
 import frc.robot.commands.ToggleArmCommand;
 import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.commands.TwoBallAutoCommand;
+import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
 //import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -53,6 +54,7 @@ public class RobotContainer {
 		m_chooser.addOption("One Ball Auto", OneBallAuto);
 		SmartDashboard.putData(m_chooser);
 		// Configure the button bindings
+
 		driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.manualDrive(
 				(DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3)) +
 						(1 - DriveConstants.scaleY) * driverStick.getX()),
@@ -87,29 +89,13 @@ public class RobotContainer {
 						DriveConstants.scaleTurn, DriveConstants.scaleFowd), driveSubsystem));
 		// new JoystickButton(operatorStick, 1).whileHeld(new
 		// SetDistanceCommand(driveSubsystem, 196));
-		/*
-		 * JoystickButton driveBoostButton = new JoystickButton(driverStick,
-		 * Buttons.driveBoostToggle);
-		 * driveBoostButton.whileHeld(new RunCommand(
-		 * () -> driveSubsystem.manualDrive(-1 * (driverStick.getY()),
-		 * driverStick.getX(),
-		 * DriveConstants.scaleTurnBoost, DriveConstants.scaleYBoost),
-		 * driveSubsystem));
-		 * 
-		 * new JoystickButton(driverStick, Buttons.driveSlowToggle).whileHeld(new
-		 * RunCommand(
-		 * () -> driveSubsystem.manualDrive(-1 * (driverStick.getY()),
-		 * driverStick.getX(),
-		 * DriveConstants.scaleTurnSlow, DriveConstants.scaleYSlow),
-		 * driveSubsystem));
-		 */
 		// Turn to Angle Buttons
-		new JoystickButton(driverStick, Buttons.turn45Toggle)
+		/*new JoystickButton(driverStick, Buttons.turn45Toggle)
 				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle45));
 		new JoystickButton(driverStick, Buttons.turn90Toggle)
 				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle90));
 		new JoystickButton(driverStick, Buttons.turn180Toggle)
-				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle180));
+				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle180));*/
 		/*
 		 * new JoystickButton(operatorStick, Buttons.climberButton)
 		 * .whileHeld(new ClimberCommand(climberSubsystem));
@@ -121,6 +107,10 @@ public class RobotContainer {
 		//	 () -> ballTransitSubsystem.intake(), () -> ballTransitSubsystem.intakeMotor.set(0), ballTransitSubsystem));
 		// new JoystickButton(operatorStick, 4).whileHeld(new RunCommand(()->ballTransitSubsystem.togglePiston()));
 		new JoystickButton(operatorStick, Buttons.eyeballButton).whileHeld(new EyeBallCommand(driveSubsystem));
+
+		//TESTING CODE
+		new JoystickButton(operatorStick, 3).whileHeld(()->ballTransitSubsystem.setArmAngle(PositionMode.goUp), ballTransitSubsystem);
+		new JoystickButton(operatorStick, 4).whileHeld(()->ballTransitSubsystem.setArmAngle(PositionMode.goDown), ballTransitSubsystem);
 	}
 
 	/**
