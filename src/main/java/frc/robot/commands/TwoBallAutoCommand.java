@@ -20,33 +20,31 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
     //Make Sure to have a timeout after every Command, just incase the command doesn't end
     addCommands(
       //Command list of wanted movement
-      /*new DumpBallCommand(transitSubsystem).withTimeout(1),
+      //new DumpBallCommand(transitSubsystem).withTimeout(1),
       new AutoDriveCommand(drive, -20),
       new TurnToAngleCommand(drive, 180),
-      new IntakeBallCommand(transitSubsystem),
-      new ParallelRaceGroup(
+      //new IntakeBallCommand(transitSubsystem),
+      //new ParallelRaceGroup(
         new AutoDriveCommand(drive, 10),
-        new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
+      /*  new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
                 () -> ballTransitSubsystem.toggleIntake(false),
-                      ballTransitSubsystem)
-        ),
+                      ballTransitSubsystem)*/
+     //   ),
       new TurnToAngleCommand(drive, -90),
-      new ParallelRaceGroup(
+      //new ParallelRaceGroup(
         new AutoDriveCommand(drive, 5),
-        new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
+        /*new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
                 () -> ballTransitSubsystem.toggleIntake(false),
-                      ballTransitSubsystem)
-        ),
+                      ballTransitSubsystem)*/
+      //  ),
       new TurnToAngleCommand(drive, 0),
       //new IntakeBallCommand(transitSubsystem).withInterrupt(transitSubsystem::getUpPiston),
-      new AutoDriveCommand(drive, 10),
-      //new TurnToAngleCommand(drive, 0),
-      //new AutoDriveCommand(drive, 10),
-      new DumpBallCommand(transitSubsystem),
-      new StartEndCommand(() -> ballTransitSubsystem.toggleShooter(true),
+      new AutoDriveCommand(drive, 10)
+      //new DumpBallCommand(transitSubsystem),
+      /*new StartEndCommand(() -> ballTransitSubsystem.toggleShooter(true),
           () -> ballTransitSubsystem.toggleShooter(false),
-               ballTransitSubsystem)
-      */
+               ballTransitSubsystem)*/
+      
 
         //Tests
         /*new SetDistanceCommand(drive, 80),

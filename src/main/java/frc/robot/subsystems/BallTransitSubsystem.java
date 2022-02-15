@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems;
 
-import javax.imageio.ImageTypeSpecifier;
-
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -17,155 +14,94 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.ToggleArmCommand.PositionMode;
+
 
 public class BallTransitSubsystem extends SubsystemBase {
-    private final CANSparkMax intakeMotor = new CANSparkMax(6, MotorType.kBrushless);
-    private final CANSparkMax shooterMotor = new CANSparkMax(8, MotorType.kBrushless);
-    // public final CANSparkMax armIntakeMotor = new
-    // CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
-    // private SparkMaxPIDController intakeMotorPIDCon =
-    // intakeMotor.getPIDController();
-    // public RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
-    // public DoubleSolenoid upperPiston = new
-    // DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
-    // public DoubleSolenoid lowerPiston = new
-    // DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
-    // DigitalInput toplimitSwitch = new DigitalInput(0);
-    // DigitalInput lowlimitSwitch = new DigitalInput(0);
+   private final CANSparkMax armIntakeMotor = new CANSparkMax(Constants.intakeArmMotorID, MotorType.kBrushless);
+  // public final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
 
-    // int smartMotionSlot = 0;
-    // int allowedErr;
-    // int minVel;
-    // double kP = 4e-4;
-    // double kI = 0;
-    // double kD = 0;
-    // double kIz = 0;
-    // double kFF = 0.000156;
-    // double kMaxOutput = 1;
-    // double kMinOutput = -1;
-    // double maxRPM = 5700;
-    // double maxVel = 4000;
-    // double maxAcc = 1500;
-    // double setPointDrive = 0;
+  private SparkMaxPIDController armMotorPIDCon = armIntakeMotor.getPIDController();
 
-    double goal = 1000;
-    //double encoderError = goal - intakeEncoder.getPosition();
-    double kP = .4;
-    double neededAngle = 0;
-    public boolean downPistonPosition = false;
-    public boolean upPistonPosition = true;
-    /** Creates a new BallTransitSubsystem. */
-    public BallTransitSubsystem() {
-        // initializePID(intakeMotorPIDCon, intakeEncoder);
-    }
-    public void turnOffArm(){
-        //armIntakeMotor.set(0);
-    }
-    public void toggleShooter(boolean y) {
-        if (y) {
-            shooterMotor.set(-0.3);
-        } else {
-            shooterMotor.set(0);
-        }
-    }
+  private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
+// 
+  // private DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
+// 
+  // public DigitalInput topLimitSwitch = new DigitalInput(0);
+  // public DigitalInput lowLimitSwitch = new DigitalInput(0);
+// 
+  // public DigitalInput pistonLimitSwitch = new DigitalInput(0);
 
-    public void toggleIntake(boolean y) {
-        if (y) {
-            intakeMotor.set(0.2);
-        } else {
-            intakeMotor.set(0);
-        }
-    }
+  int smartMotionSlot = 0;
+  int allowedErr;
+  int minVel;
+  double kP = 4e-4;
+  double kI = 0;
+  double kD = 0;
+  double kIz = 0;
+  double kFF = 0.000156;
+  double kMaxOutput = 1; 
+  double kMinOutput = 0; 
+  double maxVel = 3000;
+  double maxAcc = 1500;
 
-    public void toggleDownLock() {
-        if (downPistonPosition) {
-            downPistonPosition = false;
-        } else if (downPistonPosition != true) {
-            downPistonPosition = true;
-        }
-    }
+   public BallTransitSubsystem() {
+     initializePID(armMotorPIDCon, armEncoder);
+   }
+// 
+  // public void togglePiston() {
+    // piston.toggle();
+  //}
 
-    public void toggleUpLock() {
-        if (upPistonPosition) {
-            upPistonPosition = false;
-        } else if (upPistonPosition != true) {
-            upPistonPosition = true;
-        }
+  public void setArmAngle(PositionMode position) {
+    if (position == PositionMode.goDown) {
+      armMotorPIDCon.setReference(0, CANSparkMax.ControlType.kSmartMotion);
+    } else if (position == PositionMode.goUp) {
+      armMotorPIDCon.setReference(15, CANSparkMax.ControlType.kSmartMotion);
     }
+  }
 
-    public boolean getDownPiston() {
-        return downPistonPosition;
-    }
-
-    public boolean getUpPiston() {
-        return upPistonPosition;
-    }
-
-    /*
-     * public void toggleUpPiston() {
-     * if (toplimitSwitch.get()) {
-     * upperPiston.set(Value.kForward);
-     * }else{
-     * upperPiston.set(Value.kReverse);
-     * }
-     * // if top limit switch is hit, extends piston to lock
-     * }
-     * 
-     * public void toggleDownPiston() {
-     * if (lowlimitSwitch.get()) {
-     * lowerPiston.set(Value.kForward);
-     * // // if bottom limit switch is hit, extends piston to lock
-     * }else{
-     * lowerPiston.set(Value.kReverse);
-     * }
-     * }
-     * public boolean getDownPiston(){
-     * return lowerPiston.get();
-     * }
-     * public boolean getUpPiston(){
-     * return upperPiston.get();
-     * }
-     * public void transitUp() {
-     * intakeMotorPIDCon.setReference(1.0, CANSparkMax.ControlType.kSmartMotion);
-     * }
-     * 
-     * public void transitDown() {
-     * intakeMotorPIDCon.setReference(-1.0, CANSparkMax.ControlType.kSmartMotion);
-     * }
-     * 
-     * public void dropBall() {
-     * 
-     * }
-     * 
-     * public void intake() {
-     * 
-     * }
-     */
-    // public void initializePID(SparkMaxPIDController p, RelativeEncoder h){
-    // p.setP(kP);
-    // p.setI(kI);
-    // p.setD(kD);
-    // p.setIZone(kIz);
-    // p.setFF(kFF);
-    // p.setOutputRange(kMinOutput, kMaxOutput);
-    // p.setSmartMotionMaxVelocity(maxVel, smartMotionSlot);
-    // p.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
-    // p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
-    // p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
-    // h.setPositionConversionFactor(DriveConstants.conversionPosition);
-    // h.setVelocityConversionFactor(DriveConstants.conversionVelocity);
+  public void turnOffArmMotor(){
+    armIntakeMotor.set(0);
+  }
+  //public void intake() {
+    // if (topLimitSwitch.get()) {
+      // intakeMotor.set(-0.4);
+    // } else if (lowLimitSwitch.get()) {
+      // intakeMotor.set(0.4);
+    // } else {
+      // intakeMotor.set(0);
     // }
-    // @Override
-    // public void periodic() {
-    // // This method will be called once per scheduler run
+   //}
+ 
+  // public void inverseIntake() {
+    // if (topLimitSwitch.get()) {
+      // intakeMotor.set(0.4);
+    // } else if (lowLimitSwitch.get()) {
+      // intakeMotor.set(-0.4);
+    // } else {
+      // intakeMotor.set(0);
     // }
-}
+  // }
+// 
+  public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
+    p.setP(kP);
+    p.setI(kI);
+    p.setD(kD);
+    p.setIZone(kIz);
+    p.setFF(kFF);
+    p.setOutputRange(kMinOutput, kMaxOutput);
+    p.setSmartMotionMaxVelocity(maxVel, smartMotionSlot);
+    p.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
+    p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
+    p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
+  }
+
+  @Override
+  public void periodic() {
+    //This method will be called once per scheduler run
+  }
+ }
