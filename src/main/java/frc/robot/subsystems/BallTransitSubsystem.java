@@ -106,4 +106,8 @@ public class BallTransitSubsystem extends SubsystemBase {
   // public void periodic() {
     // This method will be called once per scheduler run
   // }
+
+public Object toggleShooter(boolean b) {
+    return null;
+}
 }

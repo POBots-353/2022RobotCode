@@ -20,33 +20,34 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
     //Make Sure to have a timeout after every Command, just incase the command doesn't end
     addCommands(
       //Command list of wanted movement
-      /*new DumpBallCommand(transitSubsystem).withTimeout(1),
-      new AutoDriveCommand(drive, -20),
-      new TurnToAngleCommand(drive, 180),
-      new IntakeBallCommand(transitSubsystem),
-      new ParallelRaceGroup(
-        new AutoDriveCommand(drive, 10),
-        new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
+      //new DumpBallCommand(transitSubsystem).withTimeout(1),
+      new AutoDriveCommand(drive, 8.41 *  (25.49 / (6 * Math.PI))),
+      new TurnToAngleCommand(drive, 164),
+      //new IntakeBallCommand(transitSubsystem),
+      //new ParallelRaceGroup(
+        new AutoDriveCommand(drive, 8.41 * (111.78 / (6 * Math.PI)),
+        //new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
+          //      () -> ballTransitSubsystem.toggleIntake(false),
+            //          ballTransitSubsystem)
+        //),
+      new TurnToAngleCommand(drive, -59),
+      //new ParallelRaceGroup(
+        new AutoDriveCommand(drive, 8.41 * (127.1875 / (6 * Math.PI))),
+        //new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
                 () -> ballTransitSubsystem.toggleIntake(false),
                       ballTransitSubsystem)
-        ),
-      new TurnToAngleCommand(drive, -90),
-      new ParallelRaceGroup(
-        new AutoDriveCommand(drive, 5),
-        new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
-                () -> ballTransitSubsystem.toggleIntake(false),
-                      ballTransitSubsystem)
-        ),
-      new TurnToAngleCommand(drive, 0),
+      ),
+    
+      new TurnToAngleCommand(drive, -54),
       //new IntakeBallCommand(transitSubsystem).withInterrupt(transitSubsystem::getUpPiston),
-      new AutoDriveCommand(drive, 10),
-      //new TurnToAngleCommand(drive, 0),
-      //new AutoDriveCommand(drive, 10),
+      new AutoDriveCommand(drive, 8.41 * (118.44 / (6 * Math.PI))),
+      new TurnToAngleCommand(drive, 16),
+      new AutoDriveCommand(drive, 8.41 * (25.9 / (6 * Math.PI))),
       new DumpBallCommand(transitSubsystem),
       new StartEndCommand(() -> ballTransitSubsystem.toggleShooter(true),
           () -> ballTransitSubsystem.toggleShooter(false),
-               ballTransitSubsystem)
-      */
+               ballTransitSubsystem)            
+      
 
         //Tests
         /*new SetDistanceCommand(drive, 80),
