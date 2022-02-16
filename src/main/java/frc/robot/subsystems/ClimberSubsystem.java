@@ -80,14 +80,14 @@
 
 //   public void setOuterArmsPosition(double position) {
 //     if (outerPIDEnabled) {
-//       outerController.setReference(position, CANSparkMax.ControlType.kSmartVelocity);
+//       outerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
 //       currentOuterReferencePoint = position;
 //     }
 //   }
 
 //   public void setInnerArmsPosition(double position) {
 //     if (innerPIDEnabled) {
-//       innerController.setReference(position, CANSparkMax.ControlType.kSmartVelocity);
+//       innerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
 //       currentInnerReferencePoint = position;
 //     }
 //   }

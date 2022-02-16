@@ -43,6 +43,7 @@ public class DriveSubsystem extends SubsystemBase {
   
 
   public final AnalogInput ultrasonic = new AnalogInput(0);
+  //public final AnalogInput ultrasonic2 = new AnalogInput(1);
   int smartMotionSlot = 0;
   int allowedErr;
   int minVel;
@@ -81,8 +82,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @param scaleY
    */
   public void manualDrive(double x, double y, double scaleX, double scaleY) {
-    //This is meant to prevent less stress on the gears of the drivetrain and prevent accidental touch
-    if (Math.abs(x) <= 0.5 && Math.abs(y) <= 0.01) {
+    //This is meant to prevent less stress on the gears of the drivetrain and accidental touch
+    if (Math.abs(x) <= 0.34 && Math.abs(y) <= 0.01) {
       leftFrontMotor.set(0);
       rightFrontMotor.set(0);
       leftBackMotor.set(0);
@@ -200,6 +201,7 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     
     SmartDashboard.putNumber("Ultrasonic", ultrasonic.getValue() * 0.125);
+    //SmartDashboard.putNumber("Ultrasonic 2", ultrasonic2.getValue() * 0.125);
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
     SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());
