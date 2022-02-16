@@ -6,15 +6,59 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 
 public class OneBallAutoCommand extends SequentialCommandGroup {
   public OneBallAutoCommand(DriveSubsystem drive, BallTransitSubsystem ballTransitSubsystem) {
+    //Make Sure to have a timeout after every Command, just incase the command doesn't end
     addCommands(
-      //new SwerveCommand(drive, -90, 70)
-      new RunCommand(()->drive.manualDrive(0.5,0,1000,0), drive).withTimeout(15)
-    );
+      //Command list of wanted movement
+      //new DumpBallCommand(transitSubsystem).withTimeout(1),
+      new AutoDriveCommand(drive, 8.41 * (34.6875 / (6 * Math.PI))),
+      new TurnToAngleCommand(drive, 180),
+      //new IntakeBallCommand(transitSubsystem),
+      //new ParallelRaceGroup(
+        new AutoDriveCommand(drive, 8.41 *(150 / (6 * Math.PI))),
+        //new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
+          //      () -> ballTransitSubsystem.toggleIntake(false),
+            //          ballTransitSubsystem)
+        //),
+
+      new StartEndCommand(() -> ballTransitSubsystem.toggleShooter(true),
+          () -> ballTransitSubsystem.toggleShooter(false),
+               ballTransitSubsystem)            
+      
+
+        //Tests
+        /*new SetDistanceCommand(drive, 80),
+
+        new TurnToAngleCommand(drive, -91),
+
+        new AutoDriveCommand(drive, 50),
+
+        new TurnToAngleCommand(drive, 90),
+
+        new AutoDriveCommand(drive, 50),
+
+        new TurnToAngleCommand(drive, 0),
+
+        new AutoDriveCommand(drive, -25).withInterrupt(transitSubsystem::getDownPiston)*/
+        
+        // new AutoDriveCommand(drive, -35)
+       // new AutoDriveCommand(drive, 50)*/
+        // Turns to specified angle
+        /*new AlignCommand(drive, 50), // Enter wanted angle
+
+        new ParallelRaceGroup(
+            new AutoDriveCommand(drive,50), // Drives the robot to specifed distance,
+                                                                             // stops after two seconds
+            new IntakeBallCommand(transitSubsystem).withTimeout(2)),
+
+        new AutoDriveCommand(drive,50),
+
+        new DumpBallCommand(transitSubsystem).withTimeout(1)*/);
   }
 }

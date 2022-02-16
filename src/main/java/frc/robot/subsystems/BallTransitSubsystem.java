@@ -88,8 +88,8 @@ public class BallTransitSubsystem extends SubsystemBase {
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
   }
 
-  @Override
-  public void periodic() {
+  //@Override
+  //public void periodic() {
     //This method will be called once per scheduler run
-  }
- }
+  //}
+}
