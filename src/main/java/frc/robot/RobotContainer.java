@@ -49,8 +49,8 @@ public class RobotContainer {
 
 	// Put the chooser on the dashboard
 
-	public static final Joystick driverStick = new Joystick(1);
-	public static final Joystick operatorStick = new Joystick(0);
+	public static final Joystick driverStick = new Joystick(0);
+	public static final Joystick operatorStick = new Joystick(1);
 
 	public RobotContainer() {
 		SmartDashboard.putBoolean("Set Position", true);
@@ -111,8 +111,6 @@ public class RobotContainer {
 		 */
 		// new JoystickButton(operatorStick, Buttons.toggleArm).whenPressed(new
 		// ToggleArmCommand(ballTransitSubsystem));
-		// new JoystickButton(operatorStick, 4).whileHeld(new
-		// RunCommand(()->ballTransitSubsystem.togglePiston()));
 
 		// new JoystickButton(operatorStick, Buttons.eyeballButton).whileHeld(new
 		// EyeBallCommand(driveSubsystem));
@@ -122,7 +120,8 @@ public class RobotContainer {
 		new JoystickButton(operatorStick, Buttons.ballOutTake).whileHeld(new StartEndCommand(
 				() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.intakeMotor.set(0),
 				ballTransitSubsystem));
-
+		//		new JoystickButton(operatorStick, 3).whileHeld(new RunCommand(() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
+		//		ballTransitSubsystem).withInterrupt(condition));
 		// TESTING CODE
 		new JoystickButton(operatorStick, 3).whileHeld(() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
 				ballTransitSubsystem);

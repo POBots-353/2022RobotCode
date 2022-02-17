@@ -12,6 +12,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,6 +31,8 @@ public class BallTransitSubsystem extends SubsystemBase {
   private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
 // 
   // private DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
+  //private DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1,1);
+  //DoubleSolenoid anotherDoubleSolenoid = new DoubleSolenoid(/* The PCM CAN ID */ 9, 4, 5);
 // 
   // public DigitalInput topLimitSwitch = new DigitalInput(0);
   // public DigitalInput lowLimitSwitch = new DigitalInput(0);
@@ -44,9 +48,9 @@ public class BallTransitSubsystem extends SubsystemBase {
   double kIz = 0;
   double kFF = 0.000156;
   double kMaxOutput = 1; 
-  double kMinOutput = 0; 
+  double kMinOutput = 0; //-0.25
   double maxVel = 3000;
-  double maxAcc = 1500;
+  double maxAcc = 1200;
 
    public BallTransitSubsystem() {
      initializePID(armMotorPIDCon, armEncoder);
@@ -58,9 +62,9 @@ public class BallTransitSubsystem extends SubsystemBase {
 
   public void setArmAngle(PositionMode position) {
     if (position == PositionMode.goDown) {
-      armMotorPIDCon.setReference(0, CANSparkMax.ControlType.kSmartMotion);
+      armMotorPIDCon.setReference(1.75, CANSparkMax.ControlType.kSmartMotion);
     } else if (position == PositionMode.goUp) {
-      armMotorPIDCon.setReference(15, CANSparkMax.ControlType.kSmartMotion);
+      armMotorPIDCon.setReference(12, CANSparkMax.ControlType.kSmartMotion);
     }
   }
 
@@ -68,11 +72,17 @@ public class BallTransitSubsystem extends SubsystemBase {
     armIntakeMotor.set(0);
   }
   public void intake() {
-    intakeMotor.set(0.2);
+    intakeMotor.set(0.7);
    }
  
    public void outTake() {
-    intakeMotor.set(-0.2);
+    intakeMotor.set(-0.7);
+   }
+   public boolean checkArmUp(){
+     if (armEncoder.getPosition() >= 11.5){
+       return true;
+     }
+     return false;
    }
 
   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
@@ -88,8 +98,8 @@ public class BallTransitSubsystem extends SubsystemBase {
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
   }
 
-  //@Override
-  //public void periodic() {
-    //This method will be called once per scheduler run
-  //}
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Position of Arm", armEncoder.getPosition());
+  }
 }
