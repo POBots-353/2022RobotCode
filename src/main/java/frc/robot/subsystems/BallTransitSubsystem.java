@@ -30,7 +30,7 @@ public class BallTransitSubsystem extends SubsystemBase {
 
   private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
  
-  //private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
+  private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
   // public DigitalInput topLimitSwitch = new DigitalInput(0);
   // public DigitalInput lowLimitSwitch = new DigitalInput(0);
  
@@ -53,42 +53,42 @@ public class BallTransitSubsystem extends SubsystemBase {
      initializePID(armMotorPIDCon, armEncoder);
    }
 // 
-  // public void togglePiston() {
-    // piston.toggle();
-  //}
+   public void togglePiston() {
+     piston.toggle();
+  }
 
   public void setArmAngle(PositionMode position) {
     if (position == PositionMode.goDown) {
-      armMotorPIDCon.setReference(1.75, CANSparkMax.ControlType.kSmartMotion);
+      armMotorPIDCon.setReference(Constants.armDownPosition, CANSparkMax.ControlType.kSmartMotion);
     } else if (position == PositionMode.goUp) {
-      armMotorPIDCon.setReference(12, CANSparkMax.ControlType.kSmartMotion);
+      armMotorPIDCon.setReference(Constants.armUpPosition, CANSparkMax.ControlType.kSmartMotion);
     }
   }
 
-  /*public boolean pistonCheck(){
+  public boolean pistonCheck(){
     if (piston.get() == Value.kForward){
       return true;
     }else{
       return false;
     }
-  }*/
+  }
 
   public void turnOffArmMotor(){
     armIntakeMotor.set(0);
   }
 
-  /*public void turnOffPiston(){
+  public void turnOffPiston(){
     if (piston.get() == Value.kForward){
       piston.toggle();;
     }
-  }*/
+  }
 
   public void intake() {
-    intakeMotor.set(0.7);
+    intakeMotor.set(Constants.intakeSpeed);
    }
  
    public void outTake() {
-    intakeMotor.set(-0.7);
+    intakeMotor.set(-Constants.intakeSpeed);
    }
 
    public boolean checkArmUp(){

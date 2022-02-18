@@ -133,24 +133,20 @@ public class RobotContainer {
 		 */
 
 		// Arm up or down
-		/*
-		 * new JoystickButton(operatorStick, armUp).whileHeld(new
-		 * FunctionalCommand(ballTransitSubsystem::turnOffPiston,
-		 * () -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
-		 * interruppted -> ballTransitSubsystem.checkArmUp(),
-		 * ballTransitSubsystem::checkArmUp,
-		 * ballTransitSubsystem));
-		 * 
-		 * new JoystickButton(operatorStick, armDown).whileHeld(new
-		 * FunctionalCommand(ballTransitSubsystem::turnOffPiston,
-		 * () -> ballTransitSubsystem.setArmAngle(PositionMode.goDown),
-		 * interruppted -> ballTransitSubsystem.checkArmUp(),
-		 * ballTransitSubsystem::checkArmDown,
-		 * ballTransitSubsystem));
-		 * //
-		 * new JoystickButton(operatorStick, Buttons.armToggle).whenPressed(new
-		 * ToggleArmCommand(ballTransitSubsystem));
-		 */
+
+		new JoystickButton(operatorStick, Buttons.armUp).whileHeld(new FunctionalCommand(ballTransitSubsystem::turnOffPiston,
+				() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
+				interruppted -> ballTransitSubsystem.checkArmUp(),
+				ballTransitSubsystem::checkArmUp,
+				ballTransitSubsystem));
+
+		new JoystickButton(operatorStick, Buttons.armDown).whileHeld(new FunctionalCommand(ballTransitSubsystem::turnOffPiston,
+				() -> ballTransitSubsystem.setArmAngle(PositionMode.goDown),
+				interrupted -> ballTransitSubsystem.checkArmUp(),
+				ballTransitSubsystem::checkArmDown,
+				ballTransitSubsystem));
+		//
+		new JoystickButton(operatorStick, Buttons.armToggle).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
 
 		// TESTING CODE
 		new JoystickButton(operatorStick, Buttons.armUp).whileHeld(

@@ -32,8 +32,7 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
     //Turns 180 degrees and returns back to the drop with the ball 
      /* new StartEndCommand(() -> ballTransitSubsystem.toggleShooter(true),
           () -> ballTransitSubsystem.toggleShooter(false),
-               ballTransitSubsystem)          
-    
+               ballTransitSubsystem)
       */ 
 
         //Tests

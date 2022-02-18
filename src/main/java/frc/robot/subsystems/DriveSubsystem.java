@@ -62,7 +62,6 @@ public class DriveSubsystem extends SubsystemBase {
   //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);
 
   public DriveSubsystem() {
-    resetGyro();
     Shuffleboard.getTab("Example tab").add(m_gyro);
     leftFrontMotor.restoreFactoryDefaults();
     leftBackMotor.restoreFactoryDefaults();
