@@ -21,7 +21,7 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
     addCommands(
       //Command list of wanted movement
       //new DumpBallCommand(transitSubsystem).withTimeout(1),
-      new AutoDriveCommand(drive, 8.41 *  (25.49 / (6 * Math.PI))),
+      new AutoDriveCommand(drive, 8.41 *  (23.125 / (6 * Math.PI))),
       new TurnToAngleCommand(drive, 164),
       //new IntakeBallCommand(transitSubsystem),
       //new ParallelRaceGroup(
@@ -30,7 +30,7 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
           //      () -> ballTransitSubsystem.toggleIntake(false),
             //          ballTransitSubsystem)
         //),
-      new TurnToAngleCommand(drive, -59),
+      new TurnToAngleCommand(drive, -60),
       //new ParallelRaceGroup(
         new AutoDriveCommand(drive, 8.41 * (127.1875 / (6 * Math.PI))),
         //new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
@@ -38,7 +38,7 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
         //              ballTransitSubsystem)
       //),
     
-      new TurnToAngleCommand(drive, -54),
+      new TurnToAngleCommand(drive, -53),
       //new IntakeBallCommand(transitSubsystem).withInterrupt(transitSubsystem::getUpPiston),
       new AutoDriveCommand(drive, 8.41 * (118.44 / (6 * Math.PI))),
       new TurnToAngleCommand(drive, 16),
