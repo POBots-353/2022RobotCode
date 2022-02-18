@@ -30,10 +30,7 @@ public class BallTransitSubsystem extends SubsystemBase {
 
   private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
 // 
-  // private DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
-  //private DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1,1);
-  //DoubleSolenoid anotherDoubleSolenoid = new DoubleSolenoid(/* The PCM CAN ID */ 9, 4, 5);
-// 
+   //private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
   // public DigitalInput topLimitSwitch = new DigitalInput(0);
   // public DigitalInput lowLimitSwitch = new DigitalInput(0);
 // 
@@ -84,7 +81,12 @@ public class BallTransitSubsystem extends SubsystemBase {
      }
      return false;
    }
-
+   public boolean checkArmDown(){
+     if (armEncoder.getPosition() <= 1.75){
+       return true;
+     }
+     return false;
+   }
   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
     p.setP(kP);
     p.setI(kI);

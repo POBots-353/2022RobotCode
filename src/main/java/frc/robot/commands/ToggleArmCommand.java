@@ -29,11 +29,18 @@ public class ToggleArmCommand extends CommandBase {
 
 	@Override
 	public void initialize() {
-		// Disables the compressor to prevent brownout for the duration of this command
 		
-		//compressor.disable();
-		//SmartDashboard.putBoolean("Arm Transit Compelete", false);
- 
+		/*if (checkArmUp()) {
+			mode = PositionMode.goDown;
+			// When limit swtich on the bottom is not clicked then set mode to goDown
+		} else if (checkArmDown()) {
+			mode = PositionMode.goUp;
+		}else{
+			mode = PositionMode.Broken;
+		}
+		*/
+
+		//WE WILL DELETE THIS
 		/*if (ballTransitSubsystem.topLimitSwitch.get()) {
 			if (ballTransitSubsystem.lowLimitSwitch.get()) {
 				SmartDashboard.putString("Mulitiple Swtiches Pressed", "##ERROR##");
@@ -76,8 +83,6 @@ public class ToggleArmCommand extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		//compressor.enableDigital();
-		//SmartDashboard.putBoolean("Arm Transit", true);
 		//ballTransitSubsystem.turnOffArmMotor();
 	}
 
@@ -102,7 +107,7 @@ public class ToggleArmCommand extends CommandBase {
 	@Override
 	public boolean isFinished() {
 	//	if (mode == PositionMode.goDown) {
-	//		if (ballTransitSubsystem.lowLimitSwitch.get()) {
+	//		if (checkArmDown()) {
 	//			// Checks if the lower limit is hit
 	//			ballTransitSubsystem.togglePiston();
 	//			return pistonCheck();
@@ -111,7 +116,7 @@ public class ToggleArmCommand extends CommandBase {
 	//		}
 //
 	//	} else if (mode == PositionMode.goUp) {
-	//		if (ballTransitSubsystem.topLimitSwitch.get()) {
+	//		if (checkArmUp()) {
 	//			// Checks if the upper limit is hit
 	//			ballTransitSubsystem.togglePiston();
 	//			return pistonCheck();

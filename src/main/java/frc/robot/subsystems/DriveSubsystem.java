@@ -210,6 +210,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putBoolean("Collision Detected?", AutoDriveCommand.collisionDetected);
+
     /*SmartDashboard.putNumber("Total Current", powerDistributionModule.getTotalCurrent());
     SmartDashboard.putNumber("Total Power", powerDistributionModule.getTotalPower());
     SmartDashboard.putNumber("Total Energy", powerDistributionModule.getTotalEnergy());

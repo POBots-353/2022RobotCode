@@ -105,6 +105,7 @@ public class RobotContainer {
 				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngleNegative90));
 		new JoystickButton(driverStick, Buttons.turn180Toggle)
 				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle180));
+		new JoystickButton(driverStick, Buttons.turnToCilmb).whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededCilmbAngle));
 		/*
 		 * new JoystickButton(operatorStick, Buttons.climberButton)
 		 * .whileHeld(new ClimberCommand(climberSubsystem));
@@ -114,14 +115,17 @@ public class RobotContainer {
 
 		// new JoystickButton(operatorStick, Buttons.eyeballButton).whileHeld(new
 		// EyeBallCommand(driveSubsystem));
+		 
 		new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
 				() -> ballTransitSubsystem.intake(), () -> ballTransitSubsystem.intakeMotor.set(0),
 				ballTransitSubsystem));
 		new JoystickButton(operatorStick, Buttons.ballOutTake).whileHeld(new StartEndCommand(
 				() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.intakeMotor.set(0),
 				ballTransitSubsystem));
+
 		//		new JoystickButton(operatorStick, 3).whileHeld(new RunCommand(() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
 		//		ballTransitSubsystem).withInterrupt(condition));
+
 		// TESTING CODE
 		new JoystickButton(operatorStick, 3).whileHeld(() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
 				ballTransitSubsystem);
