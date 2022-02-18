@@ -12,6 +12,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,15 +23,14 @@ import frc.robot.commands.ToggleArmCommand.PositionMode;
 
 
 public class BallTransitSubsystem extends SubsystemBase {
-   //private final CANSparkMax armIntakeMotor = new CANSparkMax(Constants.intakeArmMotorID, MotorType.kBrushless);
-  // public final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
+   private final CANSparkMax armIntakeMotor = new CANSparkMax(Constants.intakeArmMotorID, MotorType.kBrushless);
+   public final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
 
-  //private SparkMaxPIDController armMotorPIDCon = armIntakeMotor.getPIDController();
+  private SparkMaxPIDController armMotorPIDCon = armIntakeMotor.getPIDController();
 
-  //private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
+  private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
 // 
-  // private DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 1);
-// 
+   //private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
   // public DigitalInput topLimitSwitch = new DigitalInput(0);
   // public DigitalInput lowLimitSwitch = new DigitalInput(0);
 // 
@@ -44,50 +45,49 @@ public class BallTransitSubsystem extends SubsystemBase {
   double kIz = 0;
   double kFF = 0.000156;
   double kMaxOutput = 1; 
-  double kMinOutput = 0; 
+  double kMinOutput = 0; //-0.25
   double maxVel = 3000;
-  double maxAcc = 1500;
+  double maxAcc = 1200;
 
    public BallTransitSubsystem() {
-     //initializePID(armMotorPIDCon, armEncoder);
+     initializePID(armMotorPIDCon, armEncoder);
    }
 // 
   // public void togglePiston() {
     // piston.toggle();
   //}
 
-  /*public void setArmAngle(PositionMode position) {
+  public void setArmAngle(PositionMode position) {
     if (position == PositionMode.goDown) {
-      armMotorPIDCon.setReference(0, CANSparkMax.ControlType.kSmartMotion);
+      armMotorPIDCon.setReference(1.75, CANSparkMax.ControlType.kSmartMotion);
     } else if (position == PositionMode.goUp) {
-      armMotorPIDCon.setReference(15, CANSparkMax.ControlType.kSmartMotion);
+      armMotorPIDCon.setReference(12, CANSparkMax.ControlType.kSmartMotion);
     }
   }
 
   public void turnOffArmMotor(){
     armIntakeMotor.set(0);
-  }*/
-  //public void intake() {
-    // if (topLimitSwitch.get()) {
-      // intakeMotor.set(-0.4);
-    // } else if (lowLimitSwitch.get()) {
-      // intakeMotor.set(0.4);
-    // } else {
-      // intakeMotor.set(0);
-    // }
-   //}
+  }
+  public void intake() {
+    intakeMotor.set(0.7);
+   }
  
-  // public void inverseIntake() {
-    // if (topLimitSwitch.get()) {
-      // intakeMotor.set(0.4);
-    // } else if (lowLimitSwitch.get()) {
-      // intakeMotor.set(-0.4);
-    // } else {
-      // intakeMotor.set(0);
-    // }
-  // }
-// 
-  /*public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
+   public void outTake() {
+    intakeMotor.set(-0.7);
+   }
+   public boolean checkArmUp(){
+     if (armEncoder.getPosition() >= 11.5){
+       return true;
+     }
+     return false;
+   }
+   public boolean checkArmDown(){
+     if (armEncoder.getPosition() <= 1.75){
+       return true;
+     }
+     return false;
+   }
+  public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
     p.setP(kP);
     p.setI(kI);
     p.setD(kD);
@@ -98,10 +98,10 @@ public class BallTransitSubsystem extends SubsystemBase {
     p.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
     p.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
     p.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
-  }*/
+  }
 
   @Override
   public void periodic() {
-    //This method will be called once per scheduler run
+    SmartDashboard.putNumber("Position of Arm", armEncoder.getPosition());
   }
- }
+}

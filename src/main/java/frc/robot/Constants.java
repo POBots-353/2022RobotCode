@@ -18,10 +18,10 @@ package frc.robot;
  */
 public final class Constants {
     //Drive Motor IDS
-    public static int leftFrontMotorID = 2;
-    public static int leftBackMotorID = 4;
-    public static int rightFrontMotorID = 1;
-    public static int rightBackMotorID = 3;
+    public static int leftFrontMotorID = 2;//2
+    public static int leftBackMotorID = 4;//1
+    public static int rightFrontMotorID = 1;//3
+    public static int rightBackMotorID = 3;//4
     //Arm Motor IDS
     public static int intakeArmMotorID = 8;
     public static int intakeMotorID = 7;
@@ -31,9 +31,11 @@ public final class Constants {
     public static double armUpPosition = 0;
 
     //AutoAlign Constants
-    public static double neededAngle90 = -90;
-    public static double neededAngle45 = 45;
+    public static double neededAngle90 = 90;
+    public static double neededAngleNegative90 = -90;
+    public static double neededAngle0 = 0;
     public static double neededAngle180 = -180;
+    public static double neededCilmbAngle = -32;
 
     /* Climber Subsystem Constants */
     public static double climbingArmLength = 1.0;
@@ -69,14 +71,18 @@ public final class Constants {
         public static int driveBoostToggle = 0;
         public static int driveSlowToggle = 0;
 
-        public static int turn45Toggle = 2;
+        public static int turn0Toggle = 2;
         public static int turn90Toggle = 3;
+        public static int turnNegative90Toggle = 6;
         public static int turn180Toggle = 4;
-        public static int turnWithJoyStick = 0;
+        public static int turnToCilmb = 0;
+
+        public static int setDistanceButton = 5;
         //OperatorStick
         public static int climberButton = 0;
         public static int toggleArm = 1;
-        public static int ballIntake = 2;
+        public static int ballIntake = 10;
+        public static int ballOutTake = 9;
         public static int eyeballButton = 5;
     }
 

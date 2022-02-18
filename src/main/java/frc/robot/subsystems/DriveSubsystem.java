@@ -83,12 +83,15 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void manualDrive(double x, double y, double scaleX, double scaleY) {
     //This is meant to prevent less stress on the gears of the drivetrain and accidental touch
-    if (Math.abs(x) <= 0.34 && Math.abs(y) <= 0.01) {
+    if (Math.abs(x) <= 0.1 && Math.abs(y) <= 0.05) {
       leftFrontMotor.set(0);
       rightFrontMotor.set(0);
       leftBackMotor.set(0);
       rightBackMotor.set(0);
     } else {
+      if (Math.abs(x) <= 0.09 && Math.abs(y) >= 0.5){
+        x = 0;
+      }
       leftFrontPIDCon.setReference(setPointLeft(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
       leftBackPIDCon.setReference(setPointLeft(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
       rightFrontPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
@@ -201,14 +204,13 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     
     SmartDashboard.putNumber("Ultrasonic", ultrasonic.getValue() * 0.125);
-    //SmartDashboard.putNumber("Ultrasonic 2", ultrasonic2.getValue() * 0.125);
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
     SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
     SmartDashboard.putNumber("Process Variable", processVariable);
-    SmartDashboard.putNumber("Output", leftBackMotor.getAppliedOutput());
     SmartDashboard.putBoolean("Collision Detected?", AutoDriveCommand.collisionDetected);
+
     /*SmartDashboard.putNumber("Total Current", powerDistributionModule.getTotalCurrent());
     SmartDashboard.putNumber("Total Power", powerDistributionModule.getTotalPower());
     SmartDashboard.putNumber("Total Energy", powerDistributionModule.getTotalEnergy());
