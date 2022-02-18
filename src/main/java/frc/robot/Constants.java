@@ -27,8 +27,8 @@ public final class Constants {
     public static int intakeMotorID = 7;
 
     //Intake Constants
-    public static double armDownPosition = 25;
-    public static double armUpPosition = 0;
+    public static double armDownPosition = 1.75;
+    public static double armUpPosition = 12;
 
     //AutoAlign Constants
     public static double neededAngle90 = 90;
@@ -59,11 +59,7 @@ public final class Constants {
     public static double outerArmRetractedSetPoint = 1.0;
     public static double outerArmExtendedSetPoint = 1.0;
 
-    //vision constants
-    public static double cameraHeight = 0;
-    public static double ballHeight = 0;
-    public static double cameraAngle = 0;
-    public static double distanceToBall = 0; 
+    public static double intakeSpeed = 0.7;
 
     public static final class Buttons {
         //DriverStick
@@ -98,19 +94,24 @@ public final class Constants {
         //Joystick Scale
         public static double scaleY = 0.5;
         public static double scaleX = 0.35;
+
         //Set speed scale
         public static double scaleFowd = 4000;
         public static double scaleTurn = 1000;
+
         //Slow Drive
         public static double scaleYSlow = 4000;
         public static double scaleTurnSlow = 4000;
+
         //Fast Drive
         public static double scaleYBoost = 4000;
         public static double scaleTurnBoost = 4000;
+
         //Encoder Converstion
         //FYI This doesn't do anything
         public static double conversionPosition = 1/*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
         public static double conversionVelocity = 1 /*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
+        
         //Deacceleration Constants
         public static double deAccel = 0.98;
         public static double lowestVel = 1;
