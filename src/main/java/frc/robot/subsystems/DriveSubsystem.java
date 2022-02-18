@@ -98,7 +98,7 @@ public class DriveSubsystem extends SubsystemBase {
       rightBackPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     }
   }
-  /*
+  /**
     Sets the velocity of the left motors in rotations per min
     If wanting to turn right, then the output of setPointLeft will
     be greater then setPointRight
@@ -109,7 +109,7 @@ public class DriveSubsystem extends SubsystemBase {
     double xScale = (Jx) * scaleX;
     return xScale + yScale;
   }
-  /*
+  /**
     Sets the velocity of the right motors in rotations per min
     If wanting to turn left, then the output of setPointRight will be greater then
     setPointLeft
