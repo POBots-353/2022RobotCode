@@ -71,19 +71,26 @@ public final class Constants {
         public static int driveBoostToggle = 0;
         public static int driveSlowToggle = 0;
 
-        public static int turn0Toggle = 2;
-        public static int turn90Toggle = 3;
-        public static int turnNegative90Toggle = 6;
-        public static int turn180Toggle = 4;
-        public static int turnToCilmb = 0;
+        public static int turn0Toggle = 5;
+        public static int turn90Toggle = 6;
+        public static int turnNegative90Toggle = 7;
+        public static int turn180Toggle = 8;
+        public static int turnToCilmb = 3;
 
-        public static int setDistanceButton = 5;
+        public static int setDistanceButton = 4;
+
         //OperatorStick
-        public static int climberButton = 0;
-        public static int toggleArm = 1;
-        public static int ballIntake = 10;
-        public static int ballOutTake = 9;
-        public static int eyeballButton = 5;
+        public static int climberButton = 1;
+        public static int manualClimb = 2;
+
+        public static int armToggle = 3;
+        public static int armUp = 5;
+        public static int armDown = 10;
+
+        public static int ballIntake = 7;
+        public static int ballOutTake = 8;
+
+        public static int eyeballButton = 13;
     }
 
     public static final class DriveConstants {

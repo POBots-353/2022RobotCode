@@ -114,7 +114,7 @@ public class ToggleArmCommand extends CommandBase {
 	//		} else {
 	//			return false;
 	//		}
-//
+
 	//	} else if (mode == PositionMode.goUp) {
 	//		if (checkArmUp()) {
 	//			// Checks if the upper limit is hit

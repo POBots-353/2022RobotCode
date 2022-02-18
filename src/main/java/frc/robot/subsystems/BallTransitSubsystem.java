@@ -30,7 +30,7 @@ public class BallTransitSubsystem extends SubsystemBase {
 
   private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
  
-  private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
+  //private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
   // public DigitalInput topLimitSwitch = new DigitalInput(0);
   // public DigitalInput lowLimitSwitch = new DigitalInput(0);
  
@@ -65,23 +65,23 @@ public class BallTransitSubsystem extends SubsystemBase {
     }
   }
 
-  public boolean pistonCheck(){
+  /*public boolean pistonCheck(){
     if (piston.get() == Value.kForward){
       return true;
     }else{
       return false;
     }
-  }
+  }*/
 
   public void turnOffArmMotor(){
     armIntakeMotor.set(0);
   }
 
-  public void turnOffPiston(){
+  /*public void turnOffPiston(){
     if (piston.get() == Value.kForward){
       piston.toggle();;
     }
-  }
+  }*/
 
   public void intake() {
     intakeMotor.set(0.7);
