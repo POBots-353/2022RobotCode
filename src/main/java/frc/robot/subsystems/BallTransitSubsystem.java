@@ -12,10 +12,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -29,11 +29,11 @@ public class BallTransitSubsystem extends SubsystemBase {
   private SparkMaxPIDController armMotorPIDCon = armIntakeMotor.getPIDController();
 
   private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
-// 
-   //private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
+ 
+  private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
   // public DigitalInput topLimitSwitch = new DigitalInput(0);
   // public DigitalInput lowLimitSwitch = new DigitalInput(0);
-// 
+ 
   // public DigitalInput pistonLimitSwitch = new DigitalInput(0);
 
   int smartMotionSlot = 0;
@@ -65,9 +65,24 @@ public class BallTransitSubsystem extends SubsystemBase {
     }
   }
 
+  public boolean pistonCheck(){
+    if (piston.get() == Value.kForward){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   public void turnOffArmMotor(){
     armIntakeMotor.set(0);
   }
+
+  public void turnOffPiston(){
+    if (piston.get() == Value.kForward){
+      piston.toggle();;
+    }
+  }
+
   public void intake() {
     intakeMotor.set(0.7);
    }
@@ -75,18 +90,21 @@ public class BallTransitSubsystem extends SubsystemBase {
    public void outTake() {
     intakeMotor.set(-0.7);
    }
+
    public boolean checkArmUp(){
      if (armEncoder.getPosition() >= 11.5){
        return true;
      }
      return false;
    }
+
    public boolean checkArmDown(){
      if (armEncoder.getPosition() <= 1.75){
        return true;
      }
      return false;
    }
+
   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
     p.setP(kP);
     p.setI(kI);
