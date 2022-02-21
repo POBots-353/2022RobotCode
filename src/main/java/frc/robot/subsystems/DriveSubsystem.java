@@ -113,6 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
     double xScale = (Jx) * scaleX;
     return xScale + yScale;
   }
+  
   /**
     Sets the velocity of the right motors in rotations per min
     If wanting to turn left, then the output of setPointRight will be greater then
