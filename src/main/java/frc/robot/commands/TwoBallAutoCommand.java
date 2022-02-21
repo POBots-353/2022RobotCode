@@ -23,7 +23,7 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
     //Use ToggleArm Command because at the end of Auto the robot will be disable and the arm will drop
     addCommands(
       //Command list of wanted movement
-      //new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(0.5),
+      new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(0.5),
       new AutoDriveCommand(drive, 8.41 *  (23.125 / (6 * Math.PI))),
       new TurnToAngleCommand(drive, 164),
       //new ToggleArmCommand(transitSubsystem),

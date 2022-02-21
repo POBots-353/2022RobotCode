@@ -20,6 +20,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.EyeBallCommand;
 import frc.robot.commands.OneBallAutoCommand;
 import frc.robot.commands.SetDistanceCommand;
+import frc.robot.commands.SimpleAuto;
 import frc.robot.commands.ToggleArmCommand;
 import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.commands.TwoBallAutoCommand;
@@ -43,9 +44,10 @@ public class RobotContainer {
 
 	// private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 	private final BallTransitSubsystem ballTransitSubsystem = new BallTransitSubsystem();
-	// BallTransitSubsystem();
+
 	private final TwoBallAutoCommand TwoBallAuto = new TwoBallAutoCommand(driveSubsystem, ballTransitSubsystem);
-	public final OneBallAutoCommand OneBallAuto = new OneBallAutoCommand(driveSubsystem, ballTransitSubsystem);
+	private final OneBallAutoCommand OneBallAuto = new OneBallAutoCommand(driveSubsystem, ballTransitSubsystem);
+	private final SimpleAuto simpleAuto = new SimpleAuto(driveSubsystem, ballTransitSubsystem);
 
 	public static SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -56,6 +58,7 @@ public class RobotContainer {
 		// Auto Chooser on SmartDashboard
 		autoChooser.setDefaultOption("Two Ball Auto", TwoBallAuto);
 		autoChooser.addOption("One Ball Auto", OneBallAuto);
+		autoChooser.addOption("Simple Auto", simpleAuto);
 		SmartDashboard.putData(autoChooser);
 
 		// Default Drive
