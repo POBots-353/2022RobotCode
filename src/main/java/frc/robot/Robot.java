@@ -43,17 +43,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
-    //SmartDashboard.putNumber("Total Current", powerDistributionModule.getTotalCurrent());
-    //SmartDashboard.putNumber("Total Power", powerDistributionModule.getTotalPower());
-   // SmartDashboard.putNumber("Total Current", powerDistributionModule.getTotalEnergy());
-    
-    /*SmartDashboard.putNumber("Current of Motor 4", powerDistributionModule.getCurrent(14));
-    SmartDashboard.putNumber("Current of Motor 3", powerDistributionModule.getCurrent(13));
-    SmartDashboard.putNumber("Current of Motor 1", powerDistributionModule.getCurrent(12));*/
     CommandScheduler.getInstance().run();
   }
 

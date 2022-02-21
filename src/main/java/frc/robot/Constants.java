@@ -29,6 +29,7 @@ public final class Constants {
     //Intake Constants
     public static double armDownPosition = 1.75;
     public static double armUpPosition = 12;
+    public static double intakeSpeed = 0.7;
 
     //AutoAlign Constants
     public static double neededAngle90 = 90;
@@ -36,6 +37,13 @@ public final class Constants {
     public static double neededAngle0 = 0;
     public static double neededAngle180 = -180;
     public static double neededCilmbAngle = -32;
+
+    //EyeBall Constants
+    public static double yawLeftBiase = 0; //Adds to Yaw
+    public static double yawRightBiase = 0; //Addes to Yaw
+    public static double pitchOffset = 18; //Adds to Pitch
+    public static double yawDriveScale = 75;
+    public static double pitchDriveScale = 200;
 
     /* Climber Subsystem Constants */
     public static double climbingArmLength = 1.0;
@@ -58,8 +66,6 @@ public final class Constants {
     public static double innerArmExtendedSetPoint = 1.0;
     public static double outerArmRetractedSetPoint = 1.0;
     public static double outerArmExtendedSetPoint = 1.0;
-
-    public static double intakeSpeed = 0.7;
 
     public static final class Buttons {
         //DriverStick
@@ -86,7 +92,8 @@ public final class Constants {
         public static int ballIntake = 7;
         public static int ballOutTake = 8;
 
-        public static int eyeballButton = 13;
+        public static int eyeballLeftButton = 13;
+        public static int eyeballRightButton = 13;
     }
 
     public static final class DriveConstants {

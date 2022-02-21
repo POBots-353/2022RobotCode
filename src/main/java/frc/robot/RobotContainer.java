@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -49,18 +49,16 @@ public class RobotContainer {
 
 	public static SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-	// Put the chooser on the dashboard
-
 	public static final Joystick driverStick = new Joystick(0);
 	public static final Joystick operatorStick = new Joystick(1);
 
 	public RobotContainer() {
-		SmartDashboard.putBoolean("Set Position", true);
+		// Auto Chooser on SmartDashboard
 		autoChooser.setDefaultOption("Two Ball Auto", TwoBallAuto);
 		autoChooser.addOption("One Ball Auto", OneBallAuto);
 		SmartDashboard.putData(autoChooser);
 
-		// Drive
+		// Default Drive
 		driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.manualDrive(
 				(DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3)) +
 						(1 - DriveConstants.scaleY) * driverStick.getX()),
@@ -85,8 +83,8 @@ public class RobotContainer {
 	 * make sure it
 	 * gets disabled after use execept drive
 	 */
-
 	private void configureButtonBindings() {
+		/* DRIVE BUTTONS */
 		// Inverse drive
 		new JoystickButton(driverStick, Buttons.inverseControl)
 				.whileHeld(new RunCommand(() -> driveSubsystem.manualDrive(
@@ -96,6 +94,7 @@ public class RobotContainer {
 								+ (1 - DriveConstants.scaleY) * driverStick.getY()),
 						DriveConstants.scaleTurn, DriveConstants.scaleFowd), driveSubsystem));
 
+		// Sets Distance between wall and sensor
 		new JoystickButton(driverStick, Buttons.setDistanceButton)
 				.whileHeld(new SetDistanceCommand(driveSubsystem, 196));
 
@@ -111,42 +110,55 @@ public class RobotContainer {
 		new JoystickButton(driverStick, Buttons.turnToCilmb)
 				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededCilmbAngle));
 
-		/*
-		 * new JoystickButton(operatorStick, Buttons.climberButton)
-		 * .whileHeld(new ClimberCommand(climberSubsystem));
-		 */
-
+		/* OPERATOR BUTTONS */
 		// Auto align to ball command
-		new JoystickButton(operatorStick, Buttons.eyeballButton).whileHeld(new EyeBallCommand(driveSubsystem));
+		new JoystickButton(operatorStick, Buttons.eyeballLeftButton)
+				.whileHeld(new EyeBallCommand(driveSubsystem, Constants.yawLeftBiase));
+		new JoystickButton(operatorStick, Buttons.eyeballRightButton)
+				.whileHeld(new EyeBallCommand(driveSubsystem, Constants.yawRightBiase));
 
 		// Intake in and out
 		new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
-				() -> ballTransitSubsystem.intake(), () -> ballTransitSubsystem.intakeMotor.set(0),
+				() -> ballTransitSubsystem.inTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
 				ballTransitSubsystem));
 		new JoystickButton(operatorStick, Buttons.ballOutTake).whileHeld(new StartEndCommand(
-				() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.intakeMotor.set(0),
+				() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
 				ballTransitSubsystem));
+
+		// Arm up or down
+		// This doesn't lock piston when the arm is up and only locks when down
+		// Prevents wasting time locking the piston
+					
+		/*new JoystickButton(operatorStick, Buttons.armUp)
+				.whenPressed(new FunctionalCommand(ballTransitSubsystem::turnOffPiston,
+						() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
+						interrupted -> ballTransitSubsystem.checkArmUp(),
+						ballTransitSubsystem::checkArmUp,
+						ballTransitSubsystem));
+
+		new JoystickButton(operatorStick, Buttons.armDown)
+				.whenPressed(new FunctionalCommand(ballTransitSubsystem::turnOffPiston,
+						() -> ballTransitSubsystem.setArmAngle(PositionMode.goDown),
+						//The interuppted doesn't do anything, but it needed another arg
+						interrupted -> ballTransitSubsystem.checkArmDown(),
+						ballTransitSubsystem::checkArmDown,
+						ballTransitSubsystem)
+								.andThen(new InstantCommand(() -> ballTransitSubsystem.turnOffArmMotor(), ballTransitSubsystem))
+								.andThen(new InstantCommand(() -> ballTransitSubsystem.turnOnPiston(), ballTransitSubsystem)));
+		*/
+		// Toggles Arm
+		// This locks the piston no matter which position
+		new JoystickButton(operatorStick, Buttons.armToggle).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
 
 		/*
 		 * new JoystickButton(operatorStick,
 		 * Buttons.manualClimb).whileHeld(()->climberSubsystem.piston.toggle());
 		 */
 
-		// Arm up or down
-
-		new JoystickButton(operatorStick, Buttons.armUp).whileHeld(new FunctionalCommand(ballTransitSubsystem::turnOffPiston,
-				() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
-				interruppted -> ballTransitSubsystem.checkArmUp(),
-				ballTransitSubsystem::checkArmUp,
-				ballTransitSubsystem));
-
-		new JoystickButton(operatorStick, Buttons.armDown).whileHeld(new FunctionalCommand(ballTransitSubsystem::turnOffPiston,
-				() -> ballTransitSubsystem.setArmAngle(PositionMode.goDown),
-				interrupted -> ballTransitSubsystem.checkArmUp(),
-				ballTransitSubsystem::checkArmDown,
-				ballTransitSubsystem));
-		//
-		new JoystickButton(operatorStick, Buttons.armToggle).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
+		/*
+		 * new JoystickButton(operatorStick, Buttons.climberButton)
+		 * .whileHeld(new ClimberCommand(climberSubsystem));
+		 */
 
 		// TESTING CODE
 		new JoystickButton(operatorStick, Buttons.armUp).whileHeld(
@@ -159,11 +171,7 @@ public class RobotContainer {
 		// 4).whileHeld(newRunCommand(()->ballTransitSubsystem.togglePiston()));
 	}
 
-	/**
-	 * Use this to pass the autonomous command to the main {@link Robot} class.
-	 *
-	 * @return the command to run in autonomous
-	 */
+	// Runs the auto command
 	public Command getAutonomousCommand() {
 		return autoChooser.getSelected();
 	}
