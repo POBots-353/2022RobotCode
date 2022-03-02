@@ -18,17 +18,18 @@ package frc.robot;
  */
 public final class Constants {
     //Drive Motor IDS
-    public static int leftFrontMotorID = 2;//2
-    public static int leftBackMotorID = 1;//1
-    public static int rightFrontMotorID = 3;//3
-    public static int rightBackMotorID = 4;//4
+    public static int leftFrontMotorID = 4;//2
+    public static int leftBackMotorID = 2;//1
+    public static int rightFrontMotorID = 1;//3
+    public static int rightBackMotorID = 3;//4
     //Arm Motor IDS
-    public static int intakeArmMotorID = 8;
-    public static int intakeMotorID = 7;
+    public static int intakeArmMotorID = 5;//8
+    public static int intakeMotorID = 7;//7
 
     //Intake Constants
     public static double armDownPosition = 1.75;
     public static double armUpPosition = 12;
+    public static double releaseArmPosition = 13;
     public static double intakeSpeed = 0.7;
 
     //AutoAlign Constants
@@ -39,8 +40,8 @@ public final class Constants {
     public static double neededCilmbAngle = -32;
 
     //EyeBall Constants
-    public static double yawLeftBiase = 0; //Adds to Yaw
-    public static double yawRightBiase = 0; //Addes to Yaw
+    public static double yawLeftBias = 12; //Adds to Yaw
+    public static double yawRightBias = -12; //Addes to Yaw
     public static double pitchOffset = 18; //Adds to Pitch
     public static double yawDriveScale = 75;
     public static double pitchDriveScale = 200;
@@ -85,14 +86,15 @@ public final class Constants {
         public static int climberButton = 1;
         public static int manualClimb = 2;
 
-        public static int armToggle = 3;
+        public static int armToggle = 14;
+        public static int armPiston = 4;
         public static int armUp = 5;
         public static int armDown = 10;
 
         public static int ballIntake = 7;
         public static int ballOutTake = 8;
 
-        public static int eyeballLeftButton = 13;
+        public static int eyeballLeftButton = 12;
         public static int eyeballRightButton = 13;
     }
 
@@ -100,10 +102,10 @@ public final class Constants {
         //Gear Ratio 8.41 to 1
         //Joystick Scale
         public static double scaleY = 0.5;
-        public static double scaleX = 0.35;
+        public static double scaleX = 0.30;
 
         //Set speed scale
-        public static double scaleFowd = 4000;
+        public static double scaleFowd = 3350;
         public static double scaleTurn = 1000;
 
         //Slow Drive

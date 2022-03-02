@@ -116,9 +116,9 @@ public class RobotContainer {
 		/* OPERATOR BUTTONS */
 		// Auto align to ball command
 		new JoystickButton(operatorStick, Buttons.eyeballLeftButton)
-				.whileHeld(new EyeBallCommand(driveSubsystem, Constants.yawLeftBiase));
+				.whileHeld(new EyeBallCommand(driveSubsystem, Constants.yawLeftBias));
 		new JoystickButton(operatorStick, Buttons.eyeballRightButton)
-				.whileHeld(new EyeBallCommand(driveSubsystem, Constants.yawRightBiase));
+				.whileHeld(new EyeBallCommand(driveSubsystem, Constants.yawRightBias));
 
 		// Intake in and out
 		new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
@@ -152,7 +152,9 @@ public class RobotContainer {
 		// Toggles Arm
 		// This locks the piston no matter which position
 		new JoystickButton(operatorStick, Buttons.armToggle).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
-
+		//Toggles piston
+		//new JoystickButton(operatorStick, Buttons.armPiston).whenPressed(()->ballTransitSubsystem.togglePiston, ballTransitSubsystem);
+		
 		/*
 		 * new JoystickButton(operatorStick,
 		 * Buttons.manualClimb).whileHeld(()->climberSubsystem.piston.toggle());

@@ -9,11 +9,9 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,8 +28,6 @@ public class BallTransitSubsystem extends SubsystemBase {
   private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
  
   //private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
- 
-  //public DigitalInput pistonLimitSwitch = new DigitalInput(0);
 
   int smartMotionSlot = 0;
   int allowedErr;
@@ -42,7 +38,7 @@ public class BallTransitSubsystem extends SubsystemBase {
   double kIz = 0;
   double kFF = 0.000156;
   double kMaxOutput = 1; 
-  double kMinOutput = 0; //-0.25
+  double kMinOutput = -.3;
   double maxVel = 3000;
   double maxAcc = 1200;
 
@@ -50,30 +46,10 @@ public class BallTransitSubsystem extends SubsystemBase {
      initializePID(armMotorPIDCon, armEncoder);
    }
  
-  /* public void togglePiston() {
+  /*public void togglePiston() {
      piston.toggle();
   }
-
-  public void turnOffPiston(){
-    if (piston.get() == Value.kForward){
-      piston.toggle();
-    }
-  }
-
-  public void turnOnPiston(){
-    if (piston.get() == Value.kReverse){
-      piston.toggle();
-    }
-
-  }*/
-
-  /*public boolean pistonCheck(){
-    if (piston.get() == Value.kForward){
-      return true;
-    }else{
-      return false;
-    }
-  }*/
+*/
 
   public void inTake() {
     intakeMotor.set(Constants.intakeSpeed);
@@ -94,28 +70,38 @@ public class BallTransitSubsystem extends SubsystemBase {
   public void setArmAngle(PositionMode position) {
     if (position == PositionMode.goDown) {
         armMotorPIDCon.setReference(Constants.armDownPosition, CANSparkMax.ControlType.kSmartMotion);
-      } else if (position == PositionMode.goUp) {
+    } else if (position == PositionMode.goUp) {
         armMotorPIDCon.setReference(Constants.armUpPosition, CANSparkMax.ControlType.kSmartMotion);
-      }
     }
+  }
+
+  public void releaseArm(){
+    armMotorPIDCon.setReference(Constants.releaseArmPosition, CANSparkMax.ControlType.kSmartMotion);
+  }
 
   public void turnOffArmMotor(){
     armIntakeMotor.set(0);
   }
 
    public boolean checkArmUp(){
-     if (armEncoder.getPosition() >= 11.7){
+     if (armEncoder.getPosition() >= Constants.armUpPosition - 0.2){
        return true;
      }
      return false;
    }
 
    public boolean checkArmDown(){
-     if (armEncoder.getPosition() <= 1.75){
+     if (armEncoder.getPosition() <= Constants.armDownPosition){
        return true;
      }
      return false;
    }
+
+  public void setMinOutput(double output){
+    /*if (kMinOutput != output){
+      armMotorPIDCon.setOutputRange(-0.3, output);
+    }*/
+  }
 
   public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
     p.setP(kP);
