@@ -40,7 +40,8 @@ public class AutoDriveCommand extends CommandBase {
     //(Rotations/8.41)*2*pi* (Radius of the wheel) (Inches or meters) = Displacement
     //(Displacement/ (2*pi* radius of the wheel)) * 8.41 = Rotations
     //ONLY INPUT ROTATIONS 
-    driveSubsystem.autoDrive(displacement);
+    driveSubsystem.autoDrive(displacement);//Add to the displacement in speed up the motors
+    //To detect collision
     double currLinearAccelerationY = DriveSubsystem.m_gyro.getWorldLinearAccelY();
     double jerkY = currLinearAccelerationY - lastLinearAccelerationY;
     lastLinearAccelerationY = currLinearAccelerationY;
@@ -57,6 +58,8 @@ public class AutoDriveCommand extends CommandBase {
     if (interrupted) {
       driveSubsystem.resetEncoders();
     }
+    //This will stop the motors from approaching the added one and stop at the current displacement
+    driveSubsystem.turnOffDriveMotors();
   }
 
   // Returns true when the point is reached and resets the encoders

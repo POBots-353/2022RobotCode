@@ -62,7 +62,6 @@ public class DriveSubsystem extends SubsystemBase {
   //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);
 
   public DriveSubsystem() {
-    resetGyro();
     Shuffleboard.getTab("Example tab").add(m_gyro);
     leftFrontMotor.restoreFactoryDefaults();
     leftBackMotor.restoreFactoryDefaults();
@@ -84,10 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void manualDrive(double x, double y, double scaleX, double scaleY) {
     //This is meant to prevent less stress on the gears of the drivetrain and accidental touch
     if (Math.abs(x) <= 0.1 && Math.abs(y) <= 0.05) {
-      leftFrontMotor.set(0);
-      rightFrontMotor.set(0);
-      leftBackMotor.set(0);
-      rightBackMotor.set(0);
+      turnOffDriveMotors(); //Turns off PID
     } else {
       if (Math.abs(x) <= 0.09 && Math.abs(y) >= 0.5){
         x = 0;
@@ -98,6 +94,14 @@ public class DriveSubsystem extends SubsystemBase {
       rightBackPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     }
   }
+
+  public void turnOffDriveMotors(){
+    leftFrontMotor.set(0);
+    rightFrontMotor.set(0);
+    leftBackMotor.set(0);
+    rightBackMotor.set(0);
+  }
+
   /**
     Sets the velocity of the left motors in rotations per min
     If wanting to turn right, then the output of setPointLeft will
@@ -109,6 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
     double xScale = (Jx) * scaleX;
     return xScale + yScale;
   }
+  
   /**
     Sets the velocity of the right motors in rotations per min
     If wanting to turn left, then the output of setPointRight will be greater then
@@ -131,6 +136,7 @@ public class DriveSubsystem extends SubsystemBase {
     rightFrontPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
     rightBackPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
   }
+  
   /**
    * Expected Angle - Current Angle
    * @param expectedAngle

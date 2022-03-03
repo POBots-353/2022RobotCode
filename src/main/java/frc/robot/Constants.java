@@ -18,17 +18,19 @@ package frc.robot;
  */
 public final class Constants {
     //Drive Motor IDS
-    public static int leftFrontMotorID = 2;//2
-    public static int leftBackMotorID = 4;//1
+    public static int leftFrontMotorID = 4;//2
+    public static int leftBackMotorID = 2;//1
     public static int rightFrontMotorID = 1;//3
     public static int rightBackMotorID = 3;//4
     //Arm Motor IDS
-    public static int intakeArmMotorID = 8;
-    public static int intakeMotorID = 7;
+    public static int intakeArmMotorID = 5;//8
+    public static int intakeMotorID = 7;//7
 
     //Intake Constants
-    public static double armDownPosition = 25;
-    public static double armUpPosition = 0;
+    public static double armDownPosition = 1.75;
+    public static double armUpPosition = 12;
+    public static double releaseArmPosition = 13;
+    public static double intakeSpeed = 0.7;
 
     //AutoAlign Constants
     public static double neededAngle90 = 90;
@@ -36,6 +38,13 @@ public final class Constants {
     public static double neededAngle0 = 0;
     public static double neededAngle180 = -180;
     public static double neededCilmbAngle = -32;
+
+    //EyeBall Constants
+    public static double yawLeftBias = 12; //Adds to Yaw
+    public static double yawRightBias = -12; //Addes to Yaw
+    public static double pitchOffset = 18; //Adds to Pitch
+    public static double yawDriveScale = 75;
+    public static double pitchDriveScale = 200;
 
     /* Climber Subsystem Constants */
     public static double climbingArmLength = 1.0;
@@ -59,51 +68,59 @@ public final class Constants {
     public static double outerArmRetractedSetPoint = 1.0;
     public static double outerArmExtendedSetPoint = 1.0;
 
-    //vision constants
-    public static double cameraHeight = 0;
-    public static double ballHeight = 0;
-    public static double cameraAngle = 0;
-    public static double distanceToBall = 0; 
-
     public static final class Buttons {
         //DriverStick
         public static int inverseControl = 1;
         public static int driveBoostToggle = 0;
         public static int driveSlowToggle = 0;
 
-        public static int turn0Toggle = 2;
-        public static int turn90Toggle = 3;
-        public static int turnNegative90Toggle = 6;
-        public static int turn180Toggle = 4;
-        public static int turnToCilmb = 0;
+        public static int turn0Toggle = 5;
+        public static int turn90Toggle = 6;
+        public static int turnNegative90Toggle = 7;
+        public static int turn180Toggle = 8;
+        public static int turnToCilmb = 3;
 
-        public static int setDistanceButton = 5;
+        public static int setDistanceButton = 4;
+
         //OperatorStick
-        public static int climberButton = 0;
-        public static int toggleArm = 1;
-        public static int ballIntake = 10;
-        public static int ballOutTake = 9;
-        public static int eyeballButton = 5;
+        public static int climberButton = 1;
+        public static int manualClimb = 2;
+
+        public static int armToggle = 14;
+        public static int armPiston = 4;
+        public static int armUp = 5;
+        public static int armDown = 10;
+
+        public static int ballIntake = 7;
+        public static int ballOutTake = 8;
+
+        public static int eyeballLeftButton = 12;
+        public static int eyeballRightButton = 13;
     }
 
     public static final class DriveConstants {
         //Gear Ratio 8.41 to 1
         //Joystick Scale
         public static double scaleY = 0.5;
-        public static double scaleX = 0.35;
+        public static double scaleX = 0.30;
+
         //Set speed scale
-        public static double scaleFowd = 4000;
+        public static double scaleFowd = 3350;
         public static double scaleTurn = 1000;
+
         //Slow Drive
         public static double scaleYSlow = 4000;
         public static double scaleTurnSlow = 4000;
+
         //Fast Drive
         public static double scaleYBoost = 4000;
         public static double scaleTurnBoost = 4000;
+
         //Encoder Converstion
         //FYI This doesn't do anything
         public static double conversionPosition = 1/*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
         public static double conversionVelocity = 1 /*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
+        
         //Deacceleration Constants
         public static double deAccel = 0.98;
         public static double lowestVel = 1;

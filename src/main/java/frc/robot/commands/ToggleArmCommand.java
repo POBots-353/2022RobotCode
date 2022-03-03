@@ -30,15 +30,16 @@ public class ToggleArmCommand extends CommandBase {
 	@Override
 	public void initialize() {
 		
-		/*if (checkArmUp()) {
+		if (ballTransitSubsystem.checkArmUp()) {
+			ballTransitSubsystem.setMinOutput(0);
 			mode = PositionMode.goDown;
 			// When limit swtich on the bottom is not clicked then set mode to goDown
-		} else if (checkArmDown()) {
+		} else if (ballTransitSubsystem.checkArmDown()) {
 			mode = PositionMode.goUp;
 		}else{
-			mode = PositionMode.Broken;
+			mode = PositionMode.broken;
 		}
-		*/
+		
 
 		//WE WILL DELETE THIS
 		/*if (ballTransitSubsystem.topLimitSwitch.get()) {
@@ -62,68 +63,34 @@ public class ToggleArmCommand extends CommandBase {
 
 	@Override
 	public void execute() {
-		//if (mode == PositionMode.goDown) {
-		//	if (ballTransitSubsystem.pistonLimitSwitch.get()) {
-		//		ballTransitSubsystem.togglePiston();
-		//		// Takes out Piston
-		//	} else {
-		//		ballTransitSubsystem.setArmAngle(mode);
-		//		// Moves arm down
-		//	}
-		//} else if (mode == PositionMode.goUp) {
-		//	if (ballTransitSubsystem.pistonLimitSwitch.get()) {
-		//		ballTransitSubsystem.togglePiston();
-		//		// Takes out Piston
-		//	} else {
-		//		ballTransitSubsystem.setArmAngle(mode);
-		//		// Moves arm down
-		//	}
-		//}
+		if (mode == PositionMode.goDown) {
+			ballTransitSubsystem.setArmAngle(mode);
+		} else if (mode == PositionMode.goUp) {
+			ballTransitSubsystem.setArmAngle(mode);
+		}else{
+			System.out.println("Were screwed");
+		}
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		//ballTransitSubsystem.turnOffArmMotor();
-	}
-
-	/**
-	 * Checks if the piston is locking.
-	 * If the piston doesn't lock then this command doesn't end,
-	 * so it will be using PID to hold the motors
-	 * Hope this is not an issue
-	 * 
-	 * @return true if piston is locking, false if not
-	 */
-	public boolean pistonCheck() {
-		//if (ballTransitSubsystem.pistonLimitSwitch.get()) {
-		//	ballTransitSubsystem.turnOffMotor();
-		//	return true;
-		//} else {
-			return false;
-		//}
+		if(mode == PositionMode.goDown && interrupted){
+			ballTransitSubsystem.setMinOutput(-0.3);
+		}
 	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-	//	if (mode == PositionMode.goDown) {
-	//		if (checkArmDown()) {
-	//			// Checks if the lower limit is hit
-	//			ballTransitSubsystem.togglePiston();
-	//			return pistonCheck();
-	//		} else {
-	//			return false;
-	//		}
-//
-	//	} else if (mode == PositionMode.goUp) {
-	//		if (checkArmUp()) {
-	//			// Checks if the upper limit is hit
-	//			ballTransitSubsystem.togglePiston();
-	//			return pistonCheck();
-	//		} else {
-	//			return false;
-	//		}
-	//	}
+		if (mode == PositionMode.goDown) {
+			if (ballTransitSubsystem.checkArmDown()){
+				ballTransitSubsystem.setMinOutput(-0.3);
+				return true;
+			}
+			return false;
+		} else if (mode == PositionMode.goUp) {
+			return ballTransitSubsystem.checkArmUp();
+		}
 		return false;
 	}
 

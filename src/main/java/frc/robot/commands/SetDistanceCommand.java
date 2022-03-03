@@ -25,6 +25,8 @@ public class SetDistanceCommand extends CommandBase {
   public void execute() {
     //Moves the robot based on the error(expected distance - current distance)
     if (Math.abs(driveSubsystem.distanceError(neededDistance)) > 3) {
+      //The scale should not be increased
+      //It is at its maxiumum before it crashes into the wall
       driveSubsystem.manualDrive(0.0, -driveSubsystem.distanceError(neededDistance) * 0.5, 0.0, 35);
     }
   }
