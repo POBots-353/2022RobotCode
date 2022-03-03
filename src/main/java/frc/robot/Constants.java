@@ -18,13 +18,15 @@ package frc.robot;
  */
 public final class Constants {
     //Drive Motor IDS
-    public static int leftFrontMotorID = 4;//2
-    public static int leftBackMotorID = 2;//1
-    public static int rightFrontMotorID = 1;//3
-    public static int rightBackMotorID = 3;//4
-    //Arm Motor IDS
-    public static int intakeArmMotorID = 5;//8
+    public static int leftFrontMotorID = 2;//2
+    public static int leftBackMotorID = 1;//1
+    public static int rightFrontMotorID = 3;//3
+    public static int rightBackMotorID = 4;//4
+    //Intake Motor IDS
+    public static int intakeArmMotorID = 8;//8
     public static int intakeMotorID = 7;//7
+    //Climber Motor IDS
+    public static int outerClimbMotor = 9;
 
     //Intake Constants
     public static double armDownPosition = 1.75;
@@ -81,6 +83,19 @@ public final class Constants {
         public static int turnToCilmb = 3;
 
         public static int setDistanceButton = 4;
+
+        //DriverStick Inverted
+        public static int turn0Toggle2 = 11;
+        public static int turn90Toggle2 = 12;
+        public static int turnNegative90Toggle2 = 13;
+        public static int turn180Toggle2 = 14;
+
+        //TestConstants Not Used in Competition
+        public static int innerArmToggle = 12;
+        public static int outerArmToggle = 13;
+        public static int outerClimbVertical = 14;
+        public static int outerClimbPosition = 15;
+        public static int outerClimbVariable = 11;
 
         //OperatorStick
         public static int climberButton = 1;
