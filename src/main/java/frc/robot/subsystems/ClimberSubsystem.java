@@ -1,7 +1,3 @@
-Copyright (c) FIRST and other WPILib contributors.
-Open Source Software; you can modify and/or share it under the terms of
-the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
@@ -26,35 +22,29 @@ public class ClimberSubsystem extends SubsystemBase {
 	double kFF = 0.000156;
 	double kMaxOutput = 1;
 	double kMinOutput = -1;
-	double maxRPM = 5700;
-	double maxVel = 2000;
-	double maxAcc = 1500;
+	double maxRPM = 1000;
+	double maxVel = 500;
+	double maxAcc = 1000;
 	double setPointDrive = 0;
 
-	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 5, 4);
-	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 6, 1);
-	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 7, 1);
-	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 8, 1);
+	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7);
+	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 6);
+	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 5);
+	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
 
-	public CANSparkMax outerMotor = new CANSparkMax(9, MotorType.kBrushless);
-	public CANSparkMax leftInnerMotor = new CANSparkMax(10, MotorType.kBrushless);
+	public CANSparkMax outerMotor = new CANSparkMax(6, MotorType.kBrushless);
 
 	public RelativeEncoder outerEncoder = outerMotor.getEncoder();
-	public RelativeEncoder innerEncoder = leftInnerMotor.getEncoder();
 
 	public SparkMaxPIDController outerController = outerMotor.getPIDController();
-	public SparkMaxPIDController innerController = leftInnerMotor.getPIDController();
 
 	public double currentOuterReferencePoint = 0;
-	public double currentInnerReferencePoint = 0;
 
 	public boolean outerPIDEnabled = true;
-	public boolean innerPIDEnabled = true;
 
 	/* Creates a new ClimberSubsystem. */
 	public ClimberSubsystem() {
 		initializePID(outerController, outerEncoder);
-		initializePID(innerController, innerEncoder);
 	}
 
 	public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
@@ -87,18 +77,6 @@ public class ClimberSubsystem extends SubsystemBase {
 			outerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
 		}
 		currentOuterReferencePoint = position;
-	}
-
-	/**
-	 * This will set the encoder position for the Inner PID Controller
-	 * 
-	 * @param position
-	 */
-	public void setInnerArmsPosition(double position) {
-		if (innerPIDEnabled) {
-			innerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
-			currentInnerReferencePoint = position;
-		}
 	}
 
 	/**
