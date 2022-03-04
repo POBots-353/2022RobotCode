@@ -20,7 +20,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	int smartMotionSlot = 0;
 	int allowedErr;
 	int minVel;
-	double kP = 0;
+	double kP = 4e-4;
 	double kI = 0;
 	double kD = 0;
 	double kIz = 0;
@@ -32,10 +32,10 @@ public class ClimberSubsystem extends SubsystemBase {
 	double maxAcc = 1500;
 	double setPointDrive = 0;
 
-	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 5, 4);
-	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 6, 1);
-	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 7, 1);
-	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 8, 1);
+	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7);
+	//public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 6);
+	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 5);
+	//public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
 
 	public CANSparkMax outerMotor = new CANSparkMax(Constants.outerClimbMotor, MotorType.kBrushless);
 
@@ -114,11 +114,11 @@ public class ClimberSubsystem extends SubsystemBase {
 		rightOuterPneumatic.toggle();
 	}
 
-	public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
+	/*public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
 		leftInnerPneumatic.toggle();
 		rightInnerPneumatic.toggle();
 	}
-
+	*/
 //	public double getArcLength() {
 //		double arcLength = (Constants.hookLengthToBase / Constants.climbingArmLength) * Constants.climbingArmLength;
 //		return arcLength;
@@ -136,6 +136,6 @@ public class ClimberSubsystem extends SubsystemBase {
 //Testing Code
     public void moveOuterArms(double position){
         position = SmartDashboard.getNumber("OuterClimb Position", 0.5);
-        outerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
+        outerController.setReference(-position, CANSparkMax.ControlType.kSmartMotion);
     }
 }

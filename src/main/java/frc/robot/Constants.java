@@ -26,7 +26,7 @@ public final class Constants {
     public static int intakeArmMotorID = 8;//8
     public static int intakeMotorID = 7;//7
     //Climber Motor IDS
-    public static int outerClimbMotor = 9;
+    public static int outerClimbMotor = 6;
 
     //Intake Constants
     public static double armDownPosition = 1.75;
