@@ -10,13 +10,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Buttons;
 import frc.robot.Constants.DriveConstants;
-//import frc.robot.commands.ClimberCommand;
+import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.EyeBallCommand;
 import frc.robot.commands.OneBallAutoCommand;
 import frc.robot.commands.SetDistanceCommand;
@@ -26,7 +29,7 @@ import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.commands.TwoBallAutoCommand;
 import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
-//import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -42,7 +45,7 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-	// private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+	private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 	private final BallTransitSubsystem ballTransitSubsystem = new BallTransitSubsystem();
 
 	private final TwoBallAutoCommand TwoBallAuto = new TwoBallAutoCommand(driveSubsystem, ballTransitSubsystem);
@@ -60,7 +63,7 @@ public class RobotContainer {
 		autoChooser.addOption("One Ball Auto", OneBallAuto);
 		autoChooser.addOption("Simple Auto", simpleAuto);
 		SmartDashboard.putData(autoChooser);
-
+		
 		// Default Drive
 		driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.manualDrive(
 				(DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3)) +
@@ -71,8 +74,20 @@ public class RobotContainer {
 								driverStick.getY()),
 				DriveConstants.scaleTurn, DriveConstants.scaleFowd), driveSubsystem));
 		configureButtonBindings();
+		testButtons();
 	}
 
+	private void testButtons(){
+		new InstantCommand(()->climberSubsystem.moveOuterArms(0),climberSubsystem);
+		new JoystickButton(driverStick, Buttons.outerArmToggle).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
+		new JoystickButton(driverStick, Buttons.innerArmToggle).whenPressed(()->climberSubsystem.toggleInnerArms(),climberSubsystem);
+		//Vertical
+		new JoystickButton(driverStick, Buttons.outerClimbVertical).whileHeld(()->climberSubsystem.moveOuterArms(1),climberSubsystem);
+		//Position
+		new JoystickButton(driverStick, Buttons.outerClimbPosition).whileHeld(()->climberSubsystem.moveOuterArms(1),climberSubsystem);
+		new JoystickButton(driverStick, Buttons.outerClimbVariable).whileHeld(()->climberSubsystem.moveOuterArms(operatorStick.getY()), climberSubsystem);
+	}
+ 
 	/*
 	 * The buttons will be shecduled before the default Command and
 	 * if the buttons that are activated have the same subsystem requirements as the
@@ -113,6 +128,18 @@ public class RobotContainer {
 		new JoystickButton(driverStick, Buttons.turnToCilmb)
 				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededCilmbAngle));
 
+		//Turn to Angle Other Side Buttons
+		/*
+		new JoystickButton(driverStick, Buttons.turn0Toggle2)
+				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle0));
+		new JoystickButton(driverStick, Buttons.turn90Toggle2)
+				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle90));
+		new JoystickButton(driverStick, Buttons.turnNegative90Toggle2)
+				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngleNegative90));
+		new JoystickButton(driverStick, Buttons.turn180Toggle2)
+				.whileHeld(new TurnToAngleCommand(driveSubsystem, Constants.neededAngle180));
+				*/
+
 		/* OPERATOR BUTTONS */
 		// Auto align to ball command
 		new JoystickButton(operatorStick, Buttons.eyeballLeftButton)
@@ -132,28 +159,10 @@ public class RobotContainer {
 		// This doesn't lock piston when the arm is up and only locks when down
 		// Prevents wasting time locking the piston
 					
-		/*new JoystickButton(operatorStick, Buttons.armUp)
-				.whenPressed(new FunctionalCommand(ballTransitSubsystem::turnOffPiston,
-						() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
-						interrupted -> ballTransitSubsystem.checkArmUp(),
-						ballTransitSubsystem::checkArmUp,
-						ballTransitSubsystem));
-
-		new JoystickButton(operatorStick, Buttons.armDown)
-				.whenPressed(new FunctionalCommand(ballTransitSubsystem::turnOffPiston,
-						() -> ballTransitSubsystem.setArmAngle(PositionMode.goDown),
-						//The interuppted doesn't do anything, but it needed another arg
-						interrupted -> ballTransitSubsystem.checkArmDown(),
-						ballTransitSubsystem::checkArmDown,
-						ballTransitSubsystem)
-								.andThen(new InstantCommand(() -> ballTransitSubsystem.turnOffArmMotor(), ballTransitSubsystem))
-								.andThen(new InstantCommand(() -> ballTransitSubsystem.turnOnPiston(), ballTransitSubsystem)));
-		*/
 		// Toggles Arm
 		// This locks the piston no matter which position
 		new JoystickButton(operatorStick, Buttons.armToggle).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
-		//Toggles piston
-		//new JoystickButton(operatorStick, Buttons.armPiston).whenPressed(()->ballTransitSubsystem.togglePiston, ballTransitSubsystem);
+		
 		
 		/*
 		 * new JoystickButton(operatorStick,
@@ -169,6 +178,9 @@ public class RobotContainer {
 		new JoystickButton(operatorStick, Buttons.armUp).whileHeld(
 				() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
 				ballTransitSubsystem);
+		new JoystickButton(operatorStick, 11).whileHeld(
+					() -> ballTransitSubsystem.setArmAngle(PositionMode.goUpHigher),
+					ballTransitSubsystem);
 		new JoystickButton(operatorStick, Buttons.armDown).whileHeld(
 				() -> ballTransitSubsystem.setArmAngle(PositionMode.goDown),
 				ballTransitSubsystem);

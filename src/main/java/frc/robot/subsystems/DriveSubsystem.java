@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -60,7 +61,7 @@ public class DriveSubsystem extends SubsystemBase {
   // The gyro sensor
   public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
   //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);
-
+  private static final Timer time = new Timer();
   public DriveSubsystem() {
     Shuffleboard.getTab("Example tab").add(m_gyro);
     leftFrontMotor.restoreFactoryDefaults();
@@ -216,6 +217,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putBoolean("Collision Detected?", AutoDriveCommand.collisionDetected);
+    
 
     /*SmartDashboard.putNumber("Total Current", powerDistributionModule.getTotalCurrent());
     SmartDashboard.putNumber("Total Power", powerDistributionModule.getTotalPower());

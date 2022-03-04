@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -13,6 +14,7 @@ public class SimpleAuto extends SequentialCommandGroup {
   public SimpleAuto(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
     //This is to make an on the fly command
     addCommands(
+      new InstantCommand(()->transitSubsystem.releaseArm(), transitSubsystem),
       new AutoDriveCommand(drive, 30)
     );
   }

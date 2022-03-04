@@ -16,6 +16,7 @@ public class ToggleArmCommand extends CommandBase {
 	public enum PositionMode {
 		goUp,
 		goDown,
+		goUpHigher,
 		broken
 	}
 

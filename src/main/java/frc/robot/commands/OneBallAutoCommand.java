@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -16,6 +17,7 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
     //Make Sure to have a timeout after every Command, just incase the command doesn't end
     addCommands(
       //Command list of wanted movement
+      new InstantCommand(()->ballTransitSubsystem.releaseArm(), ballTransitSubsystem),
       new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(0.5),
       new AutoDriveCommand(drive, 8.41 * (34.6875 / (6 * Math.PI))),
       new TurnToAngleCommand(drive, 180),
