@@ -72,6 +72,8 @@ public class BallTransitSubsystem extends SubsystemBase {
         armMotorPIDCon.setReference(Constants.armDownPosition, CANSparkMax.ControlType.kSmartMotion);
     } else if (position == PositionMode.goUp) {
         armMotorPIDCon.setReference(Constants.armUpPosition, CANSparkMax.ControlType.kSmartMotion);
+    }else if (position == PositionMode.goUpHigher){
+      armMotorPIDCon.setReference(Constants.releaseArmPosition, CANSparkMax.ControlType.kSmartMotion);
     }
   }
 
