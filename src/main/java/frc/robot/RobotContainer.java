@@ -78,14 +78,14 @@ public class RobotContainer {
 	}
 
 	private void testButtons(){
-		//new InstantCommand(()->climberSubsystem.moveOuterArms(0),climberSubsystem);
+		// bnew InstantCommand(()->climberSubsystem.moveOuterArms(0),climberSubsystem);
 		new JoystickButton(driverStick, Buttons.outerArmToggle).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
 		//new JoystickButton(driverStick, Buttons.innerArmToggle).whenPressed(()->climberSubsystem.toggleInnerArms(),climberSubsystem);
 		//Vertical
 		new JoystickButton(driverStick, Buttons.outerClimbVertical).whileHeld(()->climberSubsystem.moveOuterArms(1),climberSubsystem);
 		//Position
-		new JoystickButton(driverStick, Buttons.outerClimbPosition).whileHeld(()->climberSubsystem.moveOuterArms(1),climberSubsystem);
-		new JoystickButton(driverStick, Buttons.outerClimbVariable).whileHeld(()->climberSubsystem.moveOuterArms(operatorStick.getY()), climberSubsystem);
+		//new JoystickButton(driverStick, Buttons.outerClimbPosition).whileHeld(()->climberSubsystem.moveOuterArms(1),climberSubsystem);
+		//new JoystickButton(driverStick, Buttons.outerClimbVariable).whileHeld(()->climberSubsystem.moveOuterArms(operatorStick.getY()), climberSubsystem);
 	}
  
 	/*

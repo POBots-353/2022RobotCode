@@ -28,10 +28,12 @@ public final class Constants {
     //Climber Motor IDS
     public static int outerClimbMotor = 6;
 
-    //Intake Constants
-    public static double armDownPosition = 1.75;
-    public static double armUpPosition = 12;
-    public static double releaseArmPosition = 13;
+    //Intake/Arm Constants
+    //Negative is down and positive is up
+    public static double armDownPosition = -11.75;//1.75
+    public static double armUpPosition = 0;//12
+    public static double releaseArmPosition = 1;//13
+
     public static double intakeSpeed = 0.7;
 
     //AutoAlign Constants
@@ -49,16 +51,11 @@ public final class Constants {
     public static double pitchDriveScale = 200;
 
     /* Climber Subsystem Constants */
-    public static double climbingArmLength = 1.0;
-    public static double distancePerMotorClick = 1.0;
-    public static double hookLengthToBase = 1.0;
-
-    public static double armReferenceScale = 1.0;
-
     public static int pneumaticTimerDelay = 150;
-    public static int timerDelayBetweenSteps = 1;
+    public static int timerDelayBetweenSteps = 48;
     public static int MLGWaterBucketClutchTime = 1; //The name is unfortunately kinda accurate
 
+    public static double armsDownSetPoint = 1.0; //The set point for when we drive into the hangar
     public static double verticalSetPoint = 1.0; //The set point for when the arms are verticle
     public static double behindBarSetPoint = 1.0; //The set point for the inner arms when the climing starts
     public static double firstExtendSetPoint = 1.0; //The set point for when the arms move behind the bar

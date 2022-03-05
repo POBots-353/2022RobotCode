@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,9 +34,11 @@ public class ClimberSubsystem extends SubsystemBase {
 	double setPointDrive = 0;
 
 	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7);
-	//public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 6);
-	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 5);
-	//public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
+	// public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1,
+	// 		PneumaticsModuleType.CTREPCM, 1, 6);
+	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
+	// public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1,
+	// PneumaticsModuleType.CTREPCM, 3, 4);
 
 	public CANSparkMax outerMotor = new CANSparkMax(Constants.outerClimbMotor, MotorType.kBrushless);
 
@@ -43,16 +46,16 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public SparkMaxPIDController outerController = outerMotor.getPIDController();
 
-//	public double currentOuterReferencePoint = 0;
-//	public double currentInnerReferencePoint = 0;
-//
-//	public boolean outerPIDEnabled = true;
-//	public boolean innerPIDEnabled = true;
-//
-//	/* Creates a new ClimberSubsystem. */
+	// public double currentOuterReferencePoint = 0;
+	// public double currentInnerReferencePoint = 0;
+	//
+	// public boolean outerPIDEnabled = true;
+	// public boolean innerPIDEnabled = true;
+	//
+	// /* Creates a new ClimberSubsystem. */
 	public ClimberSubsystem() {
 		initializePID(outerController, outerEncoder);
-        SmartDashboard.putNumber("OuterClimb Position", 0.5);
+		SmartDashboard.putNumber("OuterClimb Position", 0.5);
 	}
 
 	public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
@@ -72,70 +75,82 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-        SmartDashboard.putNumber("Current Outer Climb Position", outerEncoder.getPosition());
+		SmartDashboard.putNumber("Current Outer Climb Position", outerEncoder.getPosition());
+		SmartDashboard.putBoolean("Left Off", leftOuterPneumatic.get() == Value.kOff);
+		SmartDashboard.putBoolean("Left Forward", leftOuterPneumatic.get() == Value.kForward);
+		SmartDashboard.putBoolean("Left Backward", leftOuterPneumatic.get() == Value.kReverse);
 		// This method will be called once per scheduler run
 	}
 
-//	/**
-//	 * This will set the encoder position for the Outer PID Controller
-//	 * 
-//	 * @param position
-//	 */
-//	public void setOuterArmsPosition(double position) {
-//		if (outerPIDEnabled) {
-//			outerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
-//		}
-//		currentOuterReferencePoint = position;
-//	}
-//
-//	/**
-//	 * This will set the encoder position for the Inner PID Controller
-//	 * 
-//	 * @param position
-//	 */
-//	public void setInnerArmsPosition(double position) {
-//		if (innerPIDEnabled) {
-//			innerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
-//			currentInnerReferencePoint = position;
-//		}
-//	}
-//
-//	/**
-//	 * This will enable/disable the Outer PID
-//	 * 
-//	 * @param val
-//	 */
-//	public void setOuterPID(boolean val) {
-//		outerPIDEnabled = val;
-//	}
-//
+	// /**
+	// * This will set the encoder position for the Outer PID Controller
+	// *
+	// * @param position
+	// */
+	// public void setOuterArmsPosition(double position) {
+	// if (outerPIDEnabled) {
+	// outerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
+	// }
+	// currentOuterReferencePoint = position;
+	// }
+	//
+	// /**
+	// * This will set the encoder position for the Inner PID Controller
+	// *
+	// * @param position
+	// */
+	// public void setInnerArmsPosition(double position) {
+	// if (innerPIDEnabled) {
+	// innerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
+	// currentInnerReferencePoint = position;
+	// }
+	// }
+	//
+	// /**
+	// * This will enable/disable the Outer PID
+	// *
+	// * @param val
+	// */
+	// public void setOuterPID(boolean val) {
+	// outerPIDEnabled = val;
+	// }
+	//
 	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+		if (leftOuterPneumatic.get() == Value.kOff) {
+			leftOuterPneumatic.set(Value.kReverse);
+		}
+		if (rightOuterPneumatic.get() == Value.kOff) {
+			rightOuterPneumatic.set(Value.kReverse);
+		}
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
 	}
 
-	/*public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-		leftInnerPneumatic.toggle();
-		rightInnerPneumatic.toggle();
-	}
-	*/
-//	public double getArcLength() {
-//		double arcLength = (Constants.hookLengthToBase / Constants.climbingArmLength) * Constants.climbingArmLength;
-//		return arcLength;
-//	}
-//
-//	public double getNumberOfClicks() {
-//		double numberOfClicks = getArcLength() / Constants.distancePerMotorClick;
-//		return numberOfClicks;
-//	}
-//
-//	public double getNumberOfRobotTicks(double seconds) {
-//		return Math.round(seconds / 0.021);
-//	}
+	/*
+	 * public void toggleInnerArms() { // Reverses the toggle state of the inner
+	 * solenoids
+	 * leftInnerPneumatic.toggle();
+	 * rightInnerPneumatic.toggle();
+	 * }
+	 */
+	// public double getArcLength() {
+	// double arcLength = (Constants.hookLengthToBase / Constants.climbingArmLength)
+	// * Constants.climbingArmLength;
+	// return arcLength;
+	// }
+	//
+	// public double getNumberOfClicks() {
+	// double numberOfClicks = getArcLength() / Constants.distancePerMotorClick;
+	// return numberOfClicks;
+	// }
+	//
+	// public double getNumberOfRobotTicks(double seconds) {
+	// return Math.round(seconds / 0.021);
+	// }
 
-//Testing Code
-    public void moveOuterArms(double position){
-        position = SmartDashboard.getNumber("OuterClimb Position", 0.5);
-        outerController.setReference(-position, CANSparkMax.ControlType.kSmartMotion);
-    }
+	// Testing Code
+	public void moveOuterArms(double position) {
+		position = SmartDashboard.getNumber("OuterClimb Position", 0.5);
+		outerController.setReference(-position, CANSparkMax.ControlType.kSmartMotion);
+	}
 }
