@@ -79,10 +79,10 @@ public class RobotContainer {
 
 	private void testButtons(){
 		// bnew InstantCommand(()->climberSubsystem.moveOuterArms(0),climberSubsystem);
-		new JoystickButton(driverStick, Buttons.outerArmToggle).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
+		
 		//new JoystickButton(driverStick, Buttons.innerArmToggle).whenPressed(()->climberSubsystem.toggleInnerArms(),climberSubsystem);
 		//Vertical
-		new JoystickButton(driverStick, Buttons.outerClimbVertical).whileHeld(()->climberSubsystem.moveOuterArms(1),climberSubsystem);
+		//new JoystickButton(driverStick, Buttons.outerClimbVertical).whileHeld(()->climberSubsystem.moveOuterArms(1),climberSubsystem);
 		//Position
 		//new JoystickButton(driverStick, Buttons.outerClimbPosition).whileHeld(()->climberSubsystem.moveOuterArms(1),climberSubsystem);
 		//new JoystickButton(driverStick, Buttons.outerClimbVariable).whileHeld(()->climberSubsystem.moveOuterArms(operatorStick.getY()), climberSubsystem);
@@ -155,6 +155,9 @@ public class RobotContainer {
 				() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
 				ballTransitSubsystem));
 
+		//Manual Climb
+		new JoystickButton(operatorStick, Buttons.outerArmToggle).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
+
 		// Arm up or down
 		// This doesn't lock piston when the arm is up and only locks when down
 		// Prevents wasting time locking the piston
@@ -178,7 +181,7 @@ public class RobotContainer {
 		new JoystickButton(operatorStick, Buttons.armUp).whileHeld(
 				() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
 				ballTransitSubsystem);
-		new JoystickButton(operatorStick, 11).whileHeld(
+		new JoystickButton(operatorStick, Buttons.armRelease).whileHeld(
 					() -> ballTransitSubsystem.setArmAngle(PositionMode.goUpHigher),
 					ballTransitSubsystem);
 		new JoystickButton(operatorStick, Buttons.armDown).whileHeld(
