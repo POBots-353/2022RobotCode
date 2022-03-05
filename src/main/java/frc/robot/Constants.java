@@ -89,7 +89,7 @@ public final class Constants {
 
         //TestConstants Not Used in Competition
         public static int innerArmToggle = 12;
-        public static int outerArmToggle = 13;
+        public static int outerArmToggle = 2;
         public static int outerClimbVertical = 14;
         public static int outerClimbPosition = 15;
         public static int outerClimbVariable = 11;
@@ -102,6 +102,7 @@ public final class Constants {
         public static int armPiston = 4;
         public static int armUp = 5;
         public static int armDown = 10;
+        public static int armRelease = 11;
 
         public static int ballIntake = 7;
         public static int ballOutTake = 8;
