@@ -26,12 +26,13 @@ public final class Constants {
     public static int intakeArmMotorID = 8;//8
     public static int intakeMotorID = 7;//7
     //Climber Motor IDS
-    public static int outerClimbMotor = 9;
+    public static int outerClimbMotor = 6;
 
-    //Intake Constants
-    public static double armDownPosition = 1.75;
-    public static double armUpPosition = 12;
-    public static double releaseArmPosition = 13;
+    //Intake/Arm Constants
+    //Negative is down and positive is up
+    public static double armDownPosition = -10.75;//1.75
+    public static double armUpPosition = 5;//12
+    public static double releaseArmPosition = 5;//13
     public static double intakeSpeed = 0.7;
 
     //AutoAlign Constants
@@ -49,16 +50,11 @@ public final class Constants {
     public static double pitchDriveScale = 200;
 
     /* Climber Subsystem Constants */
-    public static double climbingArmLength = 1.0;
-    public static double distancePerMotorClick = 1.0;
-    public static double hookLengthToBase = 1.0;
-
-    public static double armReferenceScale = 1.0;
-
     public static int pneumaticTimerDelay = 150;
-    public static int timerDelayBetweenSteps = 1;
+    public static int timerDelayBetweenSteps = 48;
     public static int MLGWaterBucketClutchTime = 1; //The name is unfortunately kinda accurate
 
+    public static double armsDownSetPoint = 1.0; //The set point for when we drive into the hangar
     public static double verticalSetPoint = 1.0; //The set point for when the arms are verticle
     public static double behindBarSetPoint = 1.0; //The set point for the inner arms when the climing starts
     public static double firstExtendSetPoint = 1.0; //The set point for when the arms move behind the bar
@@ -92,7 +88,7 @@ public final class Constants {
 
         //TestConstants Not Used in Competition
         public static int innerArmToggle = 12;
-        public static int outerArmToggle = 13;
+        public static int outerArmToggle = 2;
         public static int outerClimbVertical = 14;
         public static int outerClimbPosition = 15;
         public static int outerClimbVariable = 11;
@@ -105,6 +101,7 @@ public final class Constants {
         public static int armPiston = 4;
         public static int armUp = 5;
         public static int armDown = 10;
+        public static int armRelease = 11;
 
         public static int ballIntake = 7;
         public static int ballOutTake = 8;

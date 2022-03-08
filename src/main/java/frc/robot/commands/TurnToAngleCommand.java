@@ -33,7 +33,7 @@ public class TurnToAngleCommand extends CommandBase {
   
   @Override
   public void execute() {
-    if (Math.abs(driveSubsystem.angleError(neededAngle)) > 1){
+    if (Math.abs(driveSubsystem.angleError(neededAngle)) > 1){//This is our allowed angle error
      driveSubsystem.manualDrive(driveSubsystem.angleError(neededAngle) * kP, 0.0, 50, 0.0);
     }
   } 

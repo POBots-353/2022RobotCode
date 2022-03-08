@@ -11,6 +11,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -26,7 +28,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	double kFF = 0.000156;
 	double kMaxOutput = 1;
 	double kMinOutput = -1;
-	double maxRPM = 200;
+	double maxRPM = 5700;
 	double maxVel = 2000;
 	double maxAcc = 1500;
 	double setPointDrive = 0;
@@ -118,16 +120,6 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
 		leftInnerPneumatic.toggle();
 		rightInnerPneumatic.toggle();
-	}
-
-	public double getArcLength() {
-		double arcLength = (Constants.hookLengthToBase / Constants.climbingArmLength) * Constants.climbingArmLength;
-		return arcLength;
-	}
-
-	public double getNumberOfClicks() {
-		double numberOfClicks = getArcLength() / Constants.distancePerMotorClick;
-		return numberOfClicks;
 	}
 
 	public double getNumberOfRobotTicks(double seconds) {
