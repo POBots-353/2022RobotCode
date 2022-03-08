@@ -44,6 +44,7 @@ public class BallTransitSubsystem extends SubsystemBase {
 
    public BallTransitSubsystem() {
      initializePID(armMotorPIDCon, armEncoder);
+     resetPosition();
    }
  
   /*public void togglePiston() {
@@ -52,11 +53,11 @@ public class BallTransitSubsystem extends SubsystemBase {
 */
 
   public void inTake() {
-    intakeMotor.set(Constants.intakeSpeed);
+    intakeMotor.set(-Constants.intakeSpeed);
    }
  
   public void outTake() {
-    intakeMotor.set(-Constants.intakeSpeed);
+    intakeMotor.set(Constants.intakeSpeed);
   }
 
   public void turnOffIntakeMotor(){
@@ -77,6 +78,10 @@ public class BallTransitSubsystem extends SubsystemBase {
     }
   }
 
+  public void resetPosition(){
+    armEncoder.setPosition(0);
+  }
+
   public void releaseArm(){
     armMotorPIDCon.setReference(Constants.releaseArmPosition, CANSparkMax.ControlType.kSmartMotion);
   }
@@ -93,7 +98,7 @@ public class BallTransitSubsystem extends SubsystemBase {
    }
 
    public boolean checkArmDown(){
-     if (armEncoder.getPosition() <= Constants.armDownPosition){
+     if (armEncoder.getPosition() <= Constants.armDownPosition + 0.2){
        return true;
      }
      return false;

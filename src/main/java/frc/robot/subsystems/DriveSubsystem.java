@@ -61,9 +61,9 @@ public class DriveSubsystem extends SubsystemBase {
   // The gyro sensor
   public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
   //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);
-  private static final Timer time = new Timer();
+  //private static final Timer time = new Timer();
   public DriveSubsystem() {
-    Shuffleboard.getTab("Example tab").add(m_gyro);
+    Shuffleboard.getTab("Gyro").add(m_gyro);
     leftFrontMotor.restoreFactoryDefaults();
     leftBackMotor.restoreFactoryDefaults();
     rightFrontMotor.restoreFactoryDefaults();
@@ -210,13 +210,16 @@ public class DriveSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
     
-    SmartDashboard.putNumber("Ultrasonic", ultrasonic.getValue() * 0.125);
+    //SmartDashboard.putNumber("Ultrasonic", ultrasonic.getValue() * 0.125);
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
     SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putBoolean("Collision Detected?", AutoDriveCommand.collisionDetected);
+
+    SmartDashboard.putNumber("Left Velocity", m_leftFrontEncoder.getVelocity());
+    SmartDashboard.putNumber("Right Velocity", m_rightFrontEncoder.getVelocity());
     
 
     /*SmartDashboard.putNumber("Total Current", powerDistributionModule.getTotalCurrent());

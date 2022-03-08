@@ -30,10 +30,9 @@ public final class Constants {
 
     //Intake/Arm Constants
     //Negative is down and positive is up
-    public static double armDownPosition = -11.75;//1.75
-    public static double armUpPosition = 0;//12
-    public static double releaseArmPosition = 1;//13
-
+    public static double armDownPosition = -10.75;//1.75
+    public static double armUpPosition = 5;//12
+    public static double releaseArmPosition = 5;//13
     public static double intakeSpeed = 0.7;
 
     //AutoAlign Constants

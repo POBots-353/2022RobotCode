@@ -59,9 +59,9 @@ public class RobotContainer {
 
 	public RobotContainer() {
 		// Auto Chooser on SmartDashboard
-		autoChooser.setDefaultOption("Two Ball Auto", TwoBallAuto);
+		autoChooser.setDefaultOption("Two Ball Auto", simpleAuto);
 		autoChooser.addOption("One Ball Auto", OneBallAuto);
-		autoChooser.addOption("Simple Auto", simpleAuto);
+		autoChooser.addOption("Simple Auto", TwoBallAuto);
 		SmartDashboard.putData(autoChooser);
 		
 		// Default Drive
@@ -148,19 +148,15 @@ public class RobotContainer {
 				.whileHeld(new EyeBallCommand(driveSubsystem, Constants.yawRightBias));
 
 		// Intake in and out
-		new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
-				() -> ballTransitSubsystem.inTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
-				ballTransitSubsystem));
-		new JoystickButton(operatorStick, Buttons.ballOutTake).whileHeld(new StartEndCommand(
-				() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
-				ballTransitSubsystem));
+		 new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
+		 		() -> ballTransitSubsystem.inTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
+		 		ballTransitSubsystem));
+		 new JoystickButton(operatorStick, Buttons.ballOutTake).whileHeld(new StartEndCommand(
+		 		() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
+		 		ballTransitSubsystem));
 
 		//Manual Climb
-		new JoystickButton(operatorStick, Buttons.outerArmToggle).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
-
-		// Arm up or down
-		// This doesn't lock piston when the arm is up and only locks when down
-		// Prevents wasting time locking the piston
+		 new JoystickButton(operatorStick, Buttons.outerArmToggle).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
 					
 		// Toggles Arm
 		// This locks the piston no matter which position
@@ -168,7 +164,7 @@ public class RobotContainer {
 		
 		
 		/*
-		 * new JoystickButton(operatorStick,
+		 * new JoystickButon(operatorStick,
 		 * Buttons.manualClimb).whileHeld(()->climberSubsystem.piston.toggle());
 		 */
 

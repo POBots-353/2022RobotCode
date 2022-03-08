@@ -40,26 +40,6 @@ public class ToggleArmCommand extends CommandBase {
 		}else{
 			mode = PositionMode.broken;
 		}
-		
-
-		//WE WILL DELETE THIS
-		/*if (ballTransitSubsystem.topLimitSwitch.get()) {
-			if (ballTransitSubsystem.lowLimitSwitch.get()) {
-				SmartDashboard.putString("Mulitiple Swtiches Pressed", "##ERROR##");
-				// Both switches are clicked
-			} else {
-				mode = PositionMode.goDown;
-				// When limit swtich on the bottom is not clicked then set mode to goDown
-			}
-		} else {
-			if (ballTransitSubsystem.lowLimitSwitch.get()) {
-				mode = PositionMode.goUp;
-				// When limit switch on the bottom is clicked then set mode to goUp
-			} else {
-				SmartDashboard.putString("Limit Switches", "BROKEN!!!!");
-				// not receiveing any data from switches
-			}
-		}*/
 	}
 
 	@Override
@@ -69,7 +49,7 @@ public class ToggleArmCommand extends CommandBase {
 		} else if (mode == PositionMode.goUp) {
 			ballTransitSubsystem.setArmAngle(mode);
 		}else{
-			System.out.println("Were screwed");
+			System.out.println("We're screwed");
 		}
 	}
 
