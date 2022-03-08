@@ -18,17 +18,18 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
     addCommands(
       //Command list of wanted movement
       new InstantCommand(()->ballTransitSubsystem.releaseArm(), ballTransitSubsystem),
-      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(0.5),
       new AutoDriveCommand(drive, 8.41 * (34.6875 / (6 * Math.PI))),
-      new TurnToAngleCommand(drive, 180),
+      
+      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1),
       // Drops the ball off first, turns 180 
-      //new ToggleArmCommand(ballTransitSubsystem),
+      new TurnToAngleCommand(drive, 180),
+      new ToggleArmCommand(ballTransitSubsystem),
       new ParallelRaceGroup(
         new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI))),
         new StartEndCommand(()->ballTransitSubsystem.inTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem)
       ),
         new TurnToAngleCommand(drive, 180),
-        //new ToggleArmCommand(ballTransitSubsystem),
+        new ToggleArmCommand(ballTransitSubsystem),
         new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI))),
     //Turns 180 degrees and returns back to the drop with the ball 
       new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1)

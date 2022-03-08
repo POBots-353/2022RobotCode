@@ -16,11 +16,11 @@ public class EyeBallCommand extends CommandBase {
   private final PhotonCamera eye = new PhotonCamera("Microsoft_LifeCam_HD-3000");
   double yaw; // The x of the camera view
   double pitch; // The y of the camera view
-  private double yawBiase = 0;
+  private double yawBias = 0;
 
-  public EyeBallCommand(DriveSubsystem drive, double yawBiase) {
+  public EyeBallCommand(DriveSubsystem drive, double yawBias) {
     driveSubsystem = drive;
-    this.yawBiase = yawBiase;
+    this.yawBias = yawBias;
     addRequirements(drive);
   }
 
@@ -38,7 +38,7 @@ public class EyeBallCommand extends CommandBase {
     if (eyeValues.hasTargets()) {
       // Add or subtract to the yaw or pitch to get to a dersired location on the
       // camera
-      yaw = eyeValues.getBestTarget().getYaw() + yawBiase;
+      yaw = eyeValues.getBestTarget().getYaw() + yawBias;
       pitch = eyeValues.getBestTarget().getPitch() + Constants.pitchOffset;
       driveSubsystem.manualDrive(yaw * 0.20, pitch * 0.3, Constants.yawDriveScale, Constants.pitchDriveScale);
 

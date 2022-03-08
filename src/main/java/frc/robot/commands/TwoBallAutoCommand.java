@@ -24,11 +24,14 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
     //Use ToggleArm Command because at the end of Auto the robot will be disable and the arm will drop
     addCommands(
       //Command list of wanted movement
+      new InstantCommand(()->transitSubsystem.resetPosition(), transitSubsystem),
       new InstantCommand(()->transitSubsystem.releaseArm(), transitSubsystem),
+      
       new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(0.5),
-      new AutoDriveCommand(drive, 8.41 *  (23.125 / (6 * Math.PI))),
+      new AutoDriveCommand(drive, -8.41 *  (23.125 / (6 * Math.PI))),
       new TurnToAngleCommand(drive, 164),
-      //new ToggleArmCommand(transitSubsystem),
+     
+      new ToggleArmCommand(transitSubsystem),
       new ParallelRaceGroup(
         new AutoDriveCommand(drive, 8.41 * (111.78 / (6 * Math.PI))),
         new StartEndCommand(()->transitSubsystem.inTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem)
@@ -39,11 +42,11 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
         new StartEndCommand(()->transitSubsystem.inTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem)
       ),
       new TurnToAngleCommand(drive, -53),
-      new AutoDriveCommand(drive, 8.41 * (118.44 / (6 * Math.PI))),
+      new AutoDriveCommand(drive, 8.41 * ( 118.44 / (6 * Math.PI))),
       new TurnToAngleCommand(drive, 16),
-      //new ToggleArmCommand(transitSubsystem),
+      new ToggleArmCommand(transitSubsystem),
       new AutoDriveCommand(drive, 8.41 * (25.9 / (6 * Math.PI))),
-      new StartEndCommand(()->transitSubsystem.inTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1)       
+      new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1)       
       
 
         //Tests

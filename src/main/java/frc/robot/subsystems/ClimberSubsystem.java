@@ -33,10 +33,10 @@ public class ClimberSubsystem extends SubsystemBase {
 	double maxAcc = 1500;
 	double setPointDrive = 0;
 
-	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7);
+	// public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7);
 	// public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1,
 	// 		PneumaticsModuleType.CTREPCM, 1, 6);
-	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
+	// public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
 	// public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1,
 	// PneumaticsModuleType.CTREPCM, 3, 4);
 
@@ -76,9 +76,9 @@ public class ClimberSubsystem extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("Current Outer Climb Position", outerEncoder.getPosition());
-		SmartDashboard.putBoolean("Left Off", leftOuterPneumatic.get() == Value.kOff);
-		SmartDashboard.putBoolean("Left Forward", leftOuterPneumatic.get() == Value.kForward);
-		SmartDashboard.putBoolean("Left Backward", leftOuterPneumatic.get() == Value.kReverse);
+		// SmartDashboard.putBoolean("Left Off", leftOuterPneumatic.get() == Value.kOff);
+		// SmartDashboard.putBoolean("Left Forward", leftOuterPneumatic.get() == Value.kForward);
+		// SmartDashboard.putBoolean("Left Backward", leftOuterPneumatic.get() == Value.kReverse);
 		// This method will be called once per scheduler run
 	}
 
@@ -116,14 +116,14 @@ public class ClimberSubsystem extends SubsystemBase {
 	// }
 	//
 	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
-		if (leftOuterPneumatic.get() == Value.kOff) {
-			leftOuterPneumatic.set(Value.kReverse);
-		}
-		if (rightOuterPneumatic.get() == Value.kOff) {
-			rightOuterPneumatic.set(Value.kReverse);
-		}
-		leftOuterPneumatic.toggle();
-		rightOuterPneumatic.toggle();
+		// if (leftOuterPneumatic.get() == Value.kOff) {
+		// 	leftOuterPneumatic.set(Value.kReverse);
+		// }
+		// if (rightOuterPneumatic.get() == Value.kOff) {
+		// 	rightOuterPneumatic.set(Value.kReverse);
+		// }
+		// leftOuterPneumatic.toggle();
+		// rightOuterPneumatic.toggle();
 	}
 
 	/*
