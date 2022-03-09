@@ -32,7 +32,6 @@ public class ToggleArmCommand extends CommandBase {
 	public void initialize() {
 		
 		if (ballTransitSubsystem.checkArmUp()) {
-			ballTransitSubsystem.setMinOutput(0);
 			mode = PositionMode.goDown;
 			// When limit swtich on the bottom is not clicked then set mode to goDown
 		} else if (ballTransitSubsystem.checkArmDown()) {
