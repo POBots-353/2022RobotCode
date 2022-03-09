@@ -54,6 +54,9 @@ public final class Constants {
     public static int timerDelayBetweenSteps = 48;
     public static int MLGWaterBucketClutchTime = 1; //The name is unfortunately kinda accurate
 
+    public static double secondsDelayBetweenSteps = 1.5;
+    public static double MLGWaterBucketClutchSeconds = 0.8;
+
     public static double armsDownSetPoint = 1.0; //The set point for when we drive into the hangar
     public static double verticalSetPoint = 1.0; //The set point for when the arms are verticle
     public static double behindBarSetPoint = 1.0; //The set point for the inner arms when the climing starts

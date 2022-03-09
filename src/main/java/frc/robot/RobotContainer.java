@@ -21,6 +21,7 @@ import frc.robot.Constants.Buttons;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.EyeBallCommand;
+import frc.robot.commands.ManualDriveCommand;
 import frc.robot.commands.OneBallAutoCommand;
 import frc.robot.commands.SetDistanceCommand;
 import frc.robot.commands.SimpleAuto;
@@ -31,6 +32,7 @@ import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.NewDriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -44,6 +46,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+	private final NewDriveSubsystem newDriveSubsystem = new NewDriveSubsystem();
 
 	private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 	private final BallTransitSubsystem ballTransitSubsystem = new BallTransitSubsystem();
@@ -65,14 +68,17 @@ public class RobotContainer {
 		SmartDashboard.putData(autoChooser);
 		
 		// Default Drive
-		driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.manualDrive(
-				(DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3)) +
-						(1 - DriveConstants.scaleY) * driverStick.getX()),
-				-(DriveConstants.scaleY *
-						(Math.pow(driverStick.getY(), 3))
-						+ (1 - DriveConstants.scaleY) *
-								driverStick.getY()),
-				DriveConstants.scaleTurn, DriveConstants.scaleFowd), driveSubsystem));
+		// driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.manualDrive(
+		// 		(DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3)) +
+		// 				(1 - DriveConstants.scaleY) * driverStick.getX()),
+		// 		-(DriveConstants.scaleY *
+		// 				(Math.pow(driverStick.getY(), 3))
+		// 				+ (1 - DriveConstants.scaleY) *
+		// 						driverStick.getY()),
+		// 		DriveConstants.scaleTurn, DriveConstants.scaleFowd), driveSubsystem));
+	
+		newDriveSubsystem.setDefaultCommand(new ManualDriveCommand(newDriveSubsystem));
+
 		configureButtonBindings();
 		testButtons();
 	}
