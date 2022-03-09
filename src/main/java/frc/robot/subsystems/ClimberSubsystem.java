@@ -87,8 +87,14 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void setOuterArmsPosition(double position) {
 		if (outerPIDEnabled) {
 			outerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
+		} else {
+			outerMotor.set(0);
 		}
 		currentOuterReferencePoint = position;
+	}
+
+	public void disablePID() {
+		outerMotor.set(0);
 	}
 
 	/**
@@ -120,6 +126,18 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
 		leftInnerPneumatic.toggle();
 		rightInnerPneumatic.toggle();
+	}
+
+	public double getPositionError(double expectedPosition, double currentPosition) {
+		return expectedPosition - currentPosition;
+	}
+
+	public boolean moveFinished(double expectedPosition, double currentPosition) {
+		return Math.abs(getPositionError(expectedPosition, currentPosition)) < 1.0;
+	}
+
+	public boolean outerMoveFinished() {
+		return Math.abs(getPositionError(currentOuterReferencePoint, outerEncoder.getPosition())) < 1.0;
 	}
 
 	public double getNumberOfRobotTicks(double seconds) {
