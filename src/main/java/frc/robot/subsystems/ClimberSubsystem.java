@@ -94,6 +94,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void disablePID() {
+		setOuterPID(false);
 		outerMotor.set(0);
 	}
 
