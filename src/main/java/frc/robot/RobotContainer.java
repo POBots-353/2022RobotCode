@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Buttons;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.EyeBallCommand;
 import frc.robot.commands.OneBallAutoCommand;
 import frc.robot.commands.SetDistanceCommand;
@@ -73,6 +72,9 @@ public class RobotContainer {
 						+ (1 - DriveConstants.scaleY) *
 								driverStick.getY()),
 				DriveConstants.scaleTurn, DriveConstants.scaleFowd), driveSubsystem));
+	
+		// newDriveSubsystem.setDefaultCommand(new ManualDriveCommand(newDriveSubsystem));
+
 		configureButtonBindings();
 		testButtons();
 	}
