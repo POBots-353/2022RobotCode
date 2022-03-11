@@ -33,19 +33,16 @@ public class ClimberSubsystem extends SubsystemBase {
 	double maxAcc = 1500;
 	double setPointDrive = 0;
 
-	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
-	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 6);
-	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 5);
-	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 3, 4);
+	//public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
+	//public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 6);
+	//public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 5);
+	//public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 3, 4);
 
-	public CANSparkMax outerMotor = new CANSparkMax(9, MotorType.kBrushless);
-	public CANSparkMax leftInnerMotor = new CANSparkMax(10, MotorType.kBrushless);
+	private CANSparkMax outerMotor = new CANSparkMax(Constants.outerClimbMotorID, MotorType.kBrushless);
 
 	public RelativeEncoder outerEncoder = outerMotor.getEncoder();
-	public RelativeEncoder innerEncoder = leftInnerMotor.getEncoder();
 
 	public SparkMaxPIDController outerController = outerMotor.getPIDController();
-	public SparkMaxPIDController innerController = leftInnerMotor.getPIDController();
 
 	public double currentOuterReferencePoint = 0;
 	public double currentInnerReferencePoint = 0;
@@ -56,7 +53,6 @@ public class ClimberSubsystem extends SubsystemBase {
 	/* Creates a new ClimberSubsystem. */
 	public ClimberSubsystem() {
 		initializePID(outerController, outerEncoder);
-		initializePID(innerController, innerEncoder);
 	}
 
 	public void initializePID(SparkMaxPIDController p, RelativeEncoder h) {
@@ -99,18 +95,6 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	/**
-	 * This will set the encoder position for the Inner PID Controller
-	 * 
-	 * @param position
-	 */
-	public void setInnerArmsPosition(double position) {
-		if (innerPIDEnabled) {
-			innerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
-			currentInnerReferencePoint = position;
-		}
-	}
-
-	/**
 	 * This will enable/disable the Outer PID
 	 * 
 	 * @param val
@@ -119,15 +103,15 @@ public class ClimberSubsystem extends SubsystemBase {
 		outerPIDEnabled = val;
 	}
 
-	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+	/*public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
-	}
+	}*/
 
-	public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-		leftInnerPneumatic.toggle();
-		rightInnerPneumatic.toggle();
-	}
+	// public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
+	// 	leftInnerPneumatic.toggle();
+	// 	rightInnerPneumatic.toggle();
+	// }
 
 	public double getPositionError(double expectedPosition, double currentPosition) {
 		return expectedPosition - currentPosition;

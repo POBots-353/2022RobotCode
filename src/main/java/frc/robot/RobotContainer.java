@@ -58,9 +58,9 @@ public class RobotContainer {
 
 	public RobotContainer() {
 		// Auto Chooser on SmartDashboard
-		autoChooser.setDefaultOption("Two Ball Auto", simpleAuto);
+		autoChooser.setDefaultOption("Two Ball Auto", TwoBallAuto);
 		autoChooser.addOption("One Ball Auto", OneBallAuto);
-		autoChooser.addOption("Simple Auto", TwoBallAuto);
+		autoChooser.addOption("Simple Auto", simpleAuto);
 		SmartDashboard.putData(autoChooser);
 		
 		// Default Drive
@@ -150,19 +150,19 @@ public class RobotContainer {
 				.whileHeld(new EyeBallCommand(driveSubsystem, Constants.yawRightBias));
 
 		// Intake in and out
-		 new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
+		/* new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
 		 		() -> ballTransitSubsystem.inTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
 		 		ballTransitSubsystem));
 		 new JoystickButton(operatorStick, Buttons.ballOutTake).whileHeld(new StartEndCommand(
 		 		() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
-		 		ballTransitSubsystem));
+		 		ballTransitSubsystem));*/
 
 		//Manual Climb
-		 new JoystickButton(operatorStick, Buttons.outerArmToggle).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
+		 //new JoystickButton(operatorStick, Buttons.outerArmToggle).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
 					
 		// Toggles Arm
 		// This locks the piston no matter which position
-		new JoystickButton(operatorStick, Buttons.armToggle).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
+		//new JoystickButton(operatorStick, Buttons.armToggle).whenPressed(new ToggleArmCommand(ballTransitSubsystem));
 		
 		
 		/*
@@ -176,7 +176,7 @@ public class RobotContainer {
 		 */
 
 		// TESTING CODE
-		new JoystickButton(operatorStick, Buttons.armUp).whileHeld(
+		/*new JoystickButton(operatorStick, Buttons.armUp).whileHeld(
 				() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
 				ballTransitSubsystem);
 		new JoystickButton(operatorStick, Buttons.armRelease).whileHeld(
@@ -184,7 +184,8 @@ public class RobotContainer {
 					ballTransitSubsystem);
 		new JoystickButton(operatorStick, Buttons.armDown).whileHeld(
 				() -> ballTransitSubsystem.setArmAngle(PositionMode.goDown),
-				ballTransitSubsystem);
+				ballTransitSubsystem);*/
+
 		// new JoystickButton(operatorStick,
 		// 4).whileHeld(newRunCommand(()->ballTransitSubsystem.togglePiston()));
 	}

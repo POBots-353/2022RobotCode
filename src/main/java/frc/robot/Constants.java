@@ -26,13 +26,16 @@ public final class Constants {
     public static int intakeArmMotorID = 8;//8
     public static int intakeMotorID = 7;//7
     //Climber Motor IDS
-    public static int outerClimbMotor = 6;
+    public static int outerClimbMotorID = 6;
+
+    //Limit Switches
+    public static int armDownPort = 0;
 
     //Intake/Arm Constants
     //Negative is down and positive is up
-    public static double armDownPosition = -10.75;//1.75
-    public static double armUpPosition = 5;//12
-    public static double releaseArmPosition = 5;//13
+    public static double armDownPosition = 1.75;//-10.75
+    public static double armUpPosition = 12;//5
+    public static double releaseArmPosition = 13;//5
     public static double intakeSpeed = 0.7;
 
     //AutoAlign Constants
@@ -53,9 +56,6 @@ public final class Constants {
     public static int pneumaticTimerDelay = 150;
     public static int timerDelayBetweenSteps = 48;
     public static int MLGWaterBucketClutchTime = 1; //The name is unfortunately kinda accurate
-
-    public static double secondsDelayBetweenSteps = 1.5;
-    public static double MLGWaterBucketClutchSeconds = 0.8;
 
     public static double armsDownSetPoint = 1.0; //The set point for when we drive into the hangar
     public static double verticalSetPoint = 1.0; //The set point for when the arms are verticle

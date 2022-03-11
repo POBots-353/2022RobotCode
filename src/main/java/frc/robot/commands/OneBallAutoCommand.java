@@ -17,23 +17,22 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
     //Make Sure to have a timeout after every Command, just incase the command doesn't end
     addCommands(
       //Command list of wanted movement
-      new InstantCommand(()->ballTransitSubsystem.releaseArm(), ballTransitSubsystem),
-      new AutoDriveCommand(drive, 8.41 * (34.6875 / (6 * Math.PI))),
+    //   new InstantCommand(()->ballTransitSubsystem.releaseArm(), ballTransitSubsystem),
+    //   new AutoDriveCommand(drive, 8.41 * (34.6875 / (6 * Math.PI))),
       
-      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1),
-      // Drops the ball off first, turns 180 
-      new TurnToAngleCommand(drive, 180),
-      new ToggleArmCommand(ballTransitSubsystem),
-      new ParallelRaceGroup(
-        new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI))),
-        new StartEndCommand(()->ballTransitSubsystem.inTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem)
-      ),
-        new TurnToAngleCommand(drive, 180),
-        new ToggleArmCommand(ballTransitSubsystem),
-        new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI))),
-    //Turns 180 degrees and returns back to the drop with the ball 
-      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1)
-      
+    //   new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1),
+    //   // Drops the ball off first, turns 180 
+    //   new TurnToAngleCommand(drive, 180),
+    //   new ToggleArmCommand(ballTransitSubsystem),
+    //   new ParallelRaceGroup(
+    //     new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI))),
+    //     new StartEndCommand(()->ballTransitSubsystem.inTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem)
+    //   ),
+    //     new TurnToAngleCommand(drive, 180),
+    //     new ToggleArmCommand(ballTransitSubsystem),
+    //     new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI))),
+    // //Turns 180 degrees and returns back to the drop with the ball 
+    //   new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1)
 
         //Tests
         /*new SetDistanceCommand(drive, 80),

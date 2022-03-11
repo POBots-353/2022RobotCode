@@ -9,6 +9,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -26,6 +28,10 @@ public class BallTransitSubsystem extends SubsystemBase {
   private SparkMaxPIDController armMotorPIDCon = armIntakeMotor.getPIDController();
 
   private RelativeEncoder armEncoder = armIntakeMotor.getEncoder();
+  private DigitalInput armDown = new DigitalInput(Constants.armDownPort);
+
+  
+
  
   //private DoubleSolenoid piston = new DoubleSolenoid(0,PneumaticsModuleType.CTREPCM, 1, 1);
 
@@ -126,5 +132,9 @@ public class BallTransitSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Position of Arm", armEncoder.getPosition());
+
+    if(armDown.get()){
+      armEncoder.setPosition(0);
+    }
   }
 }

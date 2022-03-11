@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -59,7 +60,9 @@ public class DriveSubsystem extends SubsystemBase {
   double maxAcc = 1500;
 
   // The gyro sensor
-  public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
+  //public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
+  public static final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
+
   //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);
   //private static final Timer time = new Timer();
   public DriveSubsystem() {

@@ -22,7 +22,15 @@ public class SimpleAuto extends SequentialCommandGroup {
       new WaitCommand(1.5),
       new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1),
       */
-      new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1),
-      new AutoDriveCommand(drive, -20));
-  }
+      new AutoDriveCommand(drive, -8.41 *  (23.125 / (6 * Math.PI))),
+      new TurnToAngleCommand(drive, 164),
+      new AutoDriveCommand(drive, 8.41 * (69 / (6 * Math.PI))),
+      new TurnToAngleCommand(drive, -60),
+      new AutoDriveCommand(drive, 8.41 * (107.1875 / (6 * Math.PI))),
+      new TurnToAngleCommand(drive, -53),
+      new AutoDriveCommand(drive, 8.41 * ( 100.44 / (6 * Math.PI))),
+      new TurnToAngleCommand(drive, 16),
+      new AutoDriveCommand(drive, 8.41 * (25.9 / (6 * Math.PI)))
+    );
+    }
 }
