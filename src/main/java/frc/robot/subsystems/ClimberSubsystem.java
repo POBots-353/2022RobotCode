@@ -33,10 +33,10 @@ public class ClimberSubsystem extends SubsystemBase {
 	double maxAcc = 1500;
 	double setPointDrive = 0;
 
-	//public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
-	//public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 6);
-	//public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 5);
-	//public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 3, 4);
+	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
+	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 6);
+	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 5);
+	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 3, 4);
 
 	private CANSparkMax outerMotor = new CANSparkMax(Constants.outerClimbMotorID, MotorType.kBrushless);
 
@@ -103,29 +103,21 @@ public class ClimberSubsystem extends SubsystemBase {
 		outerPIDEnabled = val;
 	}
 
-	/*public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
-	}*/
+	}
 
-	// public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-	// 	leftInnerPneumatic.toggle();
-	// 	rightInnerPneumatic.toggle();
-	// }
+	public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
+		leftInnerPneumatic.toggle();
+		rightInnerPneumatic.toggle();
+	}
 
 	public double getPositionError(double expectedPosition, double currentPosition) {
 		return expectedPosition - currentPosition;
 	}
 
-	public boolean moveFinished(double expectedPosition, double currentPosition) {
-		return Math.abs(getPositionError(expectedPosition, currentPosition)) < 1.0;
-	}
-
 	public boolean outerMoveFinished() {
 		return Math.abs(getPositionError(currentOuterReferencePoint, outerEncoder.getPosition())) < 1.0;
-	}
-
-	public double getNumberOfRobotTicks(double seconds) {
-		return Math.round(seconds / 0.021);
 	}
 }

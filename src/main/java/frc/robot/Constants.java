@@ -53,21 +53,14 @@ public final class Constants {
     public static double pitchDriveScale = 200;
 
     /* Climber Subsystem Constants */
-    public static int pneumaticTimerDelay = 150;
-    public static int timerDelayBetweenSteps = 48;
-    public static int MLGWaterBucketClutchTime = 1; //The name is unfortunately kinda accurate
+    public static double secondsDelayBetweenSteps = 5.0;
+    public static double MLGWaterBucketClutchSeconds = 1.0;
 
     public static double armsDownSetPoint = 1.0; //The set point for when we drive into the hangar
     public static double verticalSetPoint = 1.0; //The set point for when the arms are verticle
     public static double behindBarSetPoint = 1.0; //The set point for the inner arms when the climing starts
     public static double firstExtendSetPoint = 1.0; //The set point for when the arms move behind the bar
     public static double barAlignedSetPoint = 1.0; // When the arm is aligned to the bar when it retracts
-    public static double innerArmsFinalSetPoint = 1.0; //The final place the inner arms will move to
-
-    public static double innerArmRetractedSetPoint = 1.0;
-    public static double innerArmExtendedSetPoint = 1.0;
-    public static double outerArmRetractedSetPoint = 1.0;
-    public static double outerArmExtendedSetPoint = 1.0;
 
     public static final class Buttons {
         //DriverStick
