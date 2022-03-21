@@ -17,53 +17,55 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //Drive Motor IDS
-    public static int leftFrontMotorID = 2;//2
-    public static int leftBackMotorID = 1;//1
-    public static int rightFrontMotorID = 3;//3
-    public static int rightBackMotorID = 4;//4
-    //Intake Motor IDS
-    public static int intakeArmMotorID = 8;//8
-    public static int intakeMotorID = 7;//7
-    //Climber Motor IDS
+    // Drive Motor IDS
+    public static int leftFrontMotorID = 2;// 2
+    public static int leftBackMotorID = 1;// 1
+    public static int rightFrontMotorID = 3;// 3
+    public static int rightBackMotorID = 4;// 4
+    // Intake Motor IDS
+    public static int intakeArmMotorID = 8;// 8
+    public static int intakeMotorID = 7;// 7
+    // Climber Motor IDS
     public static int outerClimbMotorID = 6;
 
-    //Limit Switches
+    // Limit Switches
     public static int armDownPort = 0;
 
-    //Intake/Arm Constants
-    //Negative is down and positive is up
-    public static double armDownPosition = 1.75;//-10.75
-    public static double armUpPosition = 12;//5
-    public static double releaseArmPosition = 13;//5
+    // Intake/Arm Constants
+    // Negative is down and positive is up
+    public static double armDownPosition = 1.75;// -10.75
+    public static double armUpPosition = 12;// 5
+    public static double releaseArmPosition = 13;// 5
     public static double intakeSpeed = 0.7;
 
-    //AutoAlign Constants
+    // AutoAlign Constants
     public static double neededAngle90 = 90;
     public static double neededAngleNegative90 = -90;
     public static double neededAngle0 = 0;
     public static double neededAngle180 = -180;
     public static double neededCilmbAngle = -32;
 
-    //EyeBall Constants
-    public static double yawLeftBias = 12; //Adds to Yaw
-    public static double yawRightBias = -12; //Addes to Yaw
-    public static double pitchOffset = 18; //Adds to Pitch
+    // EyeBall Constants
+    public static double yawLeftBias = 12; // Adds to Yaw
+    public static double yawRightBias = -12; // Addes to Yaw
+    public static double pitchOffset = 18; // Adds to Pitch
     public static double yawDriveScale = 75;
     public static double pitchDriveScale = 200;
 
     /* Climber Subsystem Constants */
-    public static double secondsDelayBetweenSteps = 5.0;
-    public static double MLGWaterBucketClutchSeconds = 1.0;
+    // ****THESE TIMES ARE NOT FINAL****
+    public static double secondsDelayBetweenSteps = 0.85;
+    public static double secondsDelayAfterGettingToNewBar = 1.5;
+    public static double MLGWaterBucketClutchSeconds = 0.80;
 
-    public static double armsDownSetPoint = 1.0; //The set point for when we drive into the hangar
-    public static double verticalSetPoint = 1.0; //The set point for when the arms are verticle
-    public static double behindBarSetPoint = 1.0; //The set point for the inner arms when the climing starts
-    public static double firstExtendSetPoint = 1.0; //The set point for when the arms move behind the bar
+    public static double armsDownSetPoint = 1.0; // The set point for when we drive into the hangar
+    public static double verticalSetPoint = 1.0; // The set point for when the arms are verticle
+    public static double behindBarSetPoint = 1.0; // The set point for the inner arms when the climing starts
+    public static double firstExtendSetPoint = 1.0; // The set point for when the arms move behind the bar
     public static double barAlignedSetPoint = 1.0; // When the arm is aligned to the bar when it retracts
 
     public static final class Buttons {
-        //DriverStick
+        // DriverStick
         public static int inverseControl = 1;
         public static int driveBoostToggle = 0;
         public static int driveSlowToggle = 0;
@@ -76,20 +78,20 @@ public final class Constants {
 
         public static int setDistanceButton = 4;
 
-        //DriverStick Inverted
+        // DriverStick Inverted
         public static int turn0Toggle2 = 11;
         public static int turn90Toggle2 = 12;
         public static int turnNegative90Toggle2 = 13;
         public static int turn180Toggle2 = 14;
 
-        //TestConstants Not Used in Competition
+        // TestConstants Not Used in Competition
         public static int innerArmToggle = 12;
         public static int outerArmToggle = 2;
         public static int outerClimbVertical = 14;
         public static int outerClimbPosition = 15;
         public static int outerClimbVariable = 11;
 
-        //OperatorStick
+        // OperatorStick
         public static int climberButton = 1;
         public static int manualClimb = 2;
 
@@ -107,29 +109,31 @@ public final class Constants {
     }
 
     public static final class DriveConstants {
-        //Gear Ratio 8.41 to 1
-        //Joystick Scale
+        // Gear Ratio 8.41 to 1
+        // Joystick Scale
         public static double scaleY = 0.5;
         public static double scaleX = 0.30;
 
-        //Set speed scale
+        // Set speed scale
         public static double scaleFowd = 3350;
         public static double scaleTurn = 1000;
 
-        //Slow Drive
+        // Slow Drive
         public static double scaleYSlow = 4000;
         public static double scaleTurnSlow = 4000;
 
-        //Fast Drive
+        // Fast Drive
         public static double scaleYBoost = 4000;
         public static double scaleTurnBoost = 4000;
 
-        //Encoder Converstion
-        //FYI This doesn't do anything
-        public static double conversionPosition = 1/*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
-        public static double conversionVelocity = 1 /*1/8.41 * Math.PI * 2 * 0.0762*/;//rotations * gear ratio * 2 * PI * wheelSize
-        
-        //Deacceleration Constants
+        // Encoder Converstion
+        // FYI This doesn't do anything
+        public static double conversionPosition = 1/* 1/8.41 * Math.PI * 2 * 0.0762 */;// rotations * gear ratio * 2 *
+                                                                                       // PI * wheelSize
+        public static double conversionVelocity = 1 /* 1/8.41 * Math.PI * 2 * 0.0762 */;// rotations * gear ratio * 2 *
+                                                                                        // PI * wheelSize
+
+        // Deacceleration Constants
         public static double deAccel = 0.98;
         public static double lowestVel = 1;
     }

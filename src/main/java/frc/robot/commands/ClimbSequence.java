@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -20,26 +22,26 @@ public class ClimbSequence extends SequentialCommandGroup {
   /**
    * Toggle the Outer Pneumatics
    * 
-   * @return A {@link Command} to toggle the Outer Arms
+   * @return An {@link InstantCommand} to toggle the Outer Arms
    */
-  Command ToggleOuterArms() {
-    return new RunCommand(() -> climberSubsystem.toggleOuterArms(), climberSubsystem);
+  InstantCommand ToggleOuterArms() {
+    return new InstantCommand(() -> climberSubsystem.toggleOuterArms(), climberSubsystem);
   }
 
   /**
    * Toggle the Inner Pneumatics
    * 
-   * @return A {@link Command} to toggle the Inner Arms
+   * @return An {@link InstantCommand} to toggle the Inner Arms
    */
-  Command ToggleInnerArms() {
-    return new RunCommand(() -> climberSubsystem.toggleInnerArms(), climberSubsystem);
+  InstantCommand ToggleInnerArms() {
+    return new InstantCommand(() -> climberSubsystem.toggleInnerArms(), climberSubsystem);
   }
 
   /**
    * Move the Outer Climbing Arms
    * 
    * @param position The Position to Move the Outer Arms to
-   * @return A {@link Command} to move the Outer Arms
+   * @return A {@link ParallelRaceGroup} to move the Outer Arms
    */
   Command MoveOuterArms(double position) {
     return new RunCommand(() -> climberSubsystem.setOuterArmsPosition(position), climberSubsystem)
@@ -52,19 +54,27 @@ public class ClimbSequence extends SequentialCommandGroup {
    * @param seconds The Amount of Seconds to Delay
    * @return A {@link WaitCommand} to delay the Climb Sequence
    */
-  Command Wait(double seconds) {
+  WaitCommand Wait(double seconds) {
     return new WaitCommand(seconds);
   }
 
-  Command DisablePID() {
-    return new RunCommand(() -> climberSubsystem.disablePID(), climberSubsystem);
+  /**
+   * Disable PID for the Climber Motors
+   * 
+   * @return An {@link InstantCommand} to disable PID
+   */
+  InstantCommand DisablePID() {
+    return new InstantCommand(() -> climberSubsystem.disablePID(), climberSubsystem);
   }
 
-  Command EnablePID(double position) {
-    return new RunCommand(() -> {
-      climberSubsystem.setOuterPID(true);
-      climberSubsystem.setOuterArmsPosition(position);
-    }, climberSubsystem);
+  /**
+   * Enable PID for the Climber Motors and
+   * 
+   * @param position The position to move the Motors to after enabling PID
+   * @return An {@link InstantCommand} to enable PID and move to a position
+   */
+  InstantCommand EnablePID(double position) {
+    return new InstantCommand(() -> climberSubsystem.enablePID(position), climberSubsystem);
   }
 
   /** Creates a new ClimbSequence. */
@@ -116,13 +126,19 @@ public class ClimbSequence extends SequentialCommandGroup {
         ToggleOuterArms(),
         Wait(Constants.MLGWaterBucketClutchSeconds),
         /**
-         * We disable PID at the right time to let the Robot move naturally
+         * We disable PID at the right time to let the Robot move naturally and not
+         * destroy the elctric board or break the motor
          *
          * Outer: Retracted; On the High Bar
          * Inner: Retracted; In the Air
+         * 
+         * The Inner arms will let go of the bar on its own
+         * 
+         * We disable for an extended period to allow the robot to naturally fall to its
+         * starting point
          */
         DisablePID(),
-        Wait(Constants.secondsDelayBetweenSteps),
+        Wait(Constants.secondsDelayAfterGettingToNewBar),
         /*
          * Outer: Retracted; At the original start position
          * Inner: Retracted; At the original start position
@@ -130,54 +146,59 @@ public class ClimbSequence extends SequentialCommandGroup {
         EnablePID(climberSubsystem.outerEncoder.getPosition()),
         Wait(Constants.secondsDelayBetweenSteps),
         /*
-         * Outer: Retracted; On the mid bar
-         * Inner: Extended; Above the mid bar
+         * Outer: Retracted; On the high bar
+         * Inner: Extended; Above the high bar
          */
         ToggleInnerArms(),
         Wait(Constants.secondsDelayBetweenSteps),
         /*
-         * Outer: Retracted; Above the mid bar
-         * Inner: Retracted; On the mid bar
+         * Outer: Retracted; Above the high bar
+         * Inner: Retracted; On the high bar
          */
         ToggleInnerArms(),
         Wait(Constants.secondsDelayBetweenSteps),
         /*
-         * Outer: Retracted; Behind the next bar
-         * Inner: Retracted; On the mid bar
+         * Outer: Retracted; Behind the traversal bar
+         * Inner: Retracted; On the high bar
          */
         MoveOuterArms(Constants.behindBarSetPoint),
         Wait(Constants.secondsDelayBetweenSteps),
         /*
-         * Outer: Extended; Behind the high bar
-         * Inner: Retracted; On the mid bar
+         * Outer: Extended; Behind the traversal bar
+         * Inner: Retracted; On the high bar
          */
         ToggleOuterArms(),
         Wait(Constants.secondsDelayBetweenSteps),
         /*
-         * Outer: Extended; Aligned with the high bar
-         * Inner: Retracted; On the mid bar
+         * Outer: Extended; Aligned with the traversal bar
+         * Inner: Retracted; On the high bar
          */
         MoveOuterArms(Constants.barAlignedSetPoint),
         Wait(Constants.secondsDelayBetweenSteps),
         /*
-         * Outer: Retracted; On the High Bar
+         * Outer: Retracted; On the traversal Bar
          * Inner: Retracted; In the Air
          */
         ToggleOuterArms(),
         Wait(Constants.MLGWaterBucketClutchSeconds),
         /**
-         * We disable PID at the right time to let the Robot move naturally
+         * We disable PID at the right time to let the Robot move naturally and not
+         * destroy the electrical board or break the motor
+         * 
+         * The Inner arms will let go of the bar on its own
          *
-         * Outer: Retracted; On the High Bar
+         * Outer: Retracted; On the Traversal Bar
          * Inner: Retracted; In the Air
+         * 
+         * We disable for an extended period to allow the robot to naturally fall to its
+         * starting point
          */
         DisablePID(),
-        Wait(Constants.secondsDelayBetweenSteps),
+        Wait(Constants.secondsDelayAfterGettingToNewBar),
         /*
          * Outer: Retracted; At the original start position
          * Inner: Retracted; At the original start position
          */
-        EnablePID(climberSubsystem.outerEncoder.getPosition()),
-        Wait(Constants.secondsDelayBetweenSteps));
+        EnablePID(climberSubsystem.outerEncoder.getPosition()));
   }
 }

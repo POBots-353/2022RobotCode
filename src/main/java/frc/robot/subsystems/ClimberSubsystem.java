@@ -11,8 +11,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -45,10 +43,8 @@ public class ClimberSubsystem extends SubsystemBase {
 	public SparkMaxPIDController outerController = outerMotor.getPIDController();
 
 	public double currentOuterReferencePoint = 0;
-	public double currentInnerReferencePoint = 0;
 
 	public boolean outerPIDEnabled = true;
-	public boolean innerPIDEnabled = true;
 
 	/* Creates a new ClimberSubsystem. */
 	public ClimberSubsystem() {
@@ -78,7 +74,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	/**
 	 * This will set the encoder position for the Outer PID Controller
 	 * 
-	 * @param position
+	 * @param position The position to set the Outer Arms to
 	 */
 	public void setOuterArmsPosition(double position) {
 		if (outerPIDEnabled) {
@@ -92,6 +88,11 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void disablePID() {
 		setOuterPID(false);
 		outerMotor.set(0);
+	}
+
+	public void enablePID(double position) {
+		setOuterPID(true);
+		setOuterArmsPosition(position);
 	}
 
 	/**
