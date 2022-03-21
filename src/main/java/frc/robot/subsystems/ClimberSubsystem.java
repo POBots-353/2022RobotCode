@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,10 +32,10 @@ public class ClimberSubsystem extends SubsystemBase {
 	double maxAcc = 1500;
 	double setPointDrive = 0;
 
-	//public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
-	//public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 6);
-	//public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 5);
-	//public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 3, 4);
+	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
+	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 6);
+	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 5);
+	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 3, 4);
 
 	private CANSparkMax outerMotor = new CANSparkMax(Constants.outerClimbMotorID, MotorType.kBrushless);
 
@@ -45,10 +44,8 @@ public class ClimberSubsystem extends SubsystemBase {
 	public SparkMaxPIDController outerController = outerMotor.getPIDController();
 
 	public double currentOuterReferencePoint = 0;
-	public double currentInnerReferencePoint = 0;
 
 	public boolean outerPIDEnabled = true;
-	public boolean innerPIDEnabled = true;
 
 	/* Creates a new ClimberSubsystem. */
 	public ClimberSubsystem() {
@@ -78,7 +75,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	/**
 	 * This will set the encoder position for the Outer PID Controller
 	 * 
-	 * @param position
+	 * @param position The position to set the Outer Arms to
 	 */
 	public void setOuterArmsPosition(double position) {
 		if (outerPIDEnabled) {
@@ -94,6 +91,11 @@ public class ClimberSubsystem extends SubsystemBase {
 		outerMotor.set(0);
 	}
 
+	public void enablePID(double position) {
+		setOuterPID(true);
+		setOuterArmsPosition(position);
+	}
+
 	/**
 	 * This will enable/disable the Outer PID
 	 * 
@@ -103,29 +105,33 @@ public class ClimberSubsystem extends SubsystemBase {
 		outerPIDEnabled = val;
 	}
 
-	/*public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+		if (leftOuterPneumatic.get() == Value.kOff) {
+			leftOuterPneumatic.set(Value.kForward);
+		}
+		if (rightOuterPneumatic.get() == Value.kOff) {
+			rightOuterPneumatic.set(Value.kForward);
+		}
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
-	}*/
+	}
 
-	// public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-	// 	leftInnerPneumatic.toggle();
-	// 	rightInnerPneumatic.toggle();
-	// }
+	public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
+		if (leftInnerPneumatic.get() == Value.kOff) {
+			leftInnerPneumatic.set(Value.kForward);
+		}
+		if (rightInnerPneumatic.get() == Value.kOff) {
+			rightInnerPneumatic.set(Value.kForward);
+		}
+		leftInnerPneumatic.toggle();
+		rightInnerPneumatic.toggle();
+	}
 
 	public double getPositionError(double expectedPosition, double currentPosition) {
 		return expectedPosition - currentPosition;
 	}
 
-	public boolean moveFinished(double expectedPosition, double currentPosition) {
-		return Math.abs(getPositionError(expectedPosition, currentPosition)) < 1.0;
-	}
-
 	public boolean outerMoveFinished() {
 		return Math.abs(getPositionError(currentOuterReferencePoint, outerEncoder.getPosition())) < 1.0;
-	}
-
-	public double getNumberOfRobotTicks(double seconds) {
-		return Math.round(seconds / 0.021);
 	}
 }
