@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -105,11 +106,23 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+		if (leftOuterPneumatic.get() == Value.kOff) {
+			leftOuterPneumatic.set(Value.kForward);
+		}
+		if (rightOuterPneumatic.get() == Value.kOff) {
+			rightOuterPneumatic.set(Value.kForward);
+		}
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
 	}
 
 	public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
+		if (leftInnerPneumatic.get() == Value.kOff) {
+			leftInnerPneumatic.set(Value.kForward);
+		}
+		if (rightInnerPneumatic.get() == Value.kOff) {
+			rightInnerPneumatic.set(Value.kForward);
+		}
 		leftInnerPneumatic.toggle();
 		rightInnerPneumatic.toggle();
 	}
