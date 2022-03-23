@@ -4,7 +4,13 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -16,24 +22,30 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
       //Command list of wanted movement
        //Command list of wanted movement
       //new DumpBallCommand(transitSubsystem).withTimeout(1),
+      new InstantCommand(()->ballTransitSubsystem.setArmAngle(PositionMode.goUp),ballTransitSubsystem),
+      new WaitCommand(1),
+      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1),
       new AutoDriveCommand(drive, 8.41 * (34.6875 / (6 * Math.PI))),
       new TurnToAngleCommand(drive, 180),
       // Drops the ball off first, turns 180 
-      //new IntakeBallCommand(transitSubsystem),
-      //new ParallelRaceGroup(
+      new ParallelRaceGroup(
         new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI))),
-        //new StartEndCommand(() -> ballTransitSubsystem.toggleIntake(true),
-          //      () -> ballTransitSubsystem.toggleIntake(false),
-            //          ballTransitSubsystem)
-        //),
-        new TurnToAngleCommand(drive, 180), 
-        new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI)))
+        new StartEndCommand(()->ballTransitSubsystem.inTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem)
+        ),
+      new TurnToAngleCommand(drive, 0), 
+      new ParallelCommandGroup(
+        new InstantCommand(()->ballTransitSubsystem.setArmAngle(PositionMode.goUp),ballTransitSubsystem), //We might want to manually drop intake
+        new AutoDriveCommand(drive, 8.41 * (115.625 / (6 * Math.PI)))//was 100.44
+      ),
     //Turns 180 degrees and returns back to the drop with the ball 
-     /* new StartEndCommand(() -> ballTransitSubsystem.toggleShooter(true),
-          () -> ballTransitSubsystem.toggleShooter(false),
-               ballTransitSubsystem)          
+      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1)
     
-      */ 
+    //Code for not depositing ball first
+    /*new ParallelRaceGroup(
+      new AutoDriveCommand(drive, 8.41 *(45 / (6 * Math.PI))),
+      new StartEndCommand(()->ballTransitSubsystem.inTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem)
+      )*/
+    
 
         //Tests
         /*new SetDistanceCommand(drive, 80),

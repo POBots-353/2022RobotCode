@@ -168,7 +168,7 @@ public class RobotContainer {
 		new JoystickButton(operatorStick, Buttons.innerClimb).whenPressed(()->climberSubsystem.toggleInnerArms(),climberSubsystem);
 		new JoystickButton(operatorStick, Buttons.climbFoward).whileHeld(()->climberSubsystem.moveForeward(),climberSubsystem);
 		new JoystickButton(operatorStick, Buttons.climbBack).whileHeld(()->climberSubsystem.moveBackward(),climberSubsystem);
-
+		new JoystickButton(operatorStick, Buttons.climbStop).whenPressed(()->climberSubsystem.disablePID(),climberSubsystem);
 		
 		/*
 		 * new JoystickButton(operatorStick, Buttons.climberButton)

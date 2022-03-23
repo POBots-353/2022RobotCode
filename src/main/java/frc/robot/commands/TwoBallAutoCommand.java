@@ -43,7 +43,7 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
          new StartEndCommand(()->transitSubsystem.inTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem)
        ),
       
-      new TurnToAngleCommand(drive, -53),//was 40
+      new TurnToAngleCommand(drive,53),//was 40
       new ParallelCommandGroup(
         new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goUp),transitSubsystem), //We might want to manually drop intake
         new AutoDriveCommand(drive, 8.41 * (118.44 / (6 * Math.PI)))//was 100.44

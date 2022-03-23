@@ -102,6 +102,7 @@ public final class Constants {
         public static int climbFoward = 11;
         public static int outerClimb = 4;
         public static int innerClimb = 3;
+        public static int climbStop = 15;
 
         public static int armToggle = 14;
         public static int armUp = 5;

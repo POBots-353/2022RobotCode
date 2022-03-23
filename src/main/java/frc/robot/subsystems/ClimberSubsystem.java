@@ -94,7 +94,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void disablePID() {
-		setOuterPID(false);
+		//setOuterPID(false);
 		outerMotor.set(0);
 	}
 
@@ -110,6 +110,9 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
+		if (leftOuterPneumatic.get() == Value.kReverse || rightOuterPneumatic.get() == Value.kReverse){
+			outerMotor.set(0);
+		}
 	}
 
 	 public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
