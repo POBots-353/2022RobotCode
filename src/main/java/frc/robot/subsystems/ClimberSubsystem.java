@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -26,17 +27,18 @@ public class ClimberSubsystem extends SubsystemBase {
 	double kD = 0;
 	double kIz = 0;
 	double kFF = 0.000156;
-	double kMaxOutput = 1;
-	double kMinOutput = -1;
+	double kMaxOutput = 0.15;
+	double kMinOutput = -0.15;
 	double maxRPM = 5700;
 	double maxVel = 2000;
 	double maxAcc = 1500;
 	double setPointDrive = 0;
 
-	//public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
-	//public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 6);
-	//public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 5);
-	//public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 3, 4);
+	private Compressor pcmCompressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
+	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7);
+	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 6);
+	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 5);
+	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
 
 	private CANSparkMax outerMotor = new CANSparkMax(Constants.outerClimbMotorID, MotorType.kBrushless);
 
@@ -52,6 +54,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	/* Creates a new ClimberSubsystem. */
 	public ClimberSubsystem() {
+		SmartDashboard.putNumber("Climber Position", 0);
 		initializePID(outerController, outerEncoder);
 	}
 
@@ -73,6 +76,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
+		SmartDashboard.putNumber("Climber Current", outerEncoder.getPosition());
 	}
 
 	/**
@@ -103,29 +107,45 @@ public class ClimberSubsystem extends SubsystemBase {
 		outerPIDEnabled = val;
 	}
 
-	/*public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
-	}*/
+	}
 
-	// public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-	// 	leftInnerPneumatic.toggle();
-	// 	rightInnerPneumatic.toggle();
-	// }
+	 public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
+	 	leftInnerPneumatic.toggle();
+	 	rightInnerPneumatic.toggle();
+	 }
 
 	public double getPositionError(double expectedPosition, double currentPosition) {
 		return expectedPosition - currentPosition;
-	}
-
-	public boolean moveFinished(double expectedPosition, double currentPosition) {
-		return Math.abs(getPositionError(expectedPosition, currentPosition)) < 1.0;
 	}
 
 	public boolean outerMoveFinished() {
 		return Math.abs(getPositionError(currentOuterReferencePoint, outerEncoder.getPosition())) < 1.0;
 	}
 
-	public double getNumberOfRobotTicks(double seconds) {
-		return Math.round(seconds / 0.021);
+	
+  	public void enableCompressor(){
+  	  pcmCompressor.enableDigital();
+ 	 }
+
+  	public void disableCompressor(){
+ 	   pcmCompressor.disable();
+ 	 }
+
+	public void moveForeward(){
+		outerMotor.set(-.08);
+		//outerController.setReference(-Constants.climbFowdPosition, CANSparkMax.ControlType.kSmartMotion);
+	}
+	public void moveBackward(){
+		outerMotor.set(.08);
+		//outerController.setReference(-Constants.climbBackPosition, CANSparkMax.ControlType.kSmartMotion);
+	}
+
+	public void moveClimberArms(double position){
+		//position = SmartDashboard.getNumber("Climber Position", 2);
+		//outerMotor.set(.10);
+		outerController.setReference(-position, CANSparkMax.ControlType.kSmartMotion);
 	}
 }

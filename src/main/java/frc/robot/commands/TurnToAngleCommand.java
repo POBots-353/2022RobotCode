@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -34,13 +35,14 @@ public class TurnToAngleCommand extends CommandBase {
   @Override
   public void execute() {
     if (Math.abs(driveSubsystem.angleError(neededAngle)) > 1){//This is our allowed angle error
-     driveSubsystem.manualDrive(driveSubsystem.angleError(neededAngle) * kP, 0.0, 55, 0.0);
+     driveSubsystem.manualDrive(driveSubsystem.angleError(neededAngle) * kP, 0.0, 57, 0.0);
     }
   } 
 
   @Override
   public void end(boolean interrupted) {
     driveSubsystem.resetEncoders();
+    //driveSubsystem.turnOffDriveMotors();
   }
 
   // Returns true when the command should end.

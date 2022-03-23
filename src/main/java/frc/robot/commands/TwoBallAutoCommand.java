@@ -5,9 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -24,46 +27,34 @@ public class TwoBallAutoCommand extends SequentialCommandGroup {
     //Use ToggleArm Command because at the end of Auto the robot will be disable and the arm will drop
     addCommands(
       //Command list of wanted movement
-      //new InstantCommand(()->ballTransitSubsystem.releaseArm(), transitSubsystem),
-      //new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1),
+      new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goUp),transitSubsystem),
+      new WaitCommand(1),
+      new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1),
       new AutoDriveCommand(drive, -8.41 *  (23.125 / (6 * Math.PI))),
-      new TurnToAngleCommand(drive, 146),
-      new AutoDriveCommand(drive, 8.41 * (69 / (6 * Math.PI))),
-      new TurnToAngleCommand(drive, -89),
-      new AutoDriveCommand(drive, 8.41 * (107.1875 / (6 * Math.PI))),
-      new TurnToAngleCommand(drive, 40),
-      new AutoDriveCommand(drive, 8.41 * ( 100.44 / (6 * Math.PI))),
-      new TurnToAngleCommand(drive, 2),
-      new AutoDriveCommand(drive, 8.41 * (5 / (6 * Math.PI)))
-
-        //Tests
-        /*new SetDistanceCommand(drive, 80),
-
-        new TurnToAngleCommand(drive, -91),
-
-        new AutoDriveCommand(drive, 50),
-
-        new TurnToAngleCommand(drive, 90),
-
-        new AutoDriveCommand(drive, 50),
-
-        new TurnToAngleCommand(drive, 0),
-
-        new AutoDriveCommand(drive, -25).withInterrupt(transitSubsystem::getDownPiston)*/
-        
-        // new AutoDriveCommand(drive, -35)
-       // new AutoDriveCommand(drive, 50)*/
-        // Turns to specified angle
-        /*new AlignCommand(drive, 50), // Enter wanted angle
-
-        new ParallelRaceGroup(
-            new AutoDriveCommand(drive,50), // Drives the robot to specifed distance,
-                                                                             // stops after two seconds
-            new IntakeBallCommand(transitSubsystem).withTimeout(2)),
-
-        new AutoDriveCommand(drive,50),
-
-        new DumpBallCommand(transitSubsystem).withTimeout(1)*/);
+      new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goDown),transitSubsystem), //We might want to manually drop intake
+      new TurnToAngleCommand(drive, 164),//was 175 from testing in library
+      new ParallelRaceGroup(
+        new AutoDriveCommand(drive, 8.41 * (111.78 / (6 * Math.PI))),//was 69
+         new StartEndCommand(()->transitSubsystem.inTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem)
+       ),
+      new TurnToAngleCommand(drive, -60),//was -80
+      new ParallelRaceGroup(
+        new AutoDriveCommand(drive, 8.41 * (127.1875 / (6 * Math.PI))),//was 107.1875
+         new StartEndCommand(()->transitSubsystem.inTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem)
+       ),
+      
+      new TurnToAngleCommand(drive, -53),//was 40
+      new ParallelCommandGroup(
+        new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goUp),transitSubsystem), //We might want to manually drop intake
+        new AutoDriveCommand(drive, 8.41 * (118.44 / (6 * Math.PI)))//was 100.44
+      ),
+      
+      
+      new TurnToAngleCommand(drive, 16), //was 1
+      new AutoDriveCommand(drive, 8.41 * (25.9 / (6 * Math.PI))),//was 30
+      new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1)
+      
+    );
         
   }
 }

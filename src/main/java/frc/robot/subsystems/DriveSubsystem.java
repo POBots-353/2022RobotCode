@@ -14,15 +14,13 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.AutoDriveCommand;
+
 
 public class DriveSubsystem extends SubsystemBase {
   private final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.leftFrontMotorID, MotorType.kBrushless);
@@ -56,14 +54,17 @@ public class DriveSubsystem extends SubsystemBase {
   double kFF = 0.000156;
   double kMaxOutput = 1;
   double kMinOutput = -1;
-  double maxVel = 4000;
+  double maxVel = 5000;
   double maxAcc = 1500;
 
   // The gyro sensor
-  //public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
-  public static final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
+  public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
+
+  //private Compressor pcmCompressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
+  //public static final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
 
   //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);
+  //private PneumaticsControlModule pcm = new PneumaticsControlModule(1);
   //private static final Timer time = new Timer();
   public DriveSubsystem() {
     Shuffleboard.getTab("Gyro").add(m_gyro);
@@ -207,23 +208,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double processVariable = leftBackEncoder.getVelocity();
-    
-    //SmartDashboard.putNumber("PDP Thing", powerDistributionModule.getModule());
+    //pcm.clearAllStickyFaults();
+    //powerDistributionModule.clearStickyFaults();
 
-    // This method will be called once per scheduler run
-    
-    //SmartDashboard.putNumber("Ultrasonic", ultrasonic.getValue() * 0.125);
     SmartDashboard.putNumber("Postion", leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Velocity", leftBackEncoder.getVelocity());
     SmartDashboard.putNumber("Joystick x", RobotContainer.driverStick.getX());
     SmartDashboard.putNumber("Joystick y", RobotContainer.driverStick.getY());
-    SmartDashboard.putNumber("Process Variable", processVariable);
-    SmartDashboard.putBoolean("Collision Detected?", AutoDriveCommand.collisionDetected);
-
-    SmartDashboard.putNumber("Left Velocity", m_leftFrontEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Velocity", m_rightFrontEncoder.getVelocity());
-    
+    SmartDashboard.putNumber("Process Variable", leftBackEncoder.getVelocity());
 
     /*SmartDashboard.putNumber("Total Current", powerDistributionModule.getTotalCurrent());
     SmartDashboard.putNumber("Total Power", powerDistributionModule.getTotalPower());

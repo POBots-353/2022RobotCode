@@ -55,7 +55,6 @@ public class ToggleArmCommand extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		if(mode == PositionMode.goDown && interrupted){
-			ballTransitSubsystem.setMinOutput(-0.3);
 		}
 	}
 
@@ -64,7 +63,6 @@ public class ToggleArmCommand extends CommandBase {
 	public boolean isFinished() {
 		if (mode == PositionMode.goDown) {
 			if (ballTransitSubsystem.checkArmDown()){
-				ballTransitSubsystem.setMinOutput(-0.3);
 				return true;
 			}
 			return false;
