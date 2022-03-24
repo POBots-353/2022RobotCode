@@ -25,26 +25,22 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
       new InstantCommand(()->ballTransitSubsystem.setArmAngle(PositionMode.goUp),ballTransitSubsystem),
       new WaitCommand(1),
       new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1),
-      new AutoDriveCommand(drive, 8.41 * (34.6875 / (6 * Math.PI))),
-      new TurnToAngleCommand(drive, 180),
+      new AutoDriveCommand(drive, 8.41 * (40.44 / (6 * Math.PI))),
+      new TurnToAngleCommand(drive, 174),
       // Drops the ball off first, turns 180 
       new ParallelRaceGroup(
-        new AutoDriveCommand(drive, 8.41 *(115.625 / (6 * Math.PI))),
+        new AutoDriveCommand(drive, 8.41 *(97.8 / (6 * Math.PI))),
         new StartEndCommand(()->ballTransitSubsystem.inTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem)
         ),
-      new TurnToAngleCommand(drive, 0), 
+      new TurnToAngleCommand(drive, 156), 
       new ParallelCommandGroup(
         new InstantCommand(()->ballTransitSubsystem.setArmAngle(PositionMode.goUp),ballTransitSubsystem), //We might want to manually drop intake
-        new AutoDriveCommand(drive, 8.41 * (115.625 / (6 * Math.PI)))//was 100.44
+        new AutoDriveCommand(drive, 8.41 * (22.66 / (6 * Math.PI)))//was 100.44
       ),
     //Turns 180 degrees and returns back to the drop with the ball 
       new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1)
     
-    //Code for not depositing ball first
-    /*new ParallelRaceGroup(
-      new AutoDriveCommand(drive, 8.41 *(45 / (6 * Math.PI))),
-      new StartEndCommand(()->ballTransitSubsystem.inTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem)
-      )*/
+    
     
 
         //Tests
