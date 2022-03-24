@@ -37,7 +37,7 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
         new AutoDriveCommand(drive, 8.41 * (22.66 / (6 * Math.PI)))//was 100.44
       ),
     //Turns 180 degrees and returns back to the drop with the ball 
-      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1)
+      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(0)
     
     
     
