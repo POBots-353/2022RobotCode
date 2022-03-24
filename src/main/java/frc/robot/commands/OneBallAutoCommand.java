@@ -24,7 +24,6 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
       //new DumpBallCommand(transitSubsystem).withTimeout(1),
       new InstantCommand(()->ballTransitSubsystem.setArmAngle(PositionMode.goUp),ballTransitSubsystem),
       new WaitCommand(1),
-      new StartEndCommand(()->ballTransitSubsystem.outTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem).withTimeout(1),
       new AutoDriveCommand(drive, 8.41 * (40.44 / (6 * Math.PI))),
       new TurnToAngleCommand(drive, 174),
       // Drops the ball off first, turns 180 
