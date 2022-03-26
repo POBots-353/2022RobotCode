@@ -47,15 +47,15 @@ public class DriveSubsystem extends SubsystemBase {
   int smartMotionSlot = 0;
   int allowedErr;
   int minVel;
-  double kP = 4e-4;
+  double kP = 4.7e-4;
   double kI = 0;
   double kD = 0;
   double kIz = 0;
   double kFF = 0.000156;
   double kMaxOutput = 1;
   double kMinOutput = -1;
-  double maxVel = 5000;
-  double maxAcc = 1500;
+  double maxVel = 8000;
+  double maxAcc = 4000;
 
   // The gyro sensor
   public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);

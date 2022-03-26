@@ -34,11 +34,11 @@ public class ClimberSubsystem extends SubsystemBase {
 	double maxAcc = 1500;
 	double setPointDrive = 0;
 
-	private Compressor pcmCompressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
-	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7);
-	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 6);
-	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 5);
-	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
+	//private Compressor pcmCompressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
+	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7); //all were mapped to 1 before
+	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 6); //changong pcm means it defaults to 0
+	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
+	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 5);
 
 	private CANSparkMax outerMotor = new CANSparkMax(Constants.outerClimbMotorID, MotorType.kBrushless);
 
@@ -88,7 +88,7 @@ public class ClimberSubsystem extends SubsystemBase {
 		if (outerPIDEnabled) {
 			outerController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
 		} else {
-			outerMotor.set(0);
+			disablePID();
 		}
 		currentOuterReferencePoint = position;
 	}
@@ -107,7 +107,17 @@ public class ClimberSubsystem extends SubsystemBase {
 		outerPIDEnabled = val;
 	}
 
+	public void climberStop(){
+		outerController.setReference(0 ,CANSparkMax.ControlType.kSmartMotion);
+	}
+	public void climberOff(){
+		outerMotor.set(0);
+	}
 	public void toggleOuterArms() { // Reverses the toggle state of the outer solenoids
+		if(leftOuterPneumatic.get() == Value.kOff){
+			leftOuterPneumatic.set(Value.kReverse);
+			rightOuterPneumatic.set(Value.kReverse);
+		}
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
 		if (leftOuterPneumatic.get() == Value.kReverse || rightOuterPneumatic.get() == Value.kReverse){
@@ -116,8 +126,17 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	 public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-	 	leftInnerPneumatic.toggle();
-	 	rightInnerPneumatic.toggle();
+		if(leftInnerPneumatic.get() == Value.kOff){
+			leftInnerPneumatic.set(Value.kReverse);
+			rightInnerPneumatic.set(Value.kReverse);
+		}
+		 leftInnerPneumatic.toggle();
+	 	 rightInnerPneumatic.toggle();
+		  //leftInnerPneumatic.set(Value.kReverse);
+			//rightInnerPneumatic.set(Value.kReverse);
+		 //leftInnerPneumatic.set(Value.kReverse);
+			//rightInnerPneumatic.set(Value.kReverse);
+		//SmartDashboard.putBoolean("Inner Arm", Value.kForward == );
 	 }
 
 	public double getPositionError(double expectedPosition, double currentPosition) {
@@ -130,16 +149,16 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	
   	public void enableCompressor(){
-  	  pcmCompressor.enableDigital();
+  	  //pcmCompressor.enableDigital();
  	 }
 
   	public void disableCompressor(){
- 	   pcmCompressor.disable();
+ 	  // pcmCompressor.disable(); 
  	 }
 
 	public void moveForeward(){
 		outerMotor.set(-.08);
-		//outerController.setReference(-Constants.climbFowdPosition, CANSparkMax.ControlType.kSmartMotion);
+		//outerController.setReference(-3.6, CANSparkMax.ControlType.kSmartMotion);
 	}
 	public void moveBackward(){
 		outerMotor.set(.08);

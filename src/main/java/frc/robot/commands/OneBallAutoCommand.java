@@ -12,13 +12,15 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 
 public class OneBallAutoCommand extends SequentialCommandGroup {
-  public OneBallAutoCommand(DriveSubsystem drive, BallTransitSubsystem ballTransitSubsystem) {
+  public OneBallAutoCommand(DriveSubsystem drive, BallTransitSubsystem ballTransitSubsystem, ClimberSubsystem climbSubsystem) {
     //Make Sure to have a timeout after every Command, just incase the command doesn't end
     addCommands(
+      //new InstantCommand(()->climbSubsystem.climberStop(), climbSubsystem),
       //Command list of wanted movement
        //Command list of wanted movement
       //new DumpBallCommand(transitSubsystem).withTimeout(1),
@@ -31,7 +33,7 @@ public class OneBallAutoCommand extends SequentialCommandGroup {
         new AutoDriveCommand(drive, 8.41 *(97.8 / (6 * Math.PI))),
         new StartEndCommand(()->ballTransitSubsystem.inTake(), ()->ballTransitSubsystem.turnOffIntakeMotor(), ballTransitSubsystem)
         ),
-      new TurnToAngleCommand(drive, 156), 
+      new TurnToAngleCommand(drive, 156).withTimeout(3), 
       new ParallelCommandGroup(
         new InstantCommand(()->ballTransitSubsystem.setArmAngle(PositionMode.goUp),ballTransitSubsystem), //We might want to manually drop intake
         new AutoDriveCommand(drive, 8.41 * (22.66 / (6 * Math.PI)))//was 100.44

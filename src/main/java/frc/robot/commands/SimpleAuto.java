@@ -9,19 +9,31 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class SimpleAuto extends SequentialCommandGroup {
   /** Creates a new SimpleAuto. */
-  public SimpleAuto(DriveSubsystem drive, BallTransitSubsystem transitSubsystem) {
+  public SimpleAuto(DriveSubsystem drive, BallTransitSubsystem transitSubsystem, ClimberSubsystem climbSubsystem) {
     //This is to make an on the fly command
     addCommands(
-      new InstantCommand(()->transitSubsystem.resetPosition(), transitSubsystem),
+      //new InstantCommand(()->climbSubsystem.climberStop(), climbSubsystem),
+      /*new InstantCommand(()->transitSubsystem.resetPosition(), transitSubsystem),
       new InstantCommand(()->transitSubsystem.releaseArm(), transitSubsystem),
       new WaitCommand(1.5),
       new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1)
-      
+      */
+    //Auto code for just dropping the ball and backing up
+      //new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goUp),transitSubsystem),
+      //new WaitCommand(1),
+      //new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1),
+      new InstantCommand(()->climbSubsystem.toggleInnerArms(), climbSubsystem),
+      new WaitCommand(1),
+      new AutoDriveCommand(drive, -8.41 *  (100 / (6 * Math.PI))),
+      new InstantCommand(()->climbSubsystem.toggleInnerArms(), climbSubsystem)
+      //new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goDown),transitSubsystem) //We might want to manually drop intake
       // new AutoDriveCommand(drive, -8.41 *  (23.125 / (6 * Math.PI))),
       // new TurnToAngleCommand(drive, 164),
       // new AutoDriveCommand(drive, 8.41 * (69 / (6 * Math.PI))),

@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import java.lang.management.ClassLoadingMXBean;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +20,7 @@ import frc.robot.commands.SetDistanceCommand;
 import frc.robot.commands.SimpleAuto;
 import frc.robot.commands.ToggleArmCommand;
 import frc.robot.commands.TurnToAngleCommand;
-import frc.robot.commands.TwoBallAutoCommand;
+import frc.robot.commands.no;
 import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -40,9 +42,9 @@ public class RobotContainer {
 	private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 	private final BallTransitSubsystem ballTransitSubsystem = new BallTransitSubsystem();
 
-	private final TwoBallAutoCommand TwoBallAuto = new TwoBallAutoCommand(driveSubsystem, ballTransitSubsystem);
-	private final OneBallAutoCommand OneBallAuto = new OneBallAutoCommand(driveSubsystem, ballTransitSubsystem);
-	private final SimpleAuto simpleAuto = new SimpleAuto(driveSubsystem, ballTransitSubsystem);
+	private final no no = new no(driveSubsystem, ballTransitSubsystem, climberSubsystem);
+	private final OneBallAutoCommand OneBallAuto = new OneBallAutoCommand(driveSubsystem, ballTransitSubsystem, climberSubsystem);
+	private final SimpleAuto simpleAuto = new SimpleAuto(driveSubsystem, ballTransitSubsystem, climberSubsystem);
 
 	public static SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -54,8 +56,8 @@ public class RobotContainer {
 
 	public RobotContainer() {
 		// Auto Chooser on SmartDashboard
-		autoChooser.setDefaultOption("Two Ball Auto", TwoBallAuto);
-		autoChooser.addOption("One Ball Auto", OneBallAuto);
+		autoChooser.setDefaultOption("no", no);
+		//autoChooser.addOption("One Ball Auto", OneBallAuto);
 		autoChooser.addOption("Simple Auto", simpleAuto);
 		SmartDashboard.putData(autoChooser);
 		
@@ -82,7 +84,7 @@ public class RobotContainer {
 		//Vertical
 
 		//Button 14
-		new JoystickButton(driverStick,14).whileHeld(()->climberSubsystem.moveClimberArms(0),climberSubsystem);
+		//new JoystickButton(driverStick,14).whileHeld(()->climberSubsystem.moveClimberArms(0),climberSubsystem);
 
 		new JoystickButton(operatorStick, 6).whenPressed(()->climberSubsystem.enableCompressor(), climberSubsystem);
 		new JoystickButton(operatorStick, 9).whenPressed(()->climberSubsystem.disableCompressor(), climberSubsystem);
@@ -112,7 +114,7 @@ public class RobotContainer {
 				.whileHeld(new RunCommand(() -> driveSubsystem.manualDrive(
 						-(DriveConstants.scaleX * (Math.pow(driverStick.getX(), 3))
 								+ (1 - DriveConstants.scaleY) * driverStick.getX()),
-						-(DriveConstants.scaleY * (Math.pow(driverStick.getY(), 3))
+						(DriveConstants.scaleY * (Math.pow(driverStick.getY(), 3))
 								+ (1 - DriveConstants.scaleY) * driverStick.getY()),
 						DriveConstants.scaleTurn, DriveConstants.scaleFowd), driveSubsystem));
 
@@ -152,7 +154,7 @@ public class RobotContainer {
 
 		// Intake in and out
 		 new JoystickButton(operatorStick, Buttons.ballIntake).whileHeld(new StartEndCommand(
-		 		() -> ballTransitSubsystem.inTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
+		 		() -> ballTransitSubsystem.inTake(), () -> ballTransitSubsystem.intakeOff(),
 		 		ballTransitSubsystem));
 		 new JoystickButton(operatorStick, Buttons.ballOutTake).whileHeld(new StartEndCommand(
 		 		() -> ballTransitSubsystem.outTake(), () -> ballTransitSubsystem.turnOffIntakeMotor(),
@@ -164,7 +166,8 @@ public class RobotContainer {
 		new JoystickButton(operatorStick, Buttons.turnOffArm).whenPressed(new StartEndCommand(()->ballTransitSubsystem.turnOffArmMotor(), ()->ballTransitSubsystem.resetPosition(), ballTransitSubsystem).withTimeout(1.5));
 
 		//Manual Climb
-		new JoystickButton(operatorStick, Buttons.outerClimb).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
+		new JoystickButton(operatorStick, Buttons.outerClimb).whenPressed(new StartEndCommand(()->climberSubsystem.toggleOuterArms(),()->climberSubsystem.climberOff(),climberSubsystem).withTimeout(1));
+		//new JoystickButton(operatorStick, Buttons.outerClimb).whenPressed(()->climberSubsystem.toggleOuterArms(),climberSubsystem);
 		new JoystickButton(operatorStick, Buttons.innerClimb).whenPressed(()->climberSubsystem.toggleInnerArms(),climberSubsystem);
 		new JoystickButton(operatorStick, Buttons.climbFoward).whileHeld(()->climberSubsystem.moveForeward(),climberSubsystem);
 		new JoystickButton(operatorStick, Buttons.climbBack).whileHeld(()->climberSubsystem.moveBackward(),climberSubsystem);
@@ -178,7 +181,7 @@ public class RobotContainer {
 		new JoystickButton(operatorStick, Buttons.armUp).whileHeld(
 				() -> ballTransitSubsystem.setArmAngle(PositionMode.goUp),
 				ballTransitSubsystem);
-		new JoystickButton(operatorStick, Buttons.armRelease).whileHeld(() -> ballTransitSubsystem.setArmAngle(PositionMode.goUpHigher),
+		new JoystickButton(operatorStick, 1).whileHeld(() -> ballTransitSubsystem.setArmAngle(PositionMode.goUpHigher),
 			ballTransitSubsystem);
 		new JoystickButton(operatorStick, Buttons.armDown).whileHeld(
 				() -> ballTransitSubsystem.setArmAngle(PositionMode.goDown),

@@ -34,9 +34,9 @@ public final class Constants {
     //Intake/Arm Constants
     //Negative is down and positive is up
     public static double armDownPosition = 1.2;//-10.75
-    public static double armUpPosition = 12;
-    public static double releaseArmPosition = 12;//5
-    public static double intakeSpeed = 0.5;
+    public static double armUpPosition = 28;
+    public static double releaseArmPosition = 29;//5
+    public static double intakeSpeed = 1;
 
     //AutoAlign Constants
     public static double neededAngle90 = 90;
@@ -107,7 +107,7 @@ public final class Constants {
         public static int armToggle = 14;
         public static int armUp = 5;
         public static int armDown = 10;
-        public static int armRelease = 15;
+        //public static int armRelease = 15;
         public static int turnOffArm = 2;
 
         public static int ballIntake = 7;
@@ -120,12 +120,12 @@ public final class Constants {
     public static final class DriveConstants {
         //Gear Ratio 8.41 to 1
         //Joystick Scale
-        public static double scaleY = 0.5;
-        public static double scaleX = 0.35;
+        public static double scaleY = 0.4;
+        public static double scaleX = 0.25;
 
         //Set speed scale
-        public static double scaleFowd = 3350;
-        public static double scaleTurn = 1750;
+        public static double scaleFowd = 8000;//4000
+        public static double scaleTurn = 3000; //1750
 
         //Slow Drive
         public static double scaleYSlow = 4000;
