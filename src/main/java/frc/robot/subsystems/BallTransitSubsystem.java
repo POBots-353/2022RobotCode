@@ -20,7 +20,7 @@ import frc.robot.commands.ToggleArmCommand.PositionMode;
 
 
 public class BallTransitSubsystem extends SubsystemBase {
-  // public DoubleSolenoid intakePiston = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
+  //  public DoubleSolenoid shooterPiston = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 7);
   // private final CANSparkMax armIntakeMotor = new CANSparkMax(Constants.intakeArmMotorID, MotorType.kBrushless);
   // private final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
 
@@ -41,6 +41,15 @@ public class BallTransitSubsystem extends SubsystemBase {
   double kMinOutput = -.3;
   double maxVel = 2500;
   double maxAcc = 1200;
+
+  public void toggleShooter(){
+    // shooterPiston.toggle();
+    // if(shooterPiston.get() == Value.kOff){
+    //   shooterPiston.set(Value.kReverse);
+    // }
+  }
+
+  
 
    public BallTransitSubsystem() {
     //  initializePID(armMotorPIDCon, armEncoder);

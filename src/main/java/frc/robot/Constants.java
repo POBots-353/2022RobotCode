@@ -120,12 +120,12 @@ public final class Constants {
     public static final class DriveConstants {
         //Gear Ratio 8.41 to 1
         //Joystick Scale
-        public static double scaleY = 0.4;
-        public static double scaleX = 0.25;
+        public static double scaleY = 0.4; //.4
+        public static double scaleX = 0.6; //.6
 
         //Set speed scale
-        public static double scaleFowd = 8000;//4000
-        public static double scaleTurn = 3000; //1750
+        public static double scaleFowd = 4000;//4000
+        public static double scaleTurn = 1750; //1750
 
         //Slow Drive
         public static double scaleYSlow = 4000;

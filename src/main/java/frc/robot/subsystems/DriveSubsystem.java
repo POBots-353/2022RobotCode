@@ -54,7 +54,7 @@ public class DriveSubsystem extends SubsystemBase {
   double kFF = 0.000156;
   double kMaxOutput = 1;
   double kMinOutput = -1;
-  double maxVel = 8000;
+  double maxVel = 5000;
   double maxAcc = 4000;
 
   // The gyro sensor
@@ -72,10 +72,12 @@ public class DriveSubsystem extends SubsystemBase {
     leftBackMotor.restoreFactoryDefaults();
     rightFrontMotor.restoreFactoryDefaults();
     rightBackMotor.restoreFactoryDefaults();
+    leftBackMotor.follow(leftFrontMotor);
+    rightBackMotor.follow(rightFrontMotor);
     initializePID(leftFrontPIDCon, m_leftFrontEncoder);
-    initializePID(leftBackPIDCon, leftBackEncoder);
+    // initializePID(leftBackPIDCon, leftBackEncoder);
     initializePID(rightFrontPIDCon, m_rightFrontEncoder);
-    initializePID(rightBackPIDCon, rightBackEncoder);
+    // initializePID(rightBackPIDCon, rightBackEncoder);
     resetEncoders();
   }
   /**
@@ -94,17 +96,17 @@ public class DriveSubsystem extends SubsystemBase {
         x = 0;
       }
       leftFrontPIDCon.setReference(setPointLeft(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-      leftBackPIDCon.setReference(setPointLeft(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      // leftBackPIDCon.setReference(setPointLeft(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
       rightFrontPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
-      rightBackPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
+      // rightBackPIDCon.setReference(setPointRight(x, y, scaleX, scaleY), CANSparkMax.ControlType.kSmartVelocity);
     }
   }
 
   public void turnOffDriveMotors(){
     leftFrontMotor.set(0);
     rightFrontMotor.set(0);
-    leftBackMotor.set(0);
-    rightBackMotor.set(0);
+    // leftBackMotor.set(0);
+    // rightBackMotor.set(0);
   }
 
   /**

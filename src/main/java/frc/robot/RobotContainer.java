@@ -20,7 +20,7 @@ import frc.robot.commands.SetDistanceCommand;
 import frc.robot.commands.SimpleAuto;
 import frc.robot.commands.ToggleArmCommand;
 import frc.robot.commands.TurnToAngleCommand;
-import frc.robot.commands.no;
+import frc.robot.commands.No;
 import frc.robot.commands.ToggleArmCommand.PositionMode;
 import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -42,7 +42,7 @@ public class RobotContainer {
 	private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 	private final BallTransitSubsystem ballTransitSubsystem = new BallTransitSubsystem();
 
-	private final no no = new no(driveSubsystem, ballTransitSubsystem, climberSubsystem);
+	private final No no = new No(driveSubsystem, ballTransitSubsystem, climberSubsystem);
 	private final OneBallAutoCommand OneBallAuto = new OneBallAutoCommand(driveSubsystem, ballTransitSubsystem, climberSubsystem);
 	private final SimpleAuto simpleAuto = new SimpleAuto(driveSubsystem, ballTransitSubsystem, climberSubsystem);
 
@@ -71,7 +71,7 @@ public class RobotContainer {
 								driverStick.getY()),
 				DriveConstants.scaleTurn, DriveConstants.scaleFowd), driveSubsystem));
 	
-		// newDriveSubsystem.setDefaultCommand(new ManualDriveCommand(newDriveSubsystem));
+		//newDriveSubsystem.setDefaultCommand(new ManualDriveCommand(newDriveSubsystem));
 
 		configureButtonBindings();
 		testButtons();
@@ -80,14 +80,15 @@ public class RobotContainer {
 	private void testButtons(){
 		// bnew InstantCommand(()->climberSubsystem.moveOuterArms(0),climberSubsystem);
 		
-		//new JoystickButton(driverStick, Buttons.innerArmToggle).whenPressed(()->climberSubsystem.toggleInnerArms(),climberSubsystem);
+		new JoystickButton(driverStick, Buttons.innerClimb).whenPressed(climberSubsystem::toggleInnerArms, climberSubsystem);
+		new JoystickButton(driverStick, Buttons.outerClimb).whenPressed(climberSubsystem::toggleOuterArms, climberSubsystem);
 		//Vertical
 
 		//Button 14
 		//new JoystickButton(driverStick,14).whileHeld(()->climberSubsystem.moveClimberArms(0),climberSubsystem);
 
-		new JoystickButton(operatorStick, 6).whenPressed(()->climberSubsystem.enableCompressor(), climberSubsystem);
-		new JoystickButton(operatorStick, 9).whenPressed(()->climberSubsystem.disableCompressor(), climberSubsystem);
+		new JoystickButton(operatorStick, 6).whenPressed(climberSubsystem::enableCompressor, climberSubsystem);
+		new JoystickButton(operatorStick, 9).whenPressed(climberSubsystem::disableCompressor, climberSubsystem);
 
 		// new PerpetualCommand(new RunCommand(()->driveSubsystem.disableCompressor(), driveSubsystem));
 		//Position
@@ -102,7 +103,7 @@ public class RobotContainer {
 	 * the defalut command will not run
 	 */
 	/*
-	 * Also, be careful about brownouts (if to many things are running at once it
+	 * Also, be careful about brownouts (if to many things are running at once it-
 	 * will cause it), especailly if your running PID on motors and neumatics, so
 	 * make sure it
 	 * gets disabled after use execept drive

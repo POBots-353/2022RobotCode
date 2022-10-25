@@ -29,10 +29,11 @@ public class SimpleAuto extends SequentialCommandGroup {
       //new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goUp),transitSubsystem),
       //new WaitCommand(1),
       //new StartEndCommand(()->transitSubsystem.outTake(), ()->transitSubsystem.turnOffIntakeMotor(), transitSubsystem).withTimeout(1),
-      new InstantCommand(()->climbSubsystem.toggleInnerArms(), climbSubsystem),
-      new WaitCommand(1),
-      new AutoDriveCommand(drive, -8.41 *  (100 / (6 * Math.PI))),
-      new InstantCommand(()->climbSubsystem.toggleInnerArms(), climbSubsystem)
+      //new InstantCommand(()->climbSubsystem.toggleInnerArms(), climbSubsystem),
+      //new InstantCommand(()->transitSubsystem.toggleShooter(), transitSubsystem),
+      //new WaitCommand(1.5),
+     // new InstantCommand(()->transitSubsystem.toggleShooter(), transitSubsystem),
+      new AutoDriveCommand(drive, -8.41 *  (70 / (6 * Math.PI)))
       //new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goDown),transitSubsystem) //We might want to manually drop intake
       // new AutoDriveCommand(drive, -8.41 *  (23.125 / (6 * Math.PI))),
       // new TurnToAngleCommand(drive, 164),

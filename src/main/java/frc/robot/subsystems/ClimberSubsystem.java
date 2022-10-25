@@ -34,11 +34,12 @@ public class ClimberSubsystem extends SubsystemBase {
 	double maxAcc = 1500;
 	double setPointDrive = 0;
 
-	//private Compressor pcmCompressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
-	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 7); //all were mapped to 1 before
-	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 6); //changong pcm means it defaults to 0
-	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 4);
-	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 5);
+	public DoubleSolenoid leftOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 7); //all were mapped to 1 before
+	public DoubleSolenoid leftInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 6); //changong pcm means it defaults to 0
+	public DoubleSolenoid rightOuterPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 4);
+	public DoubleSolenoid rightInnerPneumatic = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 5);
+
+	// private Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
 	private CANSparkMax outerMotor = new CANSparkMax(Constants.outerClimbMotorID, MotorType.kBrushless);
 
@@ -77,6 +78,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void periodic() {
 		// This method will be called once per scheduler run
 		SmartDashboard.putNumber("Climber Current", outerEncoder.getPosition());
+		// SmartDashboard.putBoolean("Compressor On", pcmCompressor.enabled());
 	}
 
 	/**
@@ -120,23 +122,16 @@ public class ClimberSubsystem extends SubsystemBase {
 		}
 		leftOuterPneumatic.toggle();
 		rightOuterPneumatic.toggle();
-		if (leftOuterPneumatic.get() == Value.kReverse || rightOuterPneumatic.get() == Value.kReverse){
-			outerMotor.set(0);
-		}
+		SmartDashboard.putBoolean("Outer Arms Method", true);
 	}
 
 	 public void toggleInnerArms() { // Reverses the toggle state of the inner solenoids
-		if(leftInnerPneumatic.get() == Value.kOff){
+		if( leftInnerPneumatic.get() == Value.kOff){
 			leftInnerPneumatic.set(Value.kReverse);
 			rightInnerPneumatic.set(Value.kReverse);
 		}
 		 leftInnerPneumatic.toggle();
 	 	 rightInnerPneumatic.toggle();
-		  //leftInnerPneumatic.set(Value.kReverse);
-			//rightInnerPneumatic.set(Value.kReverse);
-		 //leftInnerPneumatic.set(Value.kReverse);
-			//rightInnerPneumatic.set(Value.kReverse);
-		//SmartDashboard.putBoolean("Inner Arm", Value.kForward == );
 	 }
 
 	public double getPositionError(double expectedPosition, double currentPosition) {
@@ -148,12 +143,12 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	
-  	public void enableCompressor(){
-  	  //pcmCompressor.enableDigital();
+  	public void enableCompressor() {
+  	//   pcmCompressor.enableDigital();
  	 }
 
   	public void disableCompressor(){
- 	  // pcmCompressor.disable(); 
+ 	//   pcmCompressor.disable(); 
  	 }
 
 	public void moveForeward(){
@@ -166,8 +161,6 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void moveClimberArms(double position){
-		//position = SmartDashboard.getNumber("Climber Position", 2);
-		//outerMotor.set(.10);
 		outerController.setReference(-position, CANSparkMax.ControlType.kSmartMotion);
 	}
 }

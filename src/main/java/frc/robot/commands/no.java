@@ -15,7 +15,7 @@ import frc.robot.subsystems.BallTransitSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class no extends SequentialCommandGroup {
+public class No extends SequentialCommandGroup {
   /**
    * This is where most of the auto code should go.
    * It should be built by using commands that are running seqentially
@@ -23,10 +23,15 @@ public class no extends SequentialCommandGroup {
    * @param drive
    * @param transitSubsystem
    */
-  public no(DriveSubsystem drive, BallTransitSubsystem transitSubsystem, ClimberSubsystem climbSubsystem) {
+  public No(DriveSubsystem drive, BallTransitSubsystem transitSubsystem, ClimberSubsystem climbSubsystem) {
     //Make Sure to have a timeout after every Command, just incase the command doesn't end
     //Use ToggleArm Command because at the end of Auto the robot will be disable and the arm will drop
     addCommands(
+      // new InstantCommand(()->transitSubsystem.toggleShooter(), transitSubsystem),
+      // new WaitCommand(1.5),
+      // new InstantCommand(()->transitSubsystem.toggleShooter(), transitSubsystem)
+
+      
       //Command list of wanted movement
       //new InstantCommand(()->climbSubsystem.climberStop(), climbSubsystem),
       // new InstantCommand(()->transitSubsystem.setArmAngle(PositionMode.goUp),transitSubsystem),
