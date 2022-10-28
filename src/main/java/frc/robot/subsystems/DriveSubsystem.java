@@ -40,9 +40,6 @@ public class DriveSubsystem extends SubsystemBase {
   private SparkMaxPIDController rightFrontPIDCon = rightFrontMotor.getPIDController();
   private SparkMaxPIDController rightBackPIDCon = rightBackMotor.getPIDController();
 
-  
-
-  public final AnalogInput ultrasonic = new AnalogInput(0);
   //public final AnalogInput ultrasonic2 = new AnalogInput(1);
   int smartMotionSlot = 0;
   int allowedErr;
@@ -58,16 +55,17 @@ public class DriveSubsystem extends SubsystemBase {
   double maxAcc = 4000;
 
   // The gyro sensor
-  public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
+  // public static final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);
 
   //private Compressor pcmCompressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
   //public static final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
 
   //private PowerDistribution powerDistributionModule = new PowerDistribution(0, ModuleType.kCTRE);
   //private PneumaticsControlModule pcm = new PneumaticsControlModule(1);
-  //private static final Timer time = new Timer();
+
+  
   public DriveSubsystem() {
-    Shuffleboard.getTab("Gyro").add(m_gyro);
+    // Shuffleboard.getTab("Gyro").add(m_gyro);
     leftFrontMotor.restoreFactoryDefaults();
     leftBackMotor.restoreFactoryDefaults();
     rightFrontMotor.restoreFactoryDefaults();
@@ -133,61 +131,6 @@ public class DriveSubsystem extends SubsystemBase {
     return -1 * (xScale + yScale);
   }
 
-  /**
-   * Move the robot a certain amount of rotations
-   * @param displacement number of rotations
-   */
-  public void autoDrive(double displacement) {
-    leftFrontPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
-    leftBackPIDCon.setReference(displacement, CANSparkMax.ControlType.kSmartMotion);
-    rightFrontPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
-    rightBackPIDCon.setReference(-displacement, CANSparkMax.ControlType.kSmartMotion);
-  }
-  
-  /**
-   * Expected Angle - Current Angle
-   * @param expectedAngle
-   * @return the angle Error
-   */
-  public double angleError(double expectedAngle){
-    //The IEEEremainder is just to convert the angle of anything greater then 180 to the negative side
-    //Ex: 270 degrees -> -90 degrees
-    double angleSubtract = Math.IEEEremainder(expectedAngle, 360) - Math.IEEEremainder(m_gyro.getAngle(), 360);
-    if (angleSubtract > 180) {
-      return angleSubtract - 360;
-    } else if (angleSubtract < -180) {
-      return angleSubtract + 360;
-    } else {
-      return angleSubtract;
-    }
-  }
-  
-  public void resetGyro() {
-    m_gyro.calibrate();
-    m_gyro.reset();
-  }
-  /**
-   * ExpectedDistance - Current Distance
-   * @param expectedDistance
-   * @return Distance left to go
-   */
-  public double distanceError(double expectedDistance) {
-    return expectedDistance - (ultrasonic.getValue() * 0.125);
-  }
-
-  /**
-   * Checks if the point is Reached
-   * @param displacement
-   * @return whether the point is reached (true) or not (false)
-   */
-  public boolean pointReached(double displacement) {
-    if (Math.abs(m_leftFrontEncoder.getPosition()) >= Math.abs(displacement) - 1) {
-      resetEncoders();
-      return true;
-    }
-    return false;
-  }
-
   public void resetEncoders() {
     m_leftFrontEncoder.setPosition(0);
     leftBackEncoder.setPosition(0);
@@ -232,6 +175,5 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Current of Motor 1", powerDistributionModule.getCurrent(1));
     SmartDashboard.putNumber("Current of Motor 2", powerDistributionModule.getCurrent(2));
     SmartDashboard.putNumber("Current of Motor 3", powerDistributionModule.getCurrent(3));*/
-    //BallTransitSubsystem.toggleIntake(Constants.Buttons.intakeBallToggle);
   }
 }
