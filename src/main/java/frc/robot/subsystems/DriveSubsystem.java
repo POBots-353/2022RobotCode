@@ -4,18 +4,11 @@
 
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -28,17 +21,13 @@ public class DriveSubsystem extends SubsystemBase {
   private final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.rightFrontMotorID, MotorType.kBrushless);
   private final CANSparkMax rightBackMotor = new CANSparkMax(Constants.rightBackMotorID, MotorType.kBrushless);
 
-// public final CANSparkMax intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
-
   private RelativeEncoder m_leftFrontEncoder = leftFrontMotor.getEncoder();
   private RelativeEncoder leftBackEncoder = leftBackMotor.getEncoder();
   private RelativeEncoder m_rightFrontEncoder = rightFrontMotor.getEncoder();
   private RelativeEncoder rightBackEncoder = rightBackMotor.getEncoder();
 
   private SparkMaxPIDController leftFrontPIDCon = leftFrontMotor.getPIDController();
-  private SparkMaxPIDController leftBackPIDCon = leftBackMotor.getPIDController();
   private SparkMaxPIDController rightFrontPIDCon = rightFrontMotor.getPIDController();
-  private SparkMaxPIDController rightBackPIDCon = rightBackMotor.getPIDController();
 
   //public final AnalogInput ultrasonic2 = new AnalogInput(1);
   int smartMotionSlot = 0;
